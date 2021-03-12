@@ -13,6 +13,14 @@ public class Patient {
 		this.phoneNumber = phoneNumber;
 	}
 
+	public String getPatientId() {
+		return patientId;
+	}
+
+	public void setPatientId(String patientId) {
+		this.patientId = patientId;
+	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -37,6 +45,22 @@ public class Patient {
 		this.lastName = lastName;
 	}
 
+	public String getMiddleName() {
+		return middleName;
+	}
+
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
+	}
+
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -45,4 +69,36 @@ public class Patient {
 		this.phoneNumber = phoneNumber;
 	}
 
+	public boolean isAllergyLatex() {
+		return allergyLatex;
+	}
+
+	public void setAllergyLatex(boolean allergyLatex) {
+		this.allergyLatex = allergyLatex;
+	}
+
+	public boolean isAllergyAsthma() {
+		return allergyAsthma;
+	}
+
+	public void setAllergyAsthma(boolean allergyAsthma) {
+		this.allergyAsthma = allergyAsthma;
+	}
+
+	public boolean isAllergyMridye() {
+		return allergyMridye;
+	}
+
+	public void setAllergyMridye(boolean allergyMridye) {
+		this.allergyMridye = allergyMridye;
+	}
+
+	public boolean isAllergyXraydye() {
+		return allergyXraydye;
+	}
+
+	public void setAllergyXraydye(boolean allergyXraydye) {
+		this.allergyXraydye = allergyXraydye;
+	}
+	
 }
