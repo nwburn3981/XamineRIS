@@ -16,6 +16,9 @@ public class User {
 		firstName = this.firstName ;
 		lastName = this.lastName ;
 		email = this.email ;
+		
+		userPermission.setAccessLvl(0) ;
+		userPermission.setName(userName, firstName, lastName) ;
 	
 	}
 	
