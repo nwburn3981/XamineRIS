@@ -3,6 +3,7 @@ public class User {
 
 	private String userId, firstName, lastName , password , email , userName; 
 	private boolean isActive, isStaff, isSuperUser ;
+	private Permission userPermission ;
 	
 	// TO-DO 
 	// date joined? 
