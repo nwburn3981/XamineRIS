@@ -1,8 +1,8 @@
 
 public class User {
 
-	protected String userId, firstName, lastName , password , email , userName; 
-	protected boolean isActive, isStaff, isSuperUser ;
+	private String userId, firstName, lastName , password , email , userName; 
+	private boolean isActive, isStaff, isSuperUser ;
 	
 	// TO-DO 
 	// date joined? 
