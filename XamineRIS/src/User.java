@@ -91,13 +91,14 @@ public class User {
 		this.isSuperUser = isSuperUser;
 	}
 	
+	public String toString(){
+		String result ;
+		
+		result = "Username: " + userName + "\n" + "Name: " + firstName + " " +
+				 lastName + "\n" + "Email: " + email ;
+		
+		return result ;
+		
+	}
 	
-	
-
 }
-
-	
-	
-
-}
-
