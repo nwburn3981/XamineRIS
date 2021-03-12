@@ -1,17 +1,17 @@
 public class Order
 {
-    protected String orderID;
-    protected String orderStatus;
-    protected String Modality;
-    protected String imagingOrder;
-    protected String apptRoom;
-    protected String apptTime;
-    protected String dateCreated;
-    protected String lastModified;
-    protected String radioAnalysis;
+    private String orderID;
+    private String orderStatus;
+    private String Modality;
+    private String imagingOrder;
+    private String apptRoom;
+    private String apptTime;
+    private String dateCreated;
+    private String lastModified;
+    private String radioAnalysis;
     
-    protected Boolean apptScheduled;
-    protected Boolean patientCheckedIn;
+    private Boolean apptScheduled;
+    private Boolean patientCheckedIn;
     
     //Image image;
     //Patient patient;
