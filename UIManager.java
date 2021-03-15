@@ -79,6 +79,10 @@ public class UIManager {
 	
 	}//end createContents
 
+	/*Loads in login composite, new composite will be loaded in based on user logging in. 
+	*Dr login will remove this composite and load Dr portal composite, admin admin portal, etc.
+	*Logging a user out will reload this composite.
+	*/
 	protected void loadLogin() {
 		
 		
