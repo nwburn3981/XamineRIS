@@ -2,7 +2,7 @@ import java.util.Date;
 
 /*
  * On login, portal is generated with options to view all scheduled appointments for current day, along with option to view all open orders  
- * 
+ * Techs can upload images to selected orders, remove images, and submit completed orders
  * 
  */
 public class Technician extends User {
