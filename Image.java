@@ -1,3 +1,8 @@
+/*
+Creates an image object for storage in database, checks if image is of accepted type
+*/
+
+
 import java.io.File;
 import java.util.Date;
 
