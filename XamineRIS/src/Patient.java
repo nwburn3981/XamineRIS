@@ -1,10 +1,11 @@
-
 public class Patient {
 
-	private String patientId, email, firstName, lastName, middleName, notes, phoneNumber;
+	private String patientId, email, firstName, lastName, gender, middleName, notes, phoneNumber;
+	private int age;
 	private boolean allergyLatex, allergyAsthma, allergyMridye, allergyXraydye;
 	// private Doctor patientDr
 	// implement date
+	
 
 	public Patient(String firstName, String lastName, String email, String phoneNumber) {
 		this.firstName = firstName;
@@ -100,5 +101,22 @@ public class Patient {
 	public void setAllergyXraydye(boolean allergyXraydye) {
 		this.allergyXraydye = allergyXraydye;
 	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+	
 	
 }
