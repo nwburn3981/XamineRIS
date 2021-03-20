@@ -1,7 +1,12 @@
 
 public class User {
 
-	private String userId, firstName, lastName , password , email , userName; 
+	private String userId;
+	private String firstName;
+	private String lastName;
+	private String password;
+	private String email;
+	private String userName; 
 	private boolean isActive, isStaff, isSuperUser ;
 	private Permission userPermission ;
 	
@@ -103,5 +108,6 @@ public class User {
 		return result ;
 		
 	}
+	
 	
 }
