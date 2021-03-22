@@ -28,6 +28,10 @@ import java.awt.Color;
 import javax.swing.JComboBox;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.util.ArrayList;
+
 import javax.swing.Action;
 
 public class UITechnician extends JFrame {
@@ -37,7 +41,7 @@ public class UITechnician extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JFrame frame;
-	private final Action action = new SwingAction();
+
 
 	/**
 	 * Launch the application.
@@ -66,6 +70,7 @@ public class UITechnician extends JFrame {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1204, 512);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -104,23 +109,38 @@ public class UITechnician extends JFrame {
 		viewButton.setBounds(10, 75, 203, 23);
 		actionPanel.add(viewButton);
 		
-		JButton editUserButton = new JButton("View Open Orders");
-		editUserButton.setBounds(10, 109, 203, 23);
-		actionPanel.add(editUserButton);
+		JButton viewOrdersButton = new JButton("View Open Orders");
+		viewOrdersButton.setBounds(10, 109, 203, 23);
+		actionPanel.add(viewOrdersButton);
 		
 		JButton homeButton = new JButton("Home");
 		homeButton.setBounds(10, 41, 203, 23);
 		actionPanel.add(homeButton);
 		
-		JButton btnDetails = new JButton("Details");
-		btnDetails.setBounds(10, 143, 203, 23);
-		actionPanel.add(btnDetails);
+		JLabel testLabel = new JLabel("New label");
+		testLabel.setBounds(10, 172, 203, 14);
+		actionPanel.add(testLabel);
+		
+		JPanel subActionPanel = new JPanel();
+		subActionPanel.setLayout(null);
+		subActionPanel.setBounds(10, 248, 239, 214);
+		frame.getContentPane().add(subActionPanel);
 		
 		JPanel viewPanel = new JPanel();
 		viewPanel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		viewPanel.setBounds(259, 36, 919, 426);
 		frame.getContentPane().add(viewPanel);
 		viewPanel.setLayout(new FormLayout(new ColumnSpec[] {
+				FormSpecs.RELATED_GAP_COLSPEC,
+				FormSpecs.DEFAULT_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(16dlu;default)"),
+				FormSpecs.RELATED_GAP_COLSPEC,
+				FormSpecs.DEFAULT_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,
+				FormSpecs.DEFAULT_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,
+				FormSpecs.DEFAULT_COLSPEC,
 				FormSpecs.RELATED_GAP_COLSPEC,
 				FormSpecs.DEFAULT_COLSPEC,
 				FormSpecs.RELATED_GAP_COLSPEC,
@@ -135,10 +155,124 @@ public class UITechnician extends JFrame {
 				FormSpecs.RELATED_GAP_ROWSPEC,
 				FormSpecs.DEFAULT_ROWSPEC,
 				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
 				FormSpecs.DEFAULT_ROWSPEC,}));
 		
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("long can I maake this when will it end does it stretch");
-		viewPanel.add(rdbtnNewRadioButton, "4, 4");
+		//End initial setup-------------------------------------------------------------------------------------------------
+		
+		//First Listener for radio button selection, selecting a radio button for either orders or appointments will generate a "Details" button
+		ActionListener radioListener = new ActionListener() {
+			
+			public void actionPerformed(ActionEvent selection) {
+				
+				JButton btnDetails = new JButton("Details");
+				btnDetails.setBounds(10, 143, 203, 23);
+				actionPanel.add(btnDetails);
+				actionPanel.repaint();
+				actionPanel.revalidate();
+				
+			}
+			
+		};//end radioListener
+		
+		//Adds event listener for all action panel buttons, all used to change view panel and subAction panel contents. STILL NEED TO ADD DETAILS AND VIEW ORDERS FUNCTIONALITY
+		ActionListener actionPanelListener = new ActionListener() {
+			
+			public void actionPerformed(ActionEvent click) {
+				if (click.getSource() == homeButton) {
+					//Setup home view, default
+					subActionPanel.removeAll();
+					viewPanel.removeAll();
+					
+					JRadioButton rdbtnNewRadioButton = new JRadioButton("Home test");
+					viewPanel.add(rdbtnNewRadioButton, "4, " + "2");
+					subActionPanel.repaint();
+					subActionPanel.revalidate();
+					viewPanel.repaint();
+					viewPanel.revalidate();
+					
+					testLabel.setText("Home button");
+					
+				}//end homeButton source
+				
+				else if(click.getSource() == viewButton) {
+					//Setup appointment view
+					
+					subActionPanel.removeAll();
+					viewPanel.removeAll();
+					
+					
+					ArrayList<Order> appts = new ArrayList<Order>();
+					appts.clear();
+					
+					appts.addAll(Technician.ViewAppointments(LocalDate.now()));
+					
+					int yValue = 4;
+					int xCorrection = 0;
+					String buttonXCoordinate = "";
+					String buttonYCoordinate =String.valueOf(yValue);
+					
+					//fills out view panel with radio buttons for each order with an appointment set for today's date.
+					for(int i = 0; i < appts.size(); i++) {
+						
+						JRadioButton rdbtnNewRadioButton = new JRadioButton("Appt " + (i+1) + ": " + appts.get(i).getApptTime() + " Room: " + appts.get(i).getApptRoom() + " " + appts.get(i).getImagingOrder());
+						buttonXCoordinate = String.valueOf(((i+1)*2)-xCorrection);
+						viewPanel.add(rdbtnNewRadioButton, buttonYCoordinate + ", " + buttonXCoordinate);
+						rdbtnNewRadioButton.addActionListener(radioListener);
+						
+						//This if statement iterates to the next column once the current one is filled to avoid out of bounds errors.
+						if (((i+1)*2)%10 == 0) {
+							yValue += 2;
+							xCorrection += 10;
+							buttonYCoordinate =String.valueOf(yValue);	
+						}//end if
+						
+					}//end for
+					
+					subActionPanel.repaint();
+					subActionPanel.revalidate();
+					viewPanel.repaint();
+					viewPanel.revalidate();
+					
+					appts.clear();
+					
+				}//end viewButton source
+				
+				else if(click.getSource() == viewOrdersButton) {
+					//Setup Order view
+					subActionPanel.removeAll();
+					viewPanel.removeAll();
+					
+					JRadioButton rdbtnNewRadioButton = new JRadioButton("Appt test");
+					viewPanel.add(rdbtnNewRadioButton, "4, " + "2");
+					subActionPanel.repaint();
+					subActionPanel.revalidate();
+					viewPanel.repaint();
+					viewPanel.revalidate();
+					testLabel.setText("Order button");
+				}//end viewOrdersButton source
+				
+			}//end actionPerformed
+		};//end actionPanelListener
+		
+		homeButton.addActionListener(actionPanelListener);
+		viewButton.addActionListener(actionPanelListener);
+		viewOrdersButton.addActionListener(actionPanelListener);
+
+	}//end initialize
+	
+
+	//Will generate buttons when details view is selected, still needs to be implemented, may not need to be its own method
+	public void GenerateDetailView() {
 		
 		JPanel subActionPanel = new JPanel();
 		subActionPanel.setLayout(null);
@@ -156,13 +290,7 @@ public class UITechnician extends JFrame {
 		JButton deleteImageButton = new JButton("Delete Image");
 		deleteImageButton.setBounds(10, 125, 203, 23);
 		subActionPanel.add(deleteImageButton);
-	}
-	private class SwingAction extends AbstractAction {
-		public SwingAction() {
-			putValue(NAME, "SwingAction");
-			putValue(SHORT_DESCRIPTION, "Some short description");
-		}
-		public void actionPerformed(ActionEvent e) {
-		}
-	}
+		
+	}//end GenerateDetailsView
+
 }

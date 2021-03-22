@@ -13,17 +13,21 @@ public class Technician extends User {
 	private Permission userPermission ;
 	
 	//Patients for test use in system
-	public Patient patient1 = new Patient("John", "Kramer", "jkramer@ung.edu", "5557777878");
-	public Patient patient2 = new Patient("Isa", "Balmer", "ibalmer@ung.edu", "7865551234");
-	public Patient patient3 = new Patient("Pop", "Johnson", "pjohnson@ung.edu", "8885551111");
+	public static Patient patient1 = new Patient("John", "Kramer", "jkramer@ung.edu", "5557777878");
+	public static Patient patient2 = new Patient("Isa", "Balmer", "ibalmer@ung.edu", "7865551234");
+	public static Patient patient3 = new Patient("Pop", "Johnson", "pjohnson@ung.edu", "8885551111");
 	
 	//ArrayList to simulate database
-	private ArrayList<Order> testOrders = new ArrayList<>();
+	static ArrayList<Order> testOrders = new ArrayList<>();
 	
 	//Orders for test use
-	Order order1 = new Order("001", patient1);
-	Order order2 = new Order("002", patient2);
-	Order order3 = new Order("003", patient3);
+	static Order order1 = new Order("001", patient1);
+	static Order order2 = new Order("002", patient2);
+	static Order order3 = new Order("003", patient3);
+	
+	
+	
+	
 	
 	public Technician(String firstName, String lastName, String email, String userName) {
 		
@@ -33,6 +37,19 @@ public class Technician extends User {
 		userPermission.setCodeName("Tech");
 		userPermission.setProgramName("Technician");
 		userPermission.setName(userName, firstName, lastName);
+		
+		
+		
+
+				
+	}//end Technician
+	
+	public static ArrayList<Order> ViewAppointments(LocalDate date) {
+		/*Searches through orders for current day's appointments
+		 * Puts Orders for selected date in arraylist for UIManager to access and display
+		 * UIManager displays orderID, appt time, room number, and imaging ordered
+		 * User can select appt and press select button to display patient information
+		 */		
 		
 		//Adding parameters for testing
 		order1.setApptDay(LocalDate.now());
@@ -52,44 +69,62 @@ public class Technician extends User {
 		order3.setApptTime("10:00am");
 		order3.setApptRoom("103");
 		order3.setImagingOrder("MRI");
-		order2.setOrderStatus("completed");
+		order3.setOrderStatus("completed");
 		
+		//filling test Order list
+		testOrders.add(order1);
+		testOrders.add(order2);
+		testOrders.add(order3);
+		
+		//List for UIManager 
+		ArrayList<Order> dayAppts = new ArrayList<>();
+		
+		//Iterates through Arraylist looking for current date, will iterate through database Order table in final version 
+		for(int i = 0; i < testOrders.size(); i++) {
+			if(testOrders.get(i).getApptDay().equals(date) == true) {
+				dayAppts.add(testOrders.get(i));
+			}//end if
+			
+		}//end for loop
+		
+		testOrders.clear();
+		
+		return dayAppts;
+		
+	}
+	
+	public ArrayList<Order> viewOrders(String openOrder) {
+		/*Displays all uncompleted orders
+		 * Puts open Orders in arraylist for UIManager to access and display
+		 * UIManager displays orderID, appt time, room number, imaging ordered, and if any images are attached
+		 * User can select order and press select button to display patient information
+		 */
+		
+		//Adding parameters for testing
+		order1.setApptDay(LocalDate.now());
+		order1.setApptTime("11:00am");
+		order1.setApptRoom("101");
+		order1.setImagingOrder("X-Ray");
+		order1.setOrderStatus("open");
+		
+		order2.setApptDay(LocalDate.now());
+		order2.setApptTime("1:00pm");
+		order2.setApptRoom("102");
+		order2.setImagingOrder("Ultrasound");
+		order2.setOrderStatus("open");
+		
+		
+		order3.setApptDay(LocalDate.now());
+		order3.setApptTime("10:00am");
+		order3.setApptRoom("103");
+		order3.setImagingOrder("MRI");
+		order3.setOrderStatus("completed");
 		
 		//filling test Order list
 		testOrders.add(order1);
 		testOrders.add(order2);
 		testOrders.add(order3);
 				
-	}//end Technician
-	
-	public void viewAppointments(LocalDate date) {
-		/*Searches through orders for current day's appointments
-		 * Puts Orders for selected date in arraylist for UIManager to access and display
-		 * UIManager displays orderID, appt time, room number, and imaging ordered
-		 * User can select appt and press select button to display patient information
-		 */
-		
-		//List for UIManager 
-		ArrayList<Order> dayAppts = new ArrayList<>();
-		
-		
-		//Iterates through Arraylist looking for current date, will iterate through database Order table in final version
-		for(int i = 0; i < testOrders.size(); i++) {
-			if(testOrders.get(i).getApptDay() == LocalDate.now()) {
-				dayAppts.add(testOrders.get(i));
-			}//end if
-			
-		}//end for loop
-		
-		
-	}
-	
-	public void viewOrders(String openOrder) {
-		/*Displays all uncompleted orders
-		 * Puts open Orders in arraylist for UIManager to access and display
-		 * UIManager displays orderID, appt time, room number, imaging ordered, and if any images are attached
-		 * User can select order and press select button to display patient information
-		 */
 		
 		//List for UIManager 
 		ArrayList<Order> openOrders = new ArrayList<>();
@@ -103,7 +138,9 @@ public class Technician extends User {
 			
 		}//end for loop
 		
+		testOrders.clear();
 		
+		return openOrders;
 		
 	}
 	
