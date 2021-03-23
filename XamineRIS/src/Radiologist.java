@@ -22,7 +22,9 @@ public Radiologist(String firstName, String lastName, String email, String userN
 
 	
 		
-		public void selectOrder(Order order) {
+		public Order selectOrder(Order order) {
+			
+			return order;
 			
 		}
 		
