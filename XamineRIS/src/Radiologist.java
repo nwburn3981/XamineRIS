@@ -66,7 +66,7 @@ public class Radiologist extends User {
 		}
 
 		
-		-----Setters/Getters----
+		//-----Setters/Getters----
 		
 		public String getUserId() {
 			return userID;
