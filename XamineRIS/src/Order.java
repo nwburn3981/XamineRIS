@@ -22,7 +22,7 @@ public class Order
     
     private Patient patient;
     
-    private ArrayList<Image> images = new ArrayList<>();
+    private ArrayList<ImageFile> images = new ArrayList<>();
     
     // TO-DO 
     // Add a date object to hold appointment date DONE 
@@ -96,11 +96,11 @@ public class Order
 		this.apptDay = apptDay;
 	}
 
-	public ArrayList<Image> getImages() {
+	public ArrayList<ImageFile> getImages() {
 		return images;
 	}
 
-	public void setImages(ArrayList<Image> images) {
+	public void setImages(ArrayList<ImageFile> images) {
 		this.images = images;
 	}
 

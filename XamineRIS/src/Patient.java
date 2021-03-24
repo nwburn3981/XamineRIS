@@ -3,6 +3,7 @@ public class Patient {
 	private String patientId, email, firstName, lastName, gender, middleName, notes, phoneNumber;
 	private int age;
 	private boolean allergyLatex, allergyAsthma, allergyMridye, allergyXraydye;
+	private String allergy = "None";
 	// private Doctor patientDr
 	// implement date
 	
@@ -117,6 +118,16 @@ public class Patient {
 	public void setAge(int age) {
 		this.age = age;
 	}
+
+	public String getAllergy() {
+		return allergy;
+	}
+
+	public void setAllergy(String allergy) {
+		this.allergy = allergy;
+	}
+
+
 	
 	
 }

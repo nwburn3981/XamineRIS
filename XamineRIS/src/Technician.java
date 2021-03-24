@@ -93,7 +93,7 @@ public class Technician extends User {
 		
 	}
 	
-	public ArrayList<Order> viewOrders(String openOrder) {
+	public static ArrayList<Order> ViewOrders() {
 		/*Displays all uncompleted orders
 		 * Puts open Orders in arraylist for UIManager to access and display
 		 * UIManager displays orderID, appt time, room number, imaging ordered, and if any images are attached
@@ -157,19 +157,8 @@ public class Technician extends User {
 	 }//end SelectOrder
 	 
 	
-
-	public void AddImage(Order selectedOrder, Image img) {
-		
-		/*Generates prompt to upload a selected file along with option to browse file system for desired image
-		 * Checks to confirm file is accepted type
-		 */
-		
-		selectedOrder.getImages().add(img);
-		
-		
-	}//end AddImage
 	
-	public void RemoveImage(Order selectedOrder, Image img) {
+	public void RemoveImage(Order selectedOrder, ImageFile img) {
 		
 		/*Removes image from order
 		 * 
@@ -180,7 +169,7 @@ public class Technician extends User {
 		
 	}//end DeleteImage
 	
-	public Image ViewImage(Order selectedOrder) {
+	public ImageFile ViewImage(Order selectedOrder) {
 		
 		/*opens image viewer allowing user to view all images attached to order
 		 * generates buttons to close viewer and to remove image from order 
@@ -188,13 +177,13 @@ public class Technician extends User {
 		 */
 		
 		//Will select first image in list, next and previous button can be used to display more images in list by iterating index number
-		Image selectedImg = selectedOrder.getImages().get(0);
+		ImageFile selectedImg = selectedOrder.getImages().get(0);
 		
 		return selectedImg;
 		
 	}
 	
-	public Image ViewNextImage(Order selectedOrder, Image img) {
+	public ImageFile ViewNextImage(Order selectedOrder, ImageFile img) {
 		
 		/*opens image viewer allowing user to view all images attached to order
 		 * generates buttons to close viewer and to remove image from order 
@@ -205,13 +194,13 @@ public class Technician extends User {
 		int currentIndex = selectedOrder.getImages().indexOf(img);
 		
 		//Will select next image in list
-		Image nextImg = selectedOrder.getImages().get(currentIndex+1);
+		ImageFile nextImg = selectedOrder.getImages().get(currentIndex+1);
 		
 		return nextImg;
 		
 	}
 	
-public Image ViewPreviousImage(Order selectedOrder, Image img) {
+public ImageFile ViewPreviousImage(Order selectedOrder, ImageFile img) {
 		
 		/*opens image viewer allowing user to view all images attached to order
 		 * generates buttons to close viewer and to remove image from order 
@@ -222,7 +211,7 @@ public Image ViewPreviousImage(Order selectedOrder, Image img) {
 		int currentIndex = selectedOrder.getImages().indexOf(img);
 		
 		//Will select next image in list
-		Image prevImg = selectedOrder.getImages().get(currentIndex-1);
+		ImageFile prevImg = selectedOrder.getImages().get(currentIndex-1);
 		
 		return prevImg;
 		
