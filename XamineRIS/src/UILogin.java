@@ -131,7 +131,7 @@ public class UILogin extends JFrame {
 		frame.getContentPane().add(passwordIn);
 		
 		
-		JLabel testLabel = new JLabel("New label");
+		JLabel testLabel = new JLabel();
 		testLabel.setBounds(50, 267, 216, 14);
 		frame.getContentPane().add(testLabel);
 		
@@ -170,25 +170,25 @@ public class UILogin extends JFrame {
 				}
 				
 				else {
-						testLabel.setText(String.valueOf(permissionLvl));
+						testLabel.setText("Invalid Login");
 				}
 				
 				
 				switch(permissionLvl) {
 				case 0:{
-					UISuperUser.main(null);
+					UISuperUser.main(user5);
 					testLabel.setText(String.valueOf(permissionLvl));
 					frame.dispose();
 					break;
 				}
 				case 1:{
-					UIReferringDoctor.main(null);
+					UIReferringDoctor.main(user1);
 					frame.dispose();
 					break;
 				}
 				case 2:{
-					//Receptionist here
-					testLabel.setText("Should go to Receptionist");
+					UIReceptionist.main(user3);
+					frame.dispose();
 					break;
 				}
 				case 3:{
@@ -197,8 +197,8 @@ public class UILogin extends JFrame {
 					break;
 				}
 				case 4:{
-					//Radiologist
-					testLabel.setText("Should go to Radiologist");
+					UIRadiologist.main(user3);
+					frame.dispose();
 					break;
 					
 				}

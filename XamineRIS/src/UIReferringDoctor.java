@@ -1,4 +1,4 @@
-package XamineRIS;
+
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -23,6 +23,7 @@ import javax.swing.JTextArea;
 import javax.swing.JRadioButton;
 import java.awt.Choice;
 
+//Nick's changes, added static frame for added logout functionality, added User parameter for displaying username, *******
 public class UIReferringDoctor extends JFrame {
 
 	private JPanel contentPane;
@@ -43,15 +44,17 @@ public class UIReferringDoctor extends JFrame {
 	private JTextField txtnewOrderDoB;
 	private JTextField txtnewOrderEMail;
 	private JTextField txtnewOrderFirstName;
+	private static UIReferringDoctor frame;
+	private User currentUser;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main(User user) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					UIReferringDoctor frame = new UIReferringDoctor();
+					frame = new UIReferringDoctor(user);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -63,7 +66,9 @@ public class UIReferringDoctor extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public UIReferringDoctor() {
+	public UIReferringDoctor(User user) {
+		currentUser = user;
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1204, 512);
 		contentPane = new JPanel();
@@ -76,7 +81,7 @@ public class UIReferringDoctor extends JFrame {
 		getContentPane().add(statusBar);
 		statusBar.setLayout(null);
 		
-		JLabel versionText = new JLabel("Xamine V.2382777");
+		JLabel versionText = new JLabel("Doctor Portal");
 		versionText.setBounds(0, 0, 125, 23);
 		statusBar.add(versionText);
 		versionText.setHorizontalAlignment(SwingConstants.CENTER);
@@ -85,9 +90,21 @@ public class UIReferringDoctor extends JFrame {
 		logoutButton.setBounds(1043, 3, 125, 20);
 		statusBar.add(logoutButton);
 		
-		JLabel nameSpace = new JLabel("Username");
+		ActionListener logoutListener = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent click) {
+				
+				UILogin.main(null);
+				frame.dispose();	
+			}
+		};
+			
+		logoutButton.addActionListener(logoutListener);
+		
+		JLabel nameSpace = new JLabel(currentUser.getFirstName() + " " + currentUser.getLastName());
 		nameSpace.setHorizontalAlignment(SwingConstants.CENTER);
-		nameSpace.setBounds(384, 4, 75, 14);
+		nameSpace.setBounds(384, 4, 265, 14);
 		statusBar.add(nameSpace);
 		
 		JButton notifyButton = new JButton("Notifications");
