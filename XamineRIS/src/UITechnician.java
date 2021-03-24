@@ -46,10 +46,11 @@ import java.util.ArrayList;
 import javax.swing.Action;
 
 //TODO
-//all image stuff
-//Add iteration to details image display
-//View image functionality
+//
+//Add iteration to details image display and refresh when image is added to show confirmation
+//View image actually displaying image
 //Delete image functionality
+//Send order method
 
 public class UITechnician extends JFrame {
 
@@ -62,16 +63,17 @@ public class UITechnician extends JFrame {
 	
 	protected ArrayList<JRadioButton> buttonTracker = new ArrayList<>();
 	protected ArrayList<Order> orderTracker = new ArrayList<>();
-
+	private static UITechnician window;
+	private User currentUser;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main(User user) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					UITechnician window = new UITechnician();
+					window = new UITechnician(user);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -83,7 +85,8 @@ public class UITechnician extends JFrame {
 	/**
 	 * Create the application.
 	 */
-	public UITechnician() {
+	public UITechnician(User user) {
+		currentUser = user;
 		initialize();
 	}
 
@@ -112,9 +115,22 @@ public class UITechnician extends JFrame {
 		logoutButton.setBounds(1043, 3, 125, 20);
 		statusBar.add(logoutButton);
 		
-		JLabel nameSpace = new JLabel("Username");
+		ActionListener logoutListener = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent click) {
+				
+				UILogin.main(null);
+				frame.dispose();
+				
+			}
+		};
+			
+		logoutButton.addActionListener(logoutListener);
+		
+		JLabel nameSpace = new JLabel(currentUser.getFirstName() + " " + currentUser.getLastName());
 		nameSpace.setHorizontalAlignment(SwingConstants.CENTER);
-		nameSpace.setBounds(384, 4, 75, 14);
+		nameSpace.setBounds(384, 4, 265, 14);
 		statusBar.add(nameSpace);
 		
 		JButton notifyButton = new JButton("Notifications");
@@ -517,26 +533,4 @@ public class UITechnician extends JFrame {
 
 	}//end initialize
 	
-
-	//Will generate buttons when details view is selected, still needs to be implemented, may not need to be its own method
-	public void GenerateDetailView() {
-		
-		JPanel subActionPanel = new JPanel();
-		subActionPanel.setLayout(null);
-		subActionPanel.setBounds(10, 248, 239, 214);
-		frame.getContentPane().add(subActionPanel);
-		
-		JButton addImageButton = new JButton("Add Images");
-		addImageButton.setBounds(10, 35, 203, 23);
-		subActionPanel.add(addImageButton);
-		
-		JButton viewImageButton = new JButton("View Images");
-		viewImageButton.setBounds(10, 81, 203, 23);
-		subActionPanel.add(viewImageButton);
-		
-		JButton deleteImageButton = new JButton("Delete Image");
-		deleteImageButton.setBounds(10, 125, 203, 23);
-		subActionPanel.add(deleteImageButton);
-		
-	}//end GenerateDetailsView
 }

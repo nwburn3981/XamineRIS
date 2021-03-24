@@ -4,26 +4,27 @@ public class User {
 	private String userId;
 	private String firstName;
 	private String lastName;
-	private String password;
+	private char[] password;
 	private String email;
 	private String userName; 
 	private boolean isActive, isStaff, isSuperUser ;
 	private Permission userPermission ;
 	
+	
 	// TO-DO 
-	// date joined? 
-	// permissions system 
+	// Fix password char Array 
+	// 
 	// set password 
 	
+	
+
 	public User( String firstName, String lastName, String email, String userName){
 		
-		userName = this.userName ;
-		firstName = this.firstName ;
-		lastName = this.lastName ;
-		email = this.email ;
+		this.userName = userName ;
+		this.firstName = firstName ;
+		this.lastName = lastName ;
+		this.email = email;
 		
-		userPermission.setAccessLvl(0) ;
-		userPermission.setName(userName, firstName, lastName) ;
 	
 	}
 	
@@ -51,12 +52,18 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public String getPassword() {
+	public char[] getPassword() {
 		return password;
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		char[] securePassword = new char[8];
+		
+		for(int i = 0; i < password.length(); i++) {
+			securePassword[i] = password.charAt(i);
+			
+		}
+		this.password = securePassword;
 	}
 
 	public String getEmail() {
@@ -107,6 +114,14 @@ public class User {
 		
 		return result ;
 		
+	}
+	
+	public Permission getUserPermission() {
+		return userPermission;
+	}
+
+	public void setUserPermission(Permission userPermission) {
+		this.userPermission = userPermission;
 	}
 	
 	
