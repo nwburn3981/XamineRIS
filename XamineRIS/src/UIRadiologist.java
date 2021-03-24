@@ -1,77 +1,102 @@
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
+import javax.swing.SwingConstants;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
+import com.jgoodies.forms.layout.FormSpecs;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import javax.swing.JButton;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 
-public class UIRadiologist implements ActionListener {
-	
-	private int count = 0;
-	private JLabel label;
+public class UIRadiologist extends JFrame {
+
 	private JFrame frame;
-	private JPanel panel;
-	
+	private User currentUser;
+	/**
+	 * Launch the application.
+	 */
+	public static void main(User user) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					UIRadiologist window = new UIRadiologist(user);
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
-	public UIRadiologist () {
-		
-		
-		frame = new JFrame ();
-		JButton button = new JButton(" null ");
-		button.addActionListener(this);
-		
-		label = new JLabel (" null ");
-		
-		
-		
-	
-		
-		panel = new JPanel();
-		panel.setBorder(BorderFactory.createEmptyBorder(400,400,200,400));
-		panel.setLayout( new GridLayout(0, 1));
-		panel.add(button);
-		panel.add(label);
-		
-		
-		
-		
-		
-		frame.add(panel, BorderLayout.CENTER);
+	/**
+	 * Create the application.
+	 */
+	public UIRadiologist(User user) {
+		currentUser = user;
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 1204, 512);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle(" null ");
-		frame.pack();
-		frame.setVisible(true);
+		frame.getContentPane().setLayout(null);
 		
+		JPanel statusBar = new JPanel();
+		statusBar.setBackground(UIManager.getColor("CheckBoxMenuItem.selectionBackground"));
+		statusBar.setBounds(0, 0, 1178, 25);
+		frame.getContentPane().add(statusBar);
+		statusBar.setLayout(null);
 		
+		JLabel versionText = new JLabel("Radiologist Portal");
+		versionText.setBounds(0, 0, 125, 23);
+		statusBar.add(versionText);
+		versionText.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		JButton logoutButton = new JButton("Log out");
+		logoutButton.setBounds(1043, 3, 125, 20);
+		statusBar.add(logoutButton);
+		
+		ActionListener logoutListener = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent click) {
+				
+				UILogin.main(null);
+				frame.dispose();
+				
+			}
+		};
+			
+		logoutButton.addActionListener(logoutListener);
+		
+		JLabel nameSpace = new JLabel(currentUser.getFirstName() + " " + currentUser.getLastName());
+		nameSpace.setHorizontalAlignment(SwingConstants.CENTER);
+		nameSpace.setBounds(384, 4, 265, 14);
+		statusBar.add(nameSpace);
+
+		JPanel actionPanel = new JPanel();
+		actionPanel.setBounds(10, 37, 239, 214);
+		frame.getContentPane().add(actionPanel);
+		actionPanel.setLayout(null);
 	}
-	
-	
-	
-	
-	
-	public static void main(String[] args) {
-		
-		new UIRadiologist();
-		
-		
-	}
-
-
-
-
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
 }
 	
 	

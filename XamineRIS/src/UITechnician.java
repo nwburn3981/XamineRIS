@@ -106,7 +106,7 @@ public class UITechnician extends JFrame {
 		frame.getContentPane().add(statusBar);
 		statusBar.setLayout(null);
 		
-		JLabel versionText = new JLabel("Xamine V.2382777");
+		JLabel versionText = new JLabel("Technician Portal");
 		versionText.setBounds(0, 0, 125, 23);
 		statusBar.add(versionText);
 		versionText.setHorizontalAlignment(SwingConstants.CENTER);
@@ -152,11 +152,6 @@ public class UITechnician extends JFrame {
 		
 		JButton homeButton = new JButton("Home");
 		homeButton.setBounds(10, 41, 203, 23);
-		actionPanel.add(homeButton);
-		
-		JLabel testLabel = new JLabel("New label");
-		testLabel.setBounds(10, 172, 203, 14);
-		actionPanel.add(testLabel);
 		
 		JPanel subActionPanel = new JPanel();
 		subActionPanel.setLayout(null);
@@ -229,9 +224,6 @@ public class UITechnician extends JFrame {
 				subActionPanel.add(detailsButton);
 				subActionPanel.repaint();
 				subActionPanel.revalidate();
-				
-				testLabel.setText(orderTransfer.getOrderID());
-				
 				
 				ActionListener detailsListener = new ActionListener() {
 					
@@ -336,9 +328,6 @@ public class UITechnician extends JFrame {
 						subActionPanel.revalidate();
 						viewPanel.repaint();
 						viewPanel.revalidate();
-						testLabel.setText("Details button");
-						
-						testLabel.setText(String.valueOf(radioButtonGroup.getButtonCount()));
 						
 						ActionListener imageListener = new ActionListener() {
 							
@@ -413,8 +402,6 @@ public class UITechnician extends JFrame {
 					viewPanel.repaint();
 					viewPanel.revalidate();
 					
-					testLabel.setText(String.valueOf(radioButtonGroup.getButtonCount()));
-					
 				}//end homeButton source
 				
 				else if(click.getSource() == viewButton) {
@@ -469,8 +456,6 @@ public class UITechnician extends JFrame {
 					
 					appts.clear();
 					
-					testLabel.setText(String.valueOf(radioButtonGroup.getButtonCount()));
-					
 				}//end viewButton source
 				
 				else if(click.getSource() == viewOrdersButton) {
@@ -520,8 +505,7 @@ public class UITechnician extends JFrame {
 					viewPanel.revalidate();
 					
 					orders.clear();
-					
-					testLabel.setText(String.valueOf(radioButtonGroup.getButtonCount()));
+
 				}//end viewOrdersButton source
 				
 			}//end actionPerformed

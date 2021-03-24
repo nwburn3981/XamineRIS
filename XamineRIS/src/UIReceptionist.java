@@ -22,7 +22,7 @@ import javax.swing.UIManager;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 
-public class UISuperUser extends JFrame {
+public class UIReceptionist extends JFrame {
 
 	private JFrame frame;
 	private User currentUser;
@@ -33,7 +33,7 @@ public class UISuperUser extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					UISuperUser window = new UISuperUser(user);
+					UIReceptionist window = new UIReceptionist(user);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -45,7 +45,7 @@ public class UISuperUser extends JFrame {
 	/**
 	 * Create the application.
 	 */
-	public UISuperUser(User user) {
+	public UIReceptionist(User user) {
 		currentUser = user;
 		initialize();
 	}
@@ -65,7 +65,7 @@ public class UISuperUser extends JFrame {
 		frame.getContentPane().add(statusBar);
 		statusBar.setLayout(null);
 		
-		JLabel versionText = new JLabel("Admin Portal");
+		JLabel versionText = new JLabel("Receptionist Portal");
 		versionText.setBounds(0, 0, 125, 23);
 		statusBar.add(versionText);
 		versionText.setHorizontalAlignment(SwingConstants.CENTER);
