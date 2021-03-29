@@ -118,7 +118,7 @@ public class UIReferringDoctor extends JFrame {
 		
 		JPanel actionPanel = new JPanel();
 		subActionPanel.add(actionPanel);
-		actionPanel.setBounds(10, 33, 239, 293);
+		actionPanel.setBounds(10, 33, 239, 420);
 		actionPanel.setLayout(null);
 		
 		Panel SearchPatientPanel = new Panel();
@@ -346,8 +346,8 @@ public class UIReferringDoctor extends JFrame {
 		newOrderPanel.setBounds(255, 33, 913, 420);
 		newOrderPanel.setLayout(null);
 		
-		JLabel lblSelectThePatient = new JLabel("Select the Patient");
-		lblSelectThePatient.setBounds(75, 33, 96, 14);
+		JLabel lblSelectThePatient = new JLabel("Select an exisiting patient");
+		lblSelectThePatient.setBounds(43, 33, 153, 14);
 		newOrderPanel.add(lblSelectThePatient);
 		
 		JLabel lblnewOrderFirstName = new JLabel("First Name");
@@ -387,7 +387,7 @@ public class UIReferringDoctor extends JFrame {
 		txtnewOrderFirstName.setColumns(10);
 		
 		JButton btnnewOrderSearch = new JButton("Search");
-		btnnewOrderSearch.setBounds(82, 178, 89, 23);
+		btnnewOrderSearch.setBounds(62, 184, 114, 23);
 		newOrderPanel.add(btnnewOrderSearch);
 		
 		Choice newOrderPatientChoice = new Choice();
@@ -396,7 +396,7 @@ public class UIReferringDoctor extends JFrame {
 		
 		JTextArea newOrderReasonForVisit = new JTextArea();
 		newOrderReasonForVisit.setLineWrap(true);
-		newOrderReasonForVisit.setBounds(620, 61, 283, 205);
+		newOrderReasonForVisit.setBounds(620, 66, 283, 284);
 		newOrderPanel.add(newOrderReasonForVisit);
 		
 		JLabel lblReasonForDoctor = new JLabel("Reason For Doctor Visit");
@@ -404,33 +404,45 @@ public class UIReferringDoctor extends JFrame {
 		newOrderPanel.add(lblReasonForDoctor);
 		
 		JLabel lblModalityRequired = new JLabel("Modality Required ");
-		lblModalityRequired.setBounds(266, 33, 109, 14);
+		lblModalityRequired.setBounds(396, 33, 109, 14);
 		newOrderPanel.add(lblModalityRequired);
 		
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("New radio button");
-		rdbtnNewRadioButton.setBounds(256, 54, 109, 23);
-		newOrderPanel.add(rdbtnNewRadioButton);
-		
-		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("New radio button");
-		rdbtnNewRadioButton_1.setBounds(256, 82, 109, 23);
-		newOrderPanel.add(rdbtnNewRadioButton_1);
-		
-		JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("New radio button");
-		rdbtnNewRadioButton_2.setBounds(256, 112, 109, 23);
-		newOrderPanel.add(rdbtnNewRadioButton_2);
-		
-		JRadioButton rdbtnNewRadioButton_3 = new JRadioButton("New radio button");
-		rdbtnNewRadioButton_3.setBounds(256, 137, 109, 23);
-		newOrderPanel.add(rdbtnNewRadioButton_3);
-		
 		JLabel lblImagingRequired = new JLabel("Imaging Required");
-		lblImagingRequired.setBounds(447, 33, 116, 14);
+		lblImagingRequired.setBounds(389, 116, 116, 14);
 		newOrderPanel.add(lblImagingRequired);
 		
 		JLabel lblnewOrder = new JLabel("Create a New Order");
 		lblnewOrder.setBounds(33, 0, 143, 14);
 		newOrderPanel.add(lblnewOrder);
 		
+		JLabel lblCurrentPatient = new JLabel("Current patient displayed here");
+		lblCurrentPatient.setBounds(10, 351, 181, 14);
+		actionPanel.add(lblCurrentPatient);
+		
+		JLabel txtnewPatient = new JLabel("Create a new patient ");
+		txtnewPatient.setBounds(62, 277, 138, 14);
+		newOrderPanel.add(txtnewPatient);
+		
+		JButton newpatientbutton = new JButton("New Patient");
+		newpatientbutton.setBounds(62, 313, 114, 23);
+		newOrderPanel.add(newpatientbutton);
+		
+		JLabel lblOr = new JLabel("or");
+		lblOr.setBounds(110, 252, 48, 14);
+		newOrderPanel.add(lblOr);
+		
+		Choice Modalitychoice = new Choice();
+		Modalitychoice.setBounds(378, 66, 129, 20);
+		newOrderPanel.add(Modalitychoice);
+		
+		JTextArea txtimagesneeded = new JTextArea();
+		txtimagesneeded.setLineWrap(true);
+		txtimagesneeded.setBounds(294, 145, 283, 205);
+		newOrderPanel.add(txtimagesneeded);
+		
+		Button buttoncreateorder = new Button("Create Order");
+		buttoncreateorder.setBounds(564, 388, 80, 22);
+		newOrderPanel.add(buttoncreateorder);
 
 		JButton newPatient = new JButton("New Patient");
 		newPatient.addActionListener(new ActionListener() {
@@ -485,7 +497,6 @@ public class UIReferringDoctor extends JFrame {
 		
 		
 		//subActionPanel.add(newOrderPanel);
-		
 		
 	}
 }
