@@ -94,10 +94,10 @@ public class UIReceptionist extends JFrame {
 			
 		logoutButton.addActionListener(logoutListener);
 		
-		//JLabel nameSpace = new JLabel(currentUser.getFirstName() + " " + currentUser.getLastName());
-		//nameSpace.setHorizontalAlignment(SwingConstants.CENTER);
-		//nameSpace.setBounds(384, 4, 265, 14);
-		//statusBar.add(nameSpace);
+		JLabel nameSpace = new JLabel(currentUser.getFirstName() + " " + currentUser.getLastName());
+		nameSpace.setHorizontalAlignment(SwingConstants.CENTER);
+		nameSpace.setBounds(384, 4, 265, 14);
+		statusBar.add(nameSpace);
 		
 		JButton notifyButton = new JButton("Notifications");
 		notifyButton.setBounds(928, 3, 105, 20);
