@@ -28,7 +28,7 @@ public class UIRadiologist extends JFrame {
 
 	private JPanel contentPane;
 	private static UIRadiologist frame;
-	private User currentUser;
+	//private User currentUser;
 
 	/**
 	 * Launch the application.
