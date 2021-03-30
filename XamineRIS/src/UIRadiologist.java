@@ -27,24 +27,7 @@ import java.awt.Choice;
 public class UIRadiologist extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtsearchPatientFirstName;
-	private JTextField txtsearchPatientLastName;
-	private JTextField txtsearchPatientDoB;
-	private JTextField txtsearchPatientEmail;
-	private JTextField txtviewOrderOrderId;
-	private JTextField txtviewOrderFirstName;
-	private JTextField txtviewOrderDateOfBirth;
-	private JTextField txtviewOrderEmail;
-	private JTextField txtnewPatientEMail;
-	private JTextField txtnewPatientDoB;
-	private JTextField txtnewPatientLastName;
-	private JTextField txtnewPatientGender;
-	private JTextField txtnewPatientPhoneNumber;
-	private JTextField txtnewOrderLastName;
-	private JTextField txtnewOrderDoB;
-	private JTextField txtnewOrderEMail;
-	private JTextField txtnewOrderFirstName;
-	private static UIReferringDoctor frame;
+	private static UIRadiologist frame;
 	private User currentUser;
 
 	/**
