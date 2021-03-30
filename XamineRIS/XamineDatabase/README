@@ -1,0 +1,3 @@
+The database in use for this application is created and housed inside mySQL server community edition
+This folder contains the Script used to create the database anlong with an ammendable script that 
+adds items to the server for reference and for each user to have consistent database (used in testing)
