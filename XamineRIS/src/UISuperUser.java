@@ -30,8 +30,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 
 //ToDO
-//SUbmit changes functionality, add users and edit user
-//Password stuff
+//Password stuff, gonna wait for SQL
 
 public class UISuperUser extends JFrame {
 
@@ -55,6 +54,12 @@ public class UISuperUser extends JFrame {
 	private ActionListener radioListener;
 	
 	ButtonGroup radioButtonGroup;
+	
+	private Permission doctor;
+	private Permission receptionist;
+	private Permission tech;
+	private Permission radio;
+	private Permission superUser;
 	
 	private User user1;
 	private User user2;
@@ -92,11 +97,11 @@ public class UISuperUser extends JFrame {
 		currentUser = user;
 		
 		//Test permissions
-		Permission doctor = new Permission("ReferringDr");
-		Permission receptionist = new Permission("Receptionist");
-		Permission tech = new Permission("Technician");
-		Permission radio = new Permission("Radiologist");
-		Permission superUser = new Permission("SuperUser");
+		doctor = new Permission("ReferringDr");
+		receptionist = new Permission("Receptionist");
+		tech = new Permission("Technician");
+		radio = new Permission("Radiologist");
+		superUser = new Permission("SuperUser");
 		//Test users
 		user1 = new User("Jeff", "Doctorman", "jDoctorman@ung.edu", "jdoctor01");
 		user2 = new User("Polly", "Techson", "pTechson@ung.edu", "ptechson01");
@@ -512,15 +517,43 @@ public class UISuperUser extends JFrame {
 		viewPanel.add(usernameTextField, "10, 22, fill, default");
 		usernameTextField.setColumns(10);
 		
-		JButton submitButton = new JButton("Submit Changes");
-		viewPanel.add(submitButton, "30, 22");
-		
 		JLabel passwordLabel = new JLabel("Password:");
 		viewPanel.add(passwordLabel, "8, 26, right, default");
 		
 		passwordTextField = new JTextField();
 		viewPanel.add(passwordTextField, "10, 26, fill, default");
 		passwordTextField.setColumns(10);
+		
+		JButton submitButton = new JButton("Submit Changes");
+		viewPanel.add(submitButton, "30, 22");
+		
+		ActionListener submitNewButton = new ActionListener() {
+			
+			public void actionPerformed (ActionEvent click) {
+				
+				User newUser = new User(firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), usernameTextField.getText());
+				newUser.setPassword(passwordTextField.getText());
+				newUser.setUserId(userIDTextField.getText());
+				
+				if(radioButtonGroup.getSelection() == refDrRdButton)
+					newUser.setUserPermission(doctor);
+				else if(radioButtonGroup.getSelection() == recepRdButton)
+					newUser.setUserPermission(receptionist);
+				else if(radioButtonGroup.getSelection() == techRdButton)
+					newUser.setUserPermission(tech);
+				else if(radioButtonGroup.getSelection() == radRdButton)
+					newUser.setUserPermission(radio);
+				else if(radioButtonGroup.getSelection() == supRdButton)
+					newUser.setUserPermission(superUser);
+				
+				userList.add(newUser);
+				GenerateUsers();
+				
+			}//end Action
+			
+		};//end submitNewListener
+		
+		submitButton.addActionListener(submitNewButton);
 		
 		subActionPanel.repaint();
 		subActionPanel.revalidate();
@@ -621,15 +654,45 @@ public class UISuperUser extends JFrame {
 		usernameTextField.setColumns(10);
 		usernameTextField.setText(user.getUserName());
 		
-		JButton submitButton = new JButton("Submit Changes");
-		viewPanel.add(submitButton, "30, 22");
-		
 		JLabel passwordLabel = new JLabel("Password:");
 		viewPanel.add(passwordLabel, "8, 26, right, default");
 		
 		passwordTextField = new JTextField();
 		viewPanel.add(passwordTextField, "10, 26, fill, default");
 		passwordTextField.setColumns(10);
+		
+		JButton submitButton = new JButton("Submit Changes");
+		viewPanel.add(submitButton, "30, 22");
+		
+		ActionListener submitEditListener = new ActionListener() {
+			
+			public void actionPerformed (ActionEvent click) {
+				
+				user.setFirstName(firstNameTextField.getText());
+				user.setLastName(lastNameTextField.getText());
+				user.setEmail(emailTextField.getText());
+				user.setUserName(usernameTextField.getText());
+				user.setPassword(passwordTextField.getText());
+				user.setUserId(userIDTextField.getText());
+				
+				if(radioButtonGroup.getSelection() == refDrRdButton)
+					user.setUserPermission(doctor);
+				else if(radioButtonGroup.getSelection() == recepRdButton)
+					user.setUserPermission(receptionist);
+				else if(radioButtonGroup.getSelection() == techRdButton)
+					user.setUserPermission(tech);
+				else if(radioButtonGroup.getSelection() == radRdButton)
+					user.setUserPermission(radio);
+				else if(radioButtonGroup.getSelection() == supRdButton)
+					user.setUserPermission(superUser);
+				
+				GenerateUsers();
+				
+			}//end Action
+			
+		};//end submitNewListener
+		
+		submitButton.addActionListener(submitEditListener);
 		
 		subActionPanel.repaint();
 		subActionPanel.revalidate();
