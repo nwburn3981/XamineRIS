@@ -46,11 +46,8 @@ import java.util.ArrayList;
 import javax.swing.Action;
 
 //TODO
-//
-//Add iteration to details image display and refresh when image is added to show confirmation
-//View image actually displaying image
-//Delete image functionality
-//Send order method
+//Send order method is finished but has bug that should be fixed by SQL introduction
+//Implement allergy conflict
 
 public class UITechnician extends JFrame {
 
@@ -65,6 +62,7 @@ public class UITechnician extends JFrame {
 	protected ArrayList<Order> orderTracker = new ArrayList<>();
 	private static UITechnician window;
 	private User currentUser;
+	private int currentIndex = 0;
 
 	/**
 	 * Launch the application.
@@ -75,12 +73,14 @@ public class UITechnician extends JFrame {
 				try {
 					window = new UITechnician(user);
 					window.frame.setVisible(true);
-				} catch (Exception e) {
+				}//end try
+				catch (Exception e) {
 					e.printStackTrace();
-				}
-			}
-		});
-	}
+				}//end catch
+			}//end run
+		}//end Runnable
+		);
+	}//end main
 
 	/**
 	 * Create the application.
@@ -88,7 +88,7 @@ public class UITechnician extends JFrame {
 	public UITechnician(User user) {
 		currentUser = user;
 		initialize();
-	}
+	}//end UITechnician
 
 	/**
 	 * Initialize the contents of the frame.
@@ -123,8 +123,8 @@ public class UITechnician extends JFrame {
 				UILogin.main(null);
 				frame.dispose();
 				
-			}
-		};
+			}//end Action
+		};//end logoutListener
 			
 		logoutButton.addActionListener(logoutListener);
 		
@@ -149,6 +149,10 @@ public class UITechnician extends JFrame {
 		JButton viewOrdersButton = new JButton("View Open Orders");
 		viewOrdersButton.setBounds(10, 109, 203, 23);
 		actionPanel.add(viewOrdersButton);
+		
+		JLabel testLabel = new JLabel("Test");
+		testLabel.setBounds(10, 164, 203, 14);
+		actionPanel.add(testLabel);
 		
 		JButton homeButton = new JButton("Home");
 		homeButton.setBounds(10, 41, 203, 23);
@@ -302,13 +306,16 @@ public class UITechnician extends JFrame {
 						filesLabel.setHorizontalAlignment(SwingConstants.CENTER);
 						viewPanel.add(filesLabel, "2, 16");
 						
-						JLabel filesOut = new JLabel("New label");
+						JLabel filesOut = new JLabel();
 						filesOut.setHorizontalAlignment(SwingConstants.CENTER);
 						viewPanel.add(filesOut, "6, 16");
 						
 						if (orderTransfer.getImages().isEmpty() != true) {
-						filesOut.setText(orderTransfer.getImages().get(0).getLabel());
-						}
+							
+							for(int i = 0; i < orderTransfer.getImages().size(); i++) {
+								filesOut.setText(filesOut.getText() + orderTransfer.getImages().get(i).getLabel() + "   ");
+							}//end for
+						}//end if
 						
 						//Generate Sub Action menu buttons
 						
@@ -323,6 +330,10 @@ public class UITechnician extends JFrame {
 						JButton deleteImageButton = new JButton("Delete Image");
 						deleteImageButton.setBounds(10, 125, 203, 23);
 						subActionPanel.add(deleteImageButton);
+						
+						JButton submitOrderButton = new JButton("Submit Order");
+						submitOrderButton.setBounds(10, 170, 203, 23);
+						subActionPanel.add(submitOrderButton);
 						
 						subActionPanel.repaint();
 						subActionPanel.revalidate();
@@ -346,15 +357,21 @@ public class UITechnician extends JFrame {
 									BufferedImage chosenImage = null;
 									try {
 										chosenImage = ImageIO.read(chosenFile);
-									} catch (IOException e) {
-										// TODO Auto-generated catch block
+									}//end try 
+									catch (IOException e) {
+										
 										e.printStackTrace();
-									}
+									}//end catch
 									
 									ImageFile newImage = new ImageFile(LocalDate.now(), chosenImage, chosenFile.getName(), "placeholder");
 									
 									orderTransfer.getImages().add(newImage);
-								}
+									int index = orderTransfer.getImages().indexOf(newImage);
+									
+									filesOut.setText(filesOut.getText() + "   " + orderTransfer.getImages().get(index).getLabel());
+									
+									//Create method for each event, easier to call on several which may be what is needed to function properly
+								}//end if
 								
 								else if (click.getSource() == viewImageButton || click.getSource() == deleteImageButton) {//THIS IS WHERE I AM CURRENTLY
 									
@@ -362,29 +379,163 @@ public class UITechnician extends JFrame {
 										
 										BufferedImage displayImage = (BufferedImage) orderTransfer.getImages().get(0).getImage();
 										ImageIcon icon = new ImageIcon(displayImage);
-										JLabel imgLabel = new JLabel(icon);
+										
+										JLabel imageLabel = new JLabel(icon);
+										imageLabel.setBounds(184, 5, 46, 14);
 										
 										ImageViewer imageFrame = new ImageViewer();
 										imageFrame.setVisible(true);
-										imageFrame.viewImagePanel.add(imgLabel);
+										
+										JButton nextButton = new JButton("Next Image");
+										nextButton.setBounds(514, 431, 130, 23);
+										imageFrame.contentPane.add(nextButton);
+										
+										JButton prevButton = new JButton("Previous Image");
+										prevButton.setBounds(234, 431, 130, 23);
+										imageFrame.contentPane.add(prevButton);
+										
+										JButton deleteButton = new JButton("Delete Image");
+										deleteButton.setBounds(374, 431, 130, 23);
+										imageFrame.contentPane.add(deleteButton);
+										
+										imageFrame.viewImagePanel.add(imageLabel, BorderLayout.CENTER);
 										imageFrame.viewImagePanel.repaint();
 										imageFrame.viewImagePanel.revalidate();
-									}
-								}
+										
+										ActionListener imageFrameListener = new ActionListener() {
+										
+											public void actionPerformed(ActionEvent click) {
+												
+												BufferedImage currentImage;
+												ImageIcon currentIcon = new ImageIcon();
+												
+												if (click.getSource() == nextButton) {
+													
+													if (currentIndex + 1 < orderTransfer.getImages().size()) {
+														
+														currentIndex = currentIndex+1;
+														currentImage = (BufferedImage) orderTransfer.getImages().get(currentIndex).getImage();
+														currentIcon.setImage(currentImage); 
+														imageLabel.setIcon(currentIcon);
+														imageFrame.viewImagePanel.repaint();
+														imageFrame.viewImagePanel.revalidate();
+														
+													
+													}//end nested if
+													
+													else {
+														
+														currentIndex = 0;
+														currentImage = (BufferedImage) orderTransfer.getImages().get(currentIndex).getImage();
+														currentIcon.setImage(currentImage); 
+														imageLabel.setIcon(currentIcon);
+														imageFrame.viewImagePanel.repaint();
+														imageFrame.viewImagePanel.revalidate();
+														
+													}//end nested else
+													
+												}//end if
+												
+												else if (click.getSource() == prevButton) {
+													
+													if (currentIndex -1 >= 0) {
+														
+														currentIndex = currentIndex-1;
+														currentImage = (BufferedImage) orderTransfer.getImages().get(currentIndex).getImage();
+														currentIcon.setImage(currentImage); 
+														imageLabel.setIcon(currentIcon);
+														imageFrame.viewImagePanel.repaint();
+														imageFrame.viewImagePanel.revalidate();
+														
+													
+													}//end nested if
+													
+													else {
+														
+														currentIndex = orderTransfer.getImages().size()-1;
+														currentImage = (BufferedImage) orderTransfer.getImages().get(currentIndex).getImage();
+														currentIcon.setImage(currentImage); 
+														imageLabel.setIcon(currentIcon);
+														imageFrame.viewImagePanel.repaint();
+														imageFrame.viewImagePanel.revalidate();
+														
+													}//end nested else
+													
+												}//end else if
+												
+												else if (click.getSource() == deleteButton) {
+													
+													if (orderTransfer.getImages().size() <= 1) {
+														
+														orderTransfer.getImages().clear();
+														imageLabel.setIcon(null);
+														imageLabel.setText("No images");
+														imageFrame.viewImagePanel.repaint();
+														imageFrame.viewImagePanel.revalidate();
+													}//end nested if
+													
+													else {
+														orderTransfer.getImages().remove(currentIndex);
+														currentImage = (BufferedImage) orderTransfer.getImages().get(currentIndex).getImage();
+														currentIcon.setImage(currentImage); 
+														imageLabel.setIcon(currentIcon);
+														imageFrame.viewImagePanel.repaint();
+														imageFrame.viewImagePanel.revalidate();
+													}//end else
+												}//end else if
+											}//end Action
+										};//end imageFrameListener
+										
+										
+										nextButton.addActionListener(imageFrameListener);
+										prevButton.addActionListener(imageFrameListener);
+										deleteButton.addActionListener(imageFrameListener);
+										
+										
+									}//end if
+										
+								}//end else if
+							}//end Action
 								
-							}
+							};//end imageListener
 							
-						};
+							ActionListener submitListener = new ActionListener() {
+
+							
+								public void actionPerformed(ActionEvent click) {
+									
+									if (click.getSource() == submitOrderButton) {
+										
+										if(orderTransfer.getImages().size() > 0) {
+											
+											orderTransfer.setOrderStatus("Complete");
+											orderStatusOut.setText(orderTransfer.getOrderStatus());
+											testLabel.setText(orderTransfer.getOrderStatus());
+										}//end nested if
+										
+										else if(orderTransfer.getImages().size() == 0) {
+											
+											testLabel.setText("No images on order");
+										}//end nested else
+										
+									}//end if
+									
+								}//end Action
+								
+								
+							};//end submitListener
 						
 						addImageButton.addActionListener(imageListener);
 						viewImageButton.addActionListener(imageListener);
 						deleteImageButton.addActionListener(imageListener);
-					}
-				};
+						submitOrderButton.addActionListener(submitListener);
+						
+					}//end Action
+				};//end detailsListener
 				
 				detailsButton.addActionListener(detailsListener);
 				
-			}
+			}//end Action
 			
 		};//end radioListener
 		
@@ -517,4 +668,8 @@ public class UITechnician extends JFrame {
 
 	}//end initialize
 	
+	private void updateDetails() {
+		
+		
+	}
 }
