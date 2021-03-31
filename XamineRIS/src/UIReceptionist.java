@@ -1,5 +1,4 @@
 
-
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.EventQueue;
@@ -23,6 +22,7 @@ import java.awt.TextField;
 import javax.swing.JTextArea;
 import javax.swing.JRadioButton;
 import java.awt.Choice;
+import java.awt.Color;
 
 //Nick's changes, added static frame for added logout functionality, added User parameter for displaying username, *******
 public class UIReceptionist extends JFrame {
@@ -113,6 +113,9 @@ public class UIReceptionist extends JFrame {
 		actionPanel.setBounds(10, 33, 239, 420);
 		actionPanel.setLayout(null);
 		
+		JLabel lblSuccessfulCheckIn = new JLabel("Patient Checked-In Successfully! ");
+		lblSuccessfulCheckIn.setForeground(Color.BLACK);
+		lblSuccessfulCheckIn.setBounds(10, 395, 175, 14);
 		
 		// the first panel that is added when the search patient button is clicked 
 		// The receptionsit can use this interface to look up patients that come in 
@@ -243,6 +246,60 @@ public class UIReceptionist extends JFrame {
 		viewOpenOrdersPanel.add(searchOrderResultsLabel);
 
 		
+
+		// here is the panel that displays todays appointments 
+		//
+		//
+		Panel todayAppointmentPanel = new Panel();
+		todayAppointmentPanel.setBounds(255, 33, 913, 420);
+		todayAppointmentPanel.setLayout(null);
+		
+		JLabel lblCurrentOrderTodayAppointments = new JLabel("-- Selected Order -- ");
+		lblCurrentOrderTodayAppointments.setBounds(100, 22, 122, 14);
+		todayAppointmentPanel.add(lblCurrentOrderTodayAppointments);
+		
+		JList TodayAppointmentList = new JList();
+		TodayAppointmentList.setVisibleRowCount(10);
+		TodayAppointmentList.setBounds(360, 42, 542, 366);
+		todayAppointmentPanel.add(TodayAppointmentList);
+		
+		JLabel lblAppointmentsDate = new JLabel("Display the date here ");
+		lblAppointmentsDate.setBounds(594, 22, 139, 14);
+		todayAppointmentPanel.add(lblAppointmentsDate);
+		
+		JLabel lblTodaysAppointments = new JLabel("Today's Appointments");
+		lblTodaysAppointments.setBounds(566, 0, 190, 18);
+		todayAppointmentPanel.add(lblTodaysAppointments);
+		lblTodaysAppointments.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		
+		JLabel lblPatientNameLabel = new JLabel("Patient: ");
+		lblPatientNameLabel.setBounds(10, 47, 47, 14);
+		todayAppointmentPanel.add(lblPatientNameLabel);
+		
+		JLabel lblNamelabel = new JLabel("Last Name , First Name");
+		lblNamelabel.setBounds(60, 47, 275, 14);
+		todayAppointmentPanel.add(lblNamelabel);
+		
+		JLabel lblAppointmentLabel = new JLabel("Appointment:");
+		lblAppointmentLabel.setBounds(10, 75, 79, 14);
+		todayAppointmentPanel.add(lblAppointmentLabel);
+		
+		JLabel lblInsertADate = new JLabel("Insert a Date and time here. Maybe just time ");
+		lblInsertADate.setBounds(90, 75, 260, 14);
+		todayAppointmentPanel.add(lblInsertADate);
+		
+		JLabel lblImagingNeededLabel = new JLabel("-- Imaging Required --");
+		lblImagingNeededLabel.setBounds(100, 100, 122, 14);
+		todayAppointmentPanel.add(lblImagingNeededLabel);
+		
+		JTextArea textAreaTodayAppointment = new JTextArea();
+		textAreaTodayAppointment.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		textAreaTodayAppointment.setLineWrap(true);
+		textAreaTodayAppointment.setText("1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
+		textAreaTodayAppointment.setBounds(10, 125, 315, 181);
+		todayAppointmentPanel.add(textAreaTodayAppointment);
+		
+        
 		// panel for checking in a patient. use choice boxes to select an open technician, modality / equipment / room
 		// Ideally this panel is called when an appointment is selected from "Todays Appointment" and uses the order and patient 
 		// object to send to this panel to be sent to the proper equipment IE checking in. 
@@ -251,56 +308,149 @@ public class UIReceptionist extends JFrame {
 		CheckinPanel.setBounds(255, 33, 913, 420);
 		CheckinPanel.setLayout(null);
 		
-		JLabel lblAppointmentCheckin = new JLabel("Appointment Check-In: ");
-		lblAppointmentCheckin.setBounds(29, 11, 139, 14);
-		CheckinPanel.add(lblAppointmentCheckin);
+		JLabel lblCheckInSelectedlabel = new JLabel("-- Selected Order --");
+		lblCheckInSelectedlabel.setBounds(100, 23, 122, 14);
+		CheckinPanel.add(lblCheckInSelectedlabel);
 		
-		JLabel lblCurrentPatient = new JLabel("Current patient + Appointment time displayed here ");
-		lblCurrentPatient.setBounds(172, 11, 315, 14);
-		CheckinPanel.add(lblCurrentPatient);
+		JLabel lblCheckInPatientDisp = new JLabel("Patient:");
+		lblCheckInPatientDisp.setBounds(10, 47, 47, 14);
+		CheckinPanel.add(lblCheckInPatientDisp);
 		
-		JLabel lblAvailableRooms = new JLabel("Select a Room: ");
-		lblAvailableRooms.setBounds(65, 70, 82, 14);
-		CheckinPanel.add(lblAvailableRooms);
+		JLabel lblAppoinmnetCheckInLabel = new JLabel("Appointment: ");
+		lblAppoinmnetCheckInLabel.setBounds(10, 75, 79, 14);
+		CheckinPanel.add(lblAppoinmnetCheckInLabel);
 		
-		Choice selectRoom = new Choice();
-		selectRoom.setBounds(159, 70, 118, 20);
-		CheckinPanel.add(selectRoom);
+		JLabel lblPatientNameCheckIn = new JLabel("Last Name , First Name");
+		lblPatientNameCheckIn.setBounds(60, 47, 275, 14);
+		CheckinPanel.add(lblPatientNameCheckIn);
 		
-		JLabel lblSelectATechnician = new JLabel("Select a Technician Team:");
-		lblSelectATechnician.setBounds(10, 109, 139, 14);
-		CheckinPanel.add(lblSelectATechnician);
+		JLabel lblAppointmentDateCheckIn = new JLabel("Insert a Date and time here. Maybe Just the time ");
+		lblAppointmentDateCheckIn.setBounds(90, 75, 260, 14);
+		CheckinPanel.add(lblAppointmentDateCheckIn);
 		
-		Choice selectTeam = new Choice();
-		selectTeam.setBounds(157, 109, 120, 20);
-		CheckinPanel.add(selectTeam);
+		JLabel lblImagingRequiredCheckIn = new JLabel("-- Imaging Required --");
+		lblImagingRequiredCheckIn.setBounds(100, 100, 122, 14);
+		CheckinPanel.add(lblImagingRequiredCheckIn);
 		
-		JLabel lblSelectEquipment = new JLabel("Select Equipment:");
-		lblSelectEquipment.setBounds(51, 150, 104, 14);
-		CheckinPanel.add(lblSelectEquipment);
+		JTextArea textAreaCheckIn = new JTextArea();
+		textAreaCheckIn.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		textAreaCheckIn.setLineWrap(true);
+		textAreaCheckIn.setEditable(false);
+		textAreaCheckIn.setBounds(10, 125, 315, 181);
+		CheckinPanel.add(textAreaCheckIn);
 		
-		Choice choice = new Choice();
-		choice.setBounds(157, 151, 120, 20);
-		CheckinPanel.add(choice);
+		JLabel lblCheckIn = new JLabel("-- Check In Information --");
+		lblCheckIn.setBounds(566, 23, 155, 14);
+		CheckinPanel.add(lblCheckIn);
+		
+		JLabel lblSelectOpenRoom = new JLabel("Select An Open Room: ");
+		lblSelectOpenRoom.setBounds(430, 75, 135, 14);
+		CheckinPanel.add(lblSelectOpenRoom);
+		
+		Choice choiceAvailableModality = new Choice();
+		choiceAvailableModality.setBounds(566, 75, 250, 20);
+		CheckinPanel.add(choiceAvailableModality);
+		
+		JLabel lblNewLabel = new JLabel("Select Available Team:");
+		lblNewLabel.setBounds(430, 115, 135, 14);
+		CheckinPanel.add(lblNewLabel);
+		
+		Choice choiceAvailableTeam = new Choice();
+		choiceAvailableTeam.setBounds(566, 115, 250, 20);
+		CheckinPanel.add(choiceAvailableTeam);
+		
+		JLabel lblRoomConfirmationdonotchange = new JLabel("Selected Room:");
+		lblRoomConfirmationdonotchange.setBounds(430, 200, 135, 14);
+		CheckinPanel.add(lblRoomConfirmationdonotchange);
+		
+		JLabel lblTeamConfirmationdonotchange = new JLabel("Selected Team:");
+		lblTeamConfirmationdonotchange.setBounds(430, 240, 135, 14);
+		CheckinPanel.add(lblTeamConfirmationdonotchange);
+		
+		JLabel lblRoomConfirmation = new JLabel("User Selected Room here ");
+		lblRoomConfirmation.setBounds(566, 200, 250, 14);
+		CheckinPanel.add(lblRoomConfirmation);
+		
+		JLabel lblTeamConfirmation = new JLabel("User Selected Team Here ");
+		lblTeamConfirmation.setBounds(566, 240, 250, 14);
+		CheckinPanel.add(lblTeamConfirmation);
+	
+		
+		// This panel creates the view of all teh unscheduled orders 
+		// To-Do have a way for the receptionsit to make an appointment 
+		// add GUI components for that as well 
+		Panel unscheduledOrdersPanel = new Panel();
+		unscheduledOrdersPanel.setBounds(255, 33, 913, 420);
+		unscheduledOrdersPanel.setLayout(null);
+		
+		JLabel lblselectedOrderUnscheduled = new JLabel("-- Selected    Order --");
+		lblselectedOrderUnscheduled.setBounds(100, 10, 122, 14);
+		unscheduledOrdersPanel.add(lblselectedOrderUnscheduled);
+		
+		JLabel lblSelectedPatientNameUnscheduled = new JLabel("Patient: ");
+		lblSelectedPatientNameUnscheduled.setBounds(10, 30, 47, 14);
+		unscheduledOrdersPanel.add(lblSelectedPatientNameUnscheduled);
+		
+		JLabel lblUnscheduledOrders = new JLabel("Unscheduled Orders");
+		lblUnscheduledOrders.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblUnscheduledOrders.setBounds(566, 10, 190, 18);
+		unscheduledOrdersPanel.add(lblUnscheduledOrders);
+		
+		JList listUnscheduled = new JList();
+		listUnscheduled.setBounds(360, 42, 542, 366);
+		unscheduledOrdersPanel.add(listUnscheduled);
+		
+		JLabel lblSelectedPatientName = new JLabel("Insert Patieint Name here - sql");
+		lblSelectedPatientName.setBounds(60, 30, 270, 14);
+		unscheduledOrdersPanel.add(lblSelectedPatientName);
+		
+		JButton btnNewAppointment = new JButton("Schedule Appointment");
+		btnNewAppointment.setBounds(76, 384, 170, 23);
+		unscheduledOrdersPanel.add(btnNewAppointment);
+		
+		JLabel lblEnterADate = new JLabel("New Appointment Date:");
+		lblEnterADate.setBounds(20, 231, 125, 14);
+		unscheduledOrdersPanel.add(lblEnterADate);
+		
+		JButton btnCheckIn = new JButton("Appointment Check-in");
+		btnCheckIn.setBounds(60, 345, 180, 23);
+		todayAppointmentPanel.add(btnCheckIn);
+		btnCheckIn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				subActionPanel.remove(SearchPatientPanel);	
+				subActionPanel.remove(viewOpenOrdersPanel) ;
+				subActionPanel.remove(todayAppointmentPanel) ;
+				subActionPanel.remove(unscheduledOrdersPanel);
+				subActionPanel.add(CheckinPanel);
+				
+			}
+		});
+		
 		
 		JButton todaysAppointments = new JButton("Today's Appointments");
 		todaysAppointments.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				subActionPanel.remove(SearchPatientPanel);	
+				subActionPanel.remove(CheckinPanel);
+				subActionPanel.remove(viewOpenOrdersPanel) ;
+				subActionPanel.remove(unscheduledOrdersPanel);
+				subActionPanel.add(todayAppointmentPanel) ;
 			}
 		});
-		todaysAppointments.setBounds(10, 96, 203, 23);
+		todaysAppointments.setBounds(10, 28, 203, 23);
 		actionPanel.add(todaysAppointments);
 		
-		JButton viewOrdersButton = new JButton("View Open Orders");
+		JButton viewOrdersButton = new JButton("Search Orders");
 		viewOrdersButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				subActionPanel.remove(SearchPatientPanel);	
 				subActionPanel.remove(CheckinPanel);
+				subActionPanel.remove(unscheduledOrdersPanel);
+				subActionPanel.remove(todayAppointmentPanel) ;
 				subActionPanel.add(viewOpenOrdersPanel) ;
 			}
 		});
-		viewOrdersButton.setBounds(10, 62, 203, 23);
+		viewOrdersButton.setBounds(10, 96, 203, 23);
 		actionPanel.add(viewOrdersButton);
 		
 		JButton searchPatient = new JButton("Search Patients");
@@ -309,33 +459,44 @@ public class UIReceptionist extends JFrame {
 			
 				subActionPanel.remove(viewOpenOrdersPanel) ;
 				subActionPanel.remove(CheckinPanel);
+				subActionPanel.remove(todayAppointmentPanel) ;
+				subActionPanel.remove(unscheduledOrdersPanel);
 				subActionPanel.add(SearchPatientPanel);	
 			}
 		});
-		searchPatient.setBounds(10, 28, 203, 23);
+		searchPatient.setBounds(10, 130, 203, 23);
 		actionPanel.add(searchPatient);
 		
 		JButton newOrder = new JButton("Unscheduled orders");
 		newOrder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				
-			}
-		});
-		newOrder.setBounds(10, 130, 203, 23);
-		actionPanel.add(newOrder);
-		
-		JButton btnCheckIn = new JButton("Appointment Check-in");
-		btnCheckIn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				subActionPanel.remove(SearchPatientPanel);	
 				subActionPanel.remove(viewOpenOrdersPanel) ;
-				subActionPanel.add(CheckinPanel);
+				subActionPanel.remove(CheckinPanel);
+				subActionPanel.remove(todayAppointmentPanel) ;
+				subActionPanel.remove(SearchPatientPanel);	
+				subActionPanel.add(unscheduledOrdersPanel);
+				
 			}
 		});
-		btnCheckIn.setBounds(10, 164, 203, 23);
-		actionPanel.add(btnCheckIn);
-
+		newOrder.setBounds(10, 62, 203, 23);
+		actionPanel.add(newOrder);	
+		
+		JButton btnConfirmCheckIn = new JButton("Check-in Patient");
+		btnConfirmCheckIn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// order status = checked-in 
+				// SQL ammend modality and team to the selected order 
+				subActionPanel.remove(SearchPatientPanel);	
+				subActionPanel.remove(CheckinPanel);
+				subActionPanel.remove(viewOpenOrdersPanel) ;
+				subActionPanel.remove(unscheduledOrdersPanel);
+				// consider a success pop-up frame here 
+				subActionPanel.add(todayAppointmentPanel) ;
+				
+			}
+		});
+		btnConfirmCheckIn.setBounds(566, 285, 130, 23);
+		CheckinPanel.add(btnConfirmCheckIn);
 		
 	}
 }
