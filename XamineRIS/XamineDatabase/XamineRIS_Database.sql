@@ -13,6 +13,15 @@ programName VARCHAR(255),
 codeName VARCHAR(255) ,
 PRIMARY KEY(accesslvl)) ;
 
+-- team -- 
+-- the team table will store all the teams working in the XamineRIS system / hospital
+-- Each team can have up to 10 members (references by their unqiue userName) and are kept seperate 
+-- via the unique teamID 
+CREATE TABLE team (
+teamID VARCHAR(255) ,
+teamName VARCHAR(255) ,
+PRIMARY KEY(teamID));
+
 -- User --
 -- The user table will store all the users of the XamineRIS system. 
 -- each user should have a unique user name that will differentiate it from 
@@ -20,16 +29,18 @@ PRIMARY KEY(accesslvl)) ;
 -- an access level so this will be inherited from the permission table 
 CREATE TABLE user (
 userName VARCHAR(255) ,
+accesslvl int ,
 firstName VARCHAR(255) ,
 lastName VARCHAR(255) ,
 password VARCHAR(255) ,
 email VARCHAR(255) ,
 codeName VARCHAR(255),
+teamID VARCHAR(255) ,
 isActive boolean ,
 isStaff boolean ,
 isSuperUser boolean ,
-accesslvl int ,
 PRIMARY KEY(userName) ,
+FOREIGN KEY(teamID) REFERENCES team(teamID) ,
 FOREIGN KEY(accesslvl) REFERENCES permission(accesslvl));
 
 -- patient --
@@ -54,35 +65,6 @@ notes VARCHAR(2047) ,
 phoneNumber VARCHAR(15) ,
 PRIMARY KEY(patientID, referringDoctorUserName) ,
 FOREIGN KEY(referringDoctorUserName) REFERENCES user(userName)) ;
-
--- team -- 
--- the team table will store all the teams working in the XamineRIS system / hospital
--- Each team can have up to 10 members (references by their unqiue userName) and are kept seperate 
--- via the unique teamID 
-CREATE TABLE team (
-teamID VARCHAR(255) ,
-teamName VARCHAR(255) ,
-teamMember01 VARCHAR(255) ,
-teamMember02 VARCHAR(255) ,
-teamMember03 VARCHAR(255) ,
-teamMember04 VARCHAR(255) ,
-teamMember05 VARCHAR(255) ,
-teamMember06 VARCHAR(255) ,
-teamMember07 VARCHAR(255) ,
-teamMember08 VARCHAR(255) ,
-teamMember09 VARCHAR(255) ,
-teamMember10 VARCHAR(255) ,
-PRIMARY KEY(teamID) ,
-FOREIGN KEY(teamMember01) REFERENCES user(userName) ,
-FOREIGN KEY(teamMember02) REFERENCES user(userName) ,
-FOREIGN KEY(teamMember03) REFERENCES user(userName) ,
-FOREIGN KEY(teamMember04) REFERENCES user(userName) ,
-FOREIGN KEY(teamMember05) REFERENCES user(userName) ,
-FOREIGN KEY(teamMember06) REFERENCES user(userName) ,
-FOREIGN KEY(teamMember07) REFERENCES user(userName) ,
-FOREIGN KEY(teamMember08) REFERENCES user(userName) ,
-FOREIGN KEY(teamMember09) REFERENCES user(userName) ,
-FOREIGN KEY(teamMember10) REFERENCES user(userName));
 
 -- modality table -- 
 -- the modality table will store all the equipment in use and is referenced in the order section
@@ -111,7 +93,7 @@ teamID VARCHAR(255) ,
 modalityID VARCHAR(255) ,
 imageFolderID VARCHAR(255) ,
 technicalReport VARCHAR(2500) ,
-PRIMARY KEY(orderID, patientID),
+PRIMARY KEY(orderID),
 FOREIGN KEY(patientID) REFERENCES patient(patientID),
 FOREIGN KEY(teamID) REFERENCES team(teamID),
 FOREIGN KEY(modalityID) REFERENCES modality(modalityID));
