@@ -35,7 +35,7 @@ import javax.swing.JTextArea;
 public class UISuperUser extends JFrame {
 
 	private JFrame frame;
-	private User currentUser;
+
 	protected ArrayList<JRadioButton> buttonTracker = new ArrayList<JRadioButton>();
 	protected ArrayList<User> userTracker = new ArrayList<User>();
 	protected ArrayList<User> userList = new ArrayList<User>();
@@ -61,6 +61,7 @@ public class UISuperUser extends JFrame {
 	private Permission radio;
 	private Permission superUser;
 	
+	private User currentUser;
 	private User user1;
 	private User user2;
 	private User user3;
