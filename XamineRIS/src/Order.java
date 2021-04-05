@@ -5,11 +5,12 @@ public class Order
 {
     private String orderID;
     private String orderStatus;
-    private String Modality;
+    private Modality Modality;
     private String imagingOrder;
     private String imagingOrderStatus = "open";
     private String apptRoom;
-    private String lastModified;
+    private Team apptTeam;
+	private String lastModified;
     private String radioAnalysis;
     private String visitReason ;
     private String apptTime;
@@ -17,17 +18,15 @@ public class Order
     private LocalDate apptDay;
     private LocalDate dateCreated;
     
-    private Boolean apptScheduled;
-    private Boolean patientCheckedIn;
+    private Boolean apptScheduled = false;
+    private Boolean patientCheckedIn = false;
     
     private Patient patient;
     
     private ArrayList<ImageFile> images = new ArrayList<>();
     
     // TO-DO 
-    // Add a date object to hold appointment date DONE 
-    // consider an appointment object (not required) 
-    // Implement image object and add it as  a variable along with getters and setters here DONE
+    //AllergyCheck implement
     // Implement a text box for analysis by the radiologist 
 
 
@@ -48,11 +47,25 @@ public class Order
 	}
 
 	public String getModality() {
-		return Modality;
+		return Modality.getModalityName();
 	}
 
 	public void setModality(String modality) {
-		Modality = modality;
+		switch(modality) {
+		case "Xray":{
+			this.Modality = new Modality("01");
+			break;
+		}
+		case "MRI":{
+			this.Modality = new Modality("02");
+			break;
+		}
+		case "Ultrasound":{
+			this.Modality = new Modality("03");
+			break;
+		}
+	
+		}//end switch
 	}
 
 	public String getImagingOrder() {
@@ -167,5 +180,18 @@ public class Order
 	public void setVisitReason(String visitReason) {
 		this.visitReason = visitReason;
 	}
+	
+	public String getApptTeam() {
+		return apptTeam.getTeamName();
+	}
+
+	public void setApptTeam(Team apptTeam) {
+		this.apptTeam = apptTeam;
+	}
+	
+	public void AllergyConflictCheck() {
+		//Checks if allergies conflict with imaging ordered
+		
+	}//end AllergyConflictCheck
     
 }

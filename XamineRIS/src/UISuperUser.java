@@ -31,6 +31,7 @@ import javax.swing.JTextArea;
 
 //ToDO
 //Password stuff, gonna wait for SQL
+//Add a setTeam function
 
 public class UISuperUser extends JFrame {
 

@@ -13,7 +13,7 @@ public class User {
 	
 	// TO-DO 
 	// Fix password char Array 
-	// 
+	// set Radiology Team
 	// set password 
 	
 	

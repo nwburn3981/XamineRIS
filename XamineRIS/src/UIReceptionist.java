@@ -7,18 +7,25 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.Panel;
 import javax.swing.JTextField;
+import javax.swing.Popup;
+
 import java.awt.Label;
 import java.awt.Font;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+
 import java.awt.List;
 import java.awt.TextField;
 import javax.swing.JTextArea;
@@ -27,7 +34,8 @@ import java.awt.Choice;
 import java.awt.Color;
 
 //toDo
-//viewOrders, SearchPatients, finish viewUnscheduledOrders
+//CheckIn -add popup for confirmation may skip for time.
+
 public class UIReceptionist extends JFrame {
 
 	private JPanel contentPane;
@@ -55,6 +63,7 @@ public class UIReceptionist extends JFrame {
 	//ArrayList to simulate database
 	private ArrayList<Order> testOrders = new ArrayList<>();
 	private ArrayList<Patient> testPatients = new ArrayList<>();
+	private ArrayList<Team> testTeams = new ArrayList<>();
 	
 	//Orders for test use
 	private Order order1 = new Order("001", patient1);
@@ -62,6 +71,16 @@ public class UIReceptionist extends JFrame {
 	private Order order3 = new Order("003", patient3);
 	private Order order4 = new Order("004", patient4);
 	private Order orderTransfer;
+	
+	//Teams for test use
+	private Team team1 = new Team("01", "Team1");
+	private Team team2 = new Team("02", "Team2");
+	private Team team3 = new Team("03", "Team3");
+	
+	//Modalities for test use
+	private Modality Xray = new Modality("01");
+	private Modality MRI = new Modality("02");
+	private Modality Ultrasound = new Modality("03");
 	
 	private JPanel actionPanel;
 	private JPanel subActionPanel;
@@ -101,7 +120,8 @@ public class UIReceptionist extends JFrame {
 		order1.setApptTime("11:00am");
 		order1.setApptRoom("101");
 		order1.setImagingOrder("X-Ray");
-		order1.setOrderStatus("open");
+		order1.setOrderStatus("Check-In");
+		order1.setPatientCheckedIn(true);
 		
 		order2.setApptDay(LocalDate.now());
 		order2.setApptTime("1:00pm");
@@ -128,6 +148,10 @@ public class UIReceptionist extends JFrame {
 		testPatients.add(patient2);
 		testPatients.add(patient3);
 		testPatients.add(patient4);
+		
+		testTeams.add(team1);
+		testTeams.add(team2);
+		testTeams.add(team3);
 		
 		Initialize();
 		InitializeListeners();
@@ -198,10 +222,6 @@ public class UIReceptionist extends JFrame {
 		todaysAppointments.setBounds(10, 28, 203, 23);
 		actionPanel.add(todaysAppointments);
 		
-		viewOrdersButton = new JButton("Search Orders");
-		viewOrdersButton.setBounds(10, 96, 203, 23);
-		actionPanel.add(viewOrdersButton);
-		
 		searchPatient = new JButton("Search Patients");
 		searchPatient.setBounds(10, 130, 203, 23);
 		actionPanel.add(searchPatient);
@@ -228,94 +248,14 @@ public class UIReceptionist extends JFrame {
 			}
 		});
 		
-		viewOrdersButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				ViewOrders();
-			}
-		});
-		
 		searchPatient.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			
-				SearchPatient();
+				Search();
 			}
 		});
 	}//end InitializeListener
 	
-	public void ViewOrders() {
-		
-		subActionPanel.removeAll();	
-		subActionPanel.add(actionPanel);
-		
-		// Second panel that allows the receptionist to view open orders 
-				// the receptionist can search for orders and ideally add a date to the orders that lack a date 
-				Panel viewOpenOrdersPanel = new Panel();
-				viewOpenOrdersPanel.setBounds(255, 33, 913, 420);
-				viewOpenOrdersPanel.setLayout(null);
-				
-				JLabel lblviewOrderInfo = new JLabel("Order Information");
-				lblviewOrderInfo.setBounds(93, 35, 148, 14);
-				viewOpenOrdersPanel.add(lblviewOrderInfo);
-				
-				JLabel lblviewOrderOrderIdNumber = new JLabel("Order ID Number");
-				lblviewOrderOrderIdNumber.setBounds(27, 70, 101, 14);
-				viewOpenOrdersPanel.add(lblviewOrderOrderIdNumber);
-				
-				txtviewOrderOrderId = new JTextField();
-				txtviewOrderOrderId.setBounds(138, 67, 129, 20);
-				viewOpenOrdersPanel.add(txtviewOrderOrderId);
-				txtviewOrderOrderId.setColumns(10);
-				
-				JLabel lblviewOrderPatient = new JLabel("Patient Information");
-				lblviewOrderPatient.setBounds(93, 108, 148, 14);
-				viewOpenOrdersPanel.add(lblviewOrderPatient);
-				
-				JLabel lblviewOrderFirstName = new JLabel("First Name");
-				lblviewOrderFirstName.setBounds(27, 146, 75, 14);
-				viewOpenOrdersPanel.add(lblviewOrderFirstName);
-				
-				txtviewOrderFirstName = new JTextField();
-				txtviewOrderFirstName.setBounds(138, 143, 129, 20);
-				viewOpenOrdersPanel.add(txtviewOrderFirstName);
-				txtviewOrderFirstName.setColumns(10);
-				
-				JLabel lblviewOrderLastName = new JLabel("Last Name");
-				lblviewOrderLastName.setBounds(27, 190, 75, 24);
-				viewOpenOrdersPanel.add(lblviewOrderLastName);
-				
-				TextField txtviewOrderLastName = new TextField();
-				txtviewOrderLastName.setBounds(138, 192, 129, 22);
-				viewOpenOrdersPanel.add(txtviewOrderLastName);
-				
-				JLabel lblviewOrderDateOfBirth = new JLabel("Date Of Birth");
-				lblviewOrderDateOfBirth.setBounds(27, 247, 87, 14);
-				viewOpenOrdersPanel.add(lblviewOrderDateOfBirth);
-				
-				txtviewOrderDateOfBirth = new JTextField();
-				txtviewOrderDateOfBirth.setBounds(138, 244, 129, 20);
-				viewOpenOrdersPanel.add(txtviewOrderDateOfBirth);
-				txtviewOrderDateOfBirth.setColumns(10);
-				
-				txtviewOrderEmail = new JTextField();
-				txtviewOrderEmail.setBounds(138, 304, 129, 20);
-				viewOpenOrdersPanel.add(txtviewOrderEmail);
-				txtviewOrderEmail.setColumns(10);
-				
-				JLabel lblviewOrderEMail = new JLabel("E mail");
-				lblviewOrderEMail.setBounds(27, 307, 75, 14);
-				viewOpenOrdersPanel.add(lblviewOrderEMail);
-				
-				List searchOrderlist = new List();
-				searchOrderlist.setBounds(422, 74, 430, 156);
-				viewOpenOrdersPanel.add(searchOrderlist);
-				
-				JLabel searchOrderResultsLabel = new JLabel("Search Results");
-				searchOrderResultsLabel.setBounds(596, 26, 89, 14);
-				viewOpenOrdersPanel.add(searchOrderResultsLabel);
-				
-		subActionPanel.add(viewOpenOrdersPanel) ;
-	}//end viewScheduledAppts
 	
 	public void ViewTodayAppts() {
 		
@@ -410,7 +350,7 @@ public class UIReceptionist extends JFrame {
 			
 			if(testOrders.get(i).getApptDay() != null) {
 				
-				if(testOrders.get(i).getApptDay().equals(LocalDate.now()) == true) {
+				if(testOrders.get(i).getApptDay().equals(LocalDate.now()) == true && testOrders.get(i).getPatientCheckedIn() == false) {
 					JRadioButton orderRdButton = new JRadioButton("Order " + ": " + testOrders.get(i).getOrderID());
 					orderRdButton.setBounds(xValue, yValue, 140, 14);
 					todayAppointmentPanel.add(orderRdButton);
@@ -443,39 +383,38 @@ public class UIReceptionist extends JFrame {
 				unscheduledOrdersPanel.setBounds(255, 33, 913, 420);
 				unscheduledOrdersPanel.setLayout(null);
 				
-				JLabel lblselectedOrderUnscheduled = new JLabel("-- Selected    Order --");
+				JLabel lblselectedOrderUnscheduled = new JLabel();
 				lblselectedOrderUnscheduled.setBounds(100, 10, 122, 14);
 				unscheduledOrdersPanel.add(lblselectedOrderUnscheduled);
 				
 				JLabel lblSelectedPatientNameUnscheduled = new JLabel("Patient: ");
-				lblSelectedPatientNameUnscheduled.setBounds(10, 30, 47, 14);
+				lblSelectedPatientNameUnscheduled.setBounds(20, 30, 47, 14);
 				unscheduledOrdersPanel.add(lblSelectedPatientNameUnscheduled);
+				lblSelectedPatientNameUnscheduled.setVisible(false);
 				
 				JLabel lblUnscheduledOrders = new JLabel("Unscheduled Orders");
 				lblUnscheduledOrders.setFont(new Font("Tahoma", Font.PLAIN, 16));
 				lblUnscheduledOrders.setBounds(566, 10, 190, 18);
 				unscheduledOrdersPanel.add(lblUnscheduledOrders);
 				
-				JLabel lblSelectedPatientName = new JLabel("Insert Patieint Name here");
-				lblSelectedPatientName.setBounds(60, 30, 270, 14);
+				JLabel lblSelectedPatientName = new JLabel();
+				lblSelectedPatientName.setBounds(75, 30, 270, 14);
 				unscheduledOrdersPanel.add(lblSelectedPatientName);
 				
-				
-				
 				JLabel lblEnterADate = new JLabel("Schedule Appointment Date:");
-				lblEnterADate.setBounds(20, 231, 270, 25);
+				lblEnterADate.setBounds(20, 60, 270, 25);
 				unscheduledOrdersPanel.add(lblEnterADate);
 				
 				JTextField dateField = new JTextField();
-				dateField.setBounds(20, 250, 270, 25);
+				dateField.setBounds(20, 80, 270, 25);
 				unscheduledOrdersPanel.add(dateField);
 				
 				JLabel lblEnterATime = new JLabel("Schedule Appointment Time:");
-				lblEnterATime.setBounds(20, 285, 270, 25);
+				lblEnterATime.setBounds(20, 105, 270, 25);
 				unscheduledOrdersPanel.add(lblEnterATime);
 				
 				JTextField timeField = new JTextField();
-				timeField.setBounds(20, 305, 270, 25);
+				timeField.setBounds(20, 125, 270, 25);
 				unscheduledOrdersPanel.add(timeField);
 				
 				//Special listener for radio buttons
@@ -487,8 +426,9 @@ public class UIReceptionist extends JFrame {
 						int selectedIndex = buttonTracker.indexOf(selected);
 						orderTransfer = orderTracker.get(selectedIndex);
 						
-						lblselectedOrderUnscheduled.setText(orderTransfer.getOrderID());
+						lblselectedOrderUnscheduled.setText("Order ID:  " + orderTransfer.getOrderID());
 						lblSelectedPatientName.setText(orderTransfer.getPatient().getLastName() + ", " + orderTransfer.getPatient().getFirstName() );
+						lblSelectedPatientNameUnscheduled.setVisible(true);
 						
 					}//end Action
 				};//end radioListener
@@ -517,7 +457,7 @@ public class UIReceptionist extends JFrame {
 				}//end for loop
 				
 				JButton btnNewAppointment = new JButton("Schedule Appointment");
-				btnNewAppointment.setBounds(76, 384, 170, 23);
+				btnNewAppointment.setBounds(60, 200, 170, 23);
 				unscheduledOrdersPanel.add(btnNewAppointment);
 				
 				//special listener for schedule button
@@ -533,6 +473,7 @@ public class UIReceptionist extends JFrame {
 								if(ID == testOrders.get(i).getOrderID()) {
 									testOrders.get(i).setApptDay(scheduled);
 									testOrders.get(i).setApptTime(timeField.getText());
+									testOrders.get(i).setApptScheduled(true);
 									break;
 								}//end if
 							}//end for
@@ -548,12 +489,13 @@ public class UIReceptionist extends JFrame {
 		subActionPanel.add(unscheduledOrdersPanel);
 	}//end viewUnscheduledAppts
 	
-	public void ScheduleAppt(String appt, String apptRoom) {
+	public void ChecKIn(String appt, String apptRoom) {
 		
 		
-	}//end ScheduleAppt
+	}//end CheckIn
 	
-	public void SearchPatient() {
+	//Opens view for Search Patient and Search Order
+	public void Search() {
 		
 		subActionPanel.removeAll();
 		subActionPanel.add(actionPanel);
@@ -602,80 +544,219 @@ public class UIReceptionist extends JFrame {
 				lblsearchPatientEmail.setBounds(28, 208, 74, 22);
 				SearchPatientPanel.add(lblsearchPatientEmail);
 				
-				JButton searchPatientSearchButton = new JButton("Search");
-				searchPatientSearchButton.setBounds(141, 269, 89, 23);
+				JButton searchPatientSearchButton = new JButton("Search Patient");
+				searchPatientSearchButton.setBounds(70, 250, 164, 23);
 				SearchPatientPanel.add(searchPatientSearchButton);
 				
+				JLabel lblviewOrderInfo = new JLabel("Order Information");
+				lblviewOrderInfo.setBounds(70, 290, 134, 14);
+				SearchPatientPanel.add(lblviewOrderInfo);
+				
+				JLabel lblviewOrderOrderIdNumber = new JLabel("Order ID Number");
+				lblviewOrderOrderIdNumber.setBounds(28, 335, 101, 14);
+				SearchPatientPanel.add(lblviewOrderOrderIdNumber);
+				
+				txtviewOrderOrderId = new JTextField();
+				txtviewOrderOrderId.setBounds(130, 335, 129, 20);
+				SearchPatientPanel.add(txtviewOrderOrderId);
+				txtviewOrderOrderId.setColumns(10);
+				
+				JButton searchOrderSearchButton = new JButton("Search Order");
+				searchOrderSearchButton.setBounds(70, 380, 164, 23);
+				SearchPatientPanel.add(searchOrderSearchButton);
+				
 				JLabel searchPatientinstructionsLabel = new JLabel("Patient Information");
-				searchPatientinstructionsLabel.setBounds(125, 26, 134, 14);
+				searchPatientinstructionsLabel.setBounds(70, 26, 134, 14);
 				SearchPatientPanel.add(searchPatientinstructionsLabel);
 				
 				JLabel searchPatientsResultsLabel = new JLabel("Search Results");
 				searchPatientsResultsLabel.setBounds(596, 26, 89, 14);
 				SearchPatientPanel.add(searchPatientsResultsLabel);
 				
-				JLabel fNameResult = new JLabel("fName here");
+				JLabel fNameResult = new JLabel();
 				fNameResult.setBounds(500, 50, 165, 20);
 				SearchPatientPanel.add(fNameResult);
+				fNameResult.setVisible(false);
 				
-				JLabel lNameResult = new JLabel("lName here");
+				JLabel lNameResult = new JLabel();
 				lNameResult.setBounds(700, 50, 165, 20);
 				SearchPatientPanel.add(lNameResult);
+				lNameResult.setVisible(false);
 				
-				/*private String patientId, email, firstName, lastName, gender, middleName, notes, phoneNumber;
-				private int age;
-				private boolean allergyLatex, allergyAsthma, allergyMridye, allergyXraydye;
-				private String allergy = "None";
-							 * 
-				 * 
-				 * 
-				 * 
-				 */
-				
-				JLabel emailResult = new JLabel("Email here");
+				JLabel emailResult = new JLabel();
 				emailResult.setBounds(500, 100, 165, 20);
 				SearchPatientPanel.add(emailResult);
+				emailResult.setVisible(false);
 				
-				JLabel phoneNumResult = new JLabel("PhoneNum here");
+				JLabel phoneNumResult = new JLabel();
 				phoneNumResult.setBounds(700, 100, 165, 20);
 				SearchPatientPanel.add(phoneNumResult);
+				phoneNumResult.setVisible(false);
 				
-				JLabel allergyResult = new JLabel("Allergies here");
-				allergyResult.setBounds(600, 150, 165, 20);
+				JLabel allergyResult = new JLabel();//Might need changed too, text area
+				allergyResult.setBounds(500, 150, 365, 20);
 				SearchPatientPanel.add(allergyResult);
+				allergyResult.setVisible(false);
 				
-				JLabel notesResult = new JLabel("Notes here");
-				notesResult.setBounds(600, 200, 165, 20);
+				JLabel notesResult = new JLabel();//Change this to a text area or something
+				notesResult.setBounds(500, 200, 365, 20);
 				SearchPatientPanel.add(notesResult);
+				notesResult.setVisible(false);
+				
+				JLabel orderStatusResult = new JLabel();
+				orderStatusResult.setBounds(500, 100, 165, 20);
+				SearchPatientPanel.add(orderStatusResult);
+				orderStatusResult.setVisible(false);
+				
+				JLabel modalityResult = new JLabel();
+				modalityResult.setBounds(700, 100, 165, 20);
+				SearchPatientPanel.add(modalityResult);
+				modalityResult.setVisible(false);
+				
+				JLabel apptScheduledResult = new JLabel();
+				apptScheduledResult.setBounds(500, 150, 250, 20);
+				SearchPatientPanel.add(apptScheduledResult);
+				apptScheduledResult.setVisible(false);
+				
+				JLabel imagingOrderResult = new JLabel();
+				imagingOrderResult.setBounds(500, 200, 165, 20);
+				SearchPatientPanel.add(imagingOrderResult);
+				imagingOrderResult.setVisible(false);
+				
+				JLabel imagingOrderStatusResult = new JLabel();
+				imagingOrderStatusResult.setBounds(700, 200, 165, 20);
+				SearchPatientPanel.add(imagingOrderStatusResult);
+				imagingOrderStatusResult.setVisible(false);
+
+				JLabel visitReasonResult = new JLabel();//Change this to a text area or something
+				visitReasonResult.setBounds(500, 250, 365, 20);
+				SearchPatientPanel.add(visitReasonResult);
+				visitReasonResult.setVisible(false);
 				
 				ActionListener searchListener = new ActionListener() {
 					
 					public void actionPerformed(ActionEvent click) {
-					//Take in search parameters FirstName, LastName, EMail, DoB use SQL to make comparisons until proper patient found
-					//Return all patient Info from matching patient, phone number, notes, allergies
-						String fName = txtsearchPatientFirstName.getText();
-						String lName = txtsearchPatientLastName.getText();
+						Boolean resultFound = false;
 						
-						for(int i = 0; i < testPatients.size(); i++) {
-							if(testPatients.get(i).getFirstName() == fName && testPatients.get(i).getLastName() == lName) {
-								fNameResult.setText(fName);
-								fNameResult.setBounds(500, 50, 165, 20);
-								SearchPatientPanel.add(fNameResult);
+						if (click.getSource() == searchPatientSearchButton) {
+							//Take in search parameters FirstName, LastName, EMail, DoB use SQL to make comparisons until proper patient found
+							//Return all patient Info from matching patient, phone number, notes, allergies
+							String fName = txtsearchPatientFirstName.getText();
+							String lName = txtsearchPatientLastName.getText();
+							
+							//Remove results from any previous  order searches
+							orderStatusResult.setVisible(false);
+							visitReasonResult.setVisible(false);
+							modalityResult.setVisible(false);
+							apptScheduledResult.setVisible(false);
+							imagingOrderResult.setVisible(false);
+							imagingOrderStatusResult.setVisible(false);
+							
+							for(int i = 0; i < testPatients.size(); i++) {
+								if(testPatients.get(i).getFirstName().equalsIgnoreCase(fName) && testPatients.get(i).getLastName().equalsIgnoreCase(lName)) {
+									fNameResult.setText("First Name:  " + fName);
+									fNameResult.setVisible(true);
+									lNameResult.setText("Last Name:  " + lName);	
+									lNameResult.setVisible(true);
+									emailResult.setText("Email:  " + testPatients.get(i).getEmail());	
+									emailResult.setVisible(true);
+									phoneNumResult.setText("Phone #:  " + testPatients.get(i).getPhoneNumber());
+									phoneNumResult.setVisible(true);
+									allergyResult.setText("Allergies:  " + testPatients.get(i).getAllergy());	
+									allergyResult.setVisible(true);
+									notesResult.setText("Notes:  " + testPatients.get(i).getNotes());
+									notesResult.setVisible(true);
+									
+									resultFound = true;
+									
+									SearchPatientPanel.revalidate();
+									SearchPatientPanel.repaint();
+									
+									break;
+								}//end if
 								
-								lNameResult.setText(lName);
-								lNameResult.setBounds(700, 50, 165, 20);
-								SearchPatientPanel.add(lNameResult);
+							}//end for
+								
+							if (resultFound == false) {
+								fNameResult.setText("");
+								lNameResult.setText("");									
+								emailResult.setText("");									
+								phoneNumResult.setText("");									
+								allergyResult.setText("");									
+								notesResult.setText("No results, please check input");
+								notesResult.setVisible(true);
+								
+								SearchPatientPanel.revalidate();
+								SearchPatientPanel.repaint();
+							}//end if
+						
+						}//end source if
+						
+						else if (click.getSource() == searchOrderSearchButton) {
+							
+							//Remove results from any previous patient searches
+							emailResult.setVisible(false);
+							phoneNumResult.setVisible(false);
+							allergyResult.setVisible(false);
+							notesResult.setVisible(false);
+
+							for(int i = 0; i < testOrders.size(); i++) {
+								if(testOrders.get(i).getOrderID().equals(txtviewOrderOrderId.getText())) {
+									fNameResult.setText("First Name:  " + testOrders.get(i).getPatient().getFirstName());	
+									fNameResult.setVisible(true);
+									lNameResult.setText("Last Name:  " + testOrders.get(i).getPatient().getLastName());		
+									lNameResult.setVisible(true);
+									orderStatusResult.setText("Order Status:  " + testOrders.get(i).getOrderStatus());	
+									orderStatusResult.setVisible(true);
+									
+									if ((testOrders.get(i).getApptScheduled()) == true) {
+										apptScheduledResult.setText("Appointment:  " + String.valueOf(testOrders.get(i).getApptDay()));
+										apptScheduledResult.setVisible(true);
+									}//end if
+									else {
+										apptScheduledResult.setText("Appointment:  " + "No appointment scheduled");
+										apptScheduledResult.setVisible(true);
+									}//end else
+										
+									modalityResult.setText("Modality:  " + testOrders.get(i).getModality());
+									modalityResult.setVisible(true);
+									imagingOrderResult.setText("Imaging Ordered:  " + testOrders.get(i).getImagingOrder());
+									imagingOrderResult.setVisible(true);
+									imagingOrderStatusResult.setText("Imaging Status:  " + testOrders.get(i).getImagingOrderStatus());
+									imagingOrderStatusResult.setVisible(true);
+									visitReasonResult.setText("Reason for Visit:  " + testOrders.get(i).getVisitReason());
+									visitReasonResult.setVisible(true);
+									
+									resultFound = true;
+									
+									SearchPatientPanel.revalidate();
+									SearchPatientPanel.repaint();
+									
+									break;
+								}//end if
+								
+							}//end for
+							
+							if (resultFound == false) {
+								fNameResult.setText("");
+								lNameResult.setText("");									
+								emailResult.setText("");									
+								phoneNumResult.setText("");									
+								allergyResult.setText("");									
+								notesResult.setText("No results, please check input");
+								notesResult.setVisible(true);
 								
 								SearchPatientPanel.revalidate();
 								SearchPatientPanel.repaint();
 							}//end if
 							
-						}//end for
+						}//end source else if
 						
 					}//end Action
 				};//end searchListner
 				
 				searchPatientSearchButton.addActionListener(searchListener);
+				searchOrderSearchButton.addActionListener(searchListener);
 				
 		subActionPanel.add(SearchPatientPanel);	
 	}//end SearchPatient
@@ -735,10 +816,14 @@ public class UIReceptionist extends JFrame {
 				lblSelectOpenRoom.setBounds(430, 75, 135, 14);
 				CheckinPanel.add(lblSelectOpenRoom);
 				
-				Choice choiceAvailableModality = new Choice();
+				Choice choiceAvailableModality = new Choice();				
 				choiceAvailableModality.setBounds(566, 75, 250, 20);
 				CheckinPanel.add(choiceAvailableModality);
-				
+				//Fill Choice menu
+				choiceAvailableModality.add(Xray.getModalityName());
+				choiceAvailableModality.add(MRI.getModalityName());
+				choiceAvailableModality.add(Ultrasound.getModalityName());
+								
 				JLabel lblNewLabel = new JLabel("Select Available Team:");
 				lblNewLabel.setBounds(430, 115, 135, 14);
 				CheckinPanel.add(lblNewLabel);
@@ -746,6 +831,10 @@ public class UIReceptionist extends JFrame {
 				Choice choiceAvailableTeam = new Choice();
 				choiceAvailableTeam.setBounds(566, 115, 250, 20);
 				CheckinPanel.add(choiceAvailableTeam);
+				//Fill choice menu
+				for(Team team: testTeams) {
+				choiceAvailableTeam.add(team.getTeamName());
+				}//end for each 
 				
 				JLabel lblRoomConfirmationdonotchange = new JLabel("Selected Room:");
 				lblRoomConfirmationdonotchange.setBounds(430, 200, 135, 14);
@@ -755,23 +844,59 @@ public class UIReceptionist extends JFrame {
 				lblTeamConfirmationdonotchange.setBounds(430, 240, 135, 14);
 				CheckinPanel.add(lblTeamConfirmationdonotchange);
 				
-				JLabel lblRoomConfirmation = new JLabel("User Selected Room here ");
+				JLabel lblRoomConfirmation = new JLabel();
 				lblRoomConfirmation.setBounds(566, 200, 250, 14);
 				CheckinPanel.add(lblRoomConfirmation);
 				
-				JLabel lblTeamConfirmation = new JLabel("User Selected Team Here ");
+				JLabel lblTeamConfirmation = new JLabel();
 				lblTeamConfirmation.setBounds(566, 240, 250, 14);
 				CheckinPanel.add(lblTeamConfirmation);
+				
+				
+				
+				ItemListener choiceListener = new ItemListener() {
+					
+					public void itemStateChanged(ItemEvent choice) {
+						
+						if (choice.getSource() == choiceAvailableTeam) {
+							
+							lblTeamConfirmation.setText(choiceAvailableTeam.getSelectedItem());
+						}//end if
+						
+						if (choice.getSource() == choiceAvailableModality) {
+							
+							lblRoomConfirmation.setText(choiceAvailableModality.getSelectedItem());
+						}//end if
+					}//end ItemEvent
+				};//end itemListener
+				
+				choiceAvailableTeam.addItemListener(choiceListener);
+				choiceAvailableModality.addItemListener(choiceListener);
+				
 				JButton btnConfirmCheckIn = new JButton("Check-in Patient");
 				
 				btnConfirmCheckIn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						// order status = checked-in 
 						// SQL ammend modality and team to the selected order 
-						subActionPanel.removeAll();	
-
+						
+						String ID = orderTransfer.getOrderID();
+						
+						for(int i = 0; i < testOrders.size(); i++) {
+							if(ID == testOrders.get(i).getOrderID()) {
+								testOrders.get(i).setPatientCheckedIn(true);
+								testOrders.get(i).setModality(choiceAvailableModality.getSelectedItem());
+								testOrders.get(i).setApptRoom(choiceAvailableTeam.getSelectedItem());
+								testOrders.get(i).setOrderStatus("Checked-In");
+								break;
+							}//end if
+						}//end for
+						
+						/*JOptionPane confirm = new JOptionPane("Patient checked-in", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE);
+						confirm.setVisible(true);*/
+						
 						// consider a success pop-up frame here 
-						subActionPanel.add(todayAppointmentPanel) ;
+						ViewTodayAppts();
 						
 					}
 				});
@@ -783,4 +908,6 @@ public class UIReceptionist extends JFrame {
 				todayAppointmentPanel.repaint();
 		
 	}//end CheckIn
+	
+
 }
