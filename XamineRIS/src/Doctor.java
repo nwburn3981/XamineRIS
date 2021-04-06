@@ -1,3 +1,4 @@
+import java.sql.*;
 
 public class Doctor extends User {
 	
@@ -16,6 +17,25 @@ public class Doctor extends User {
 		userPermission.setName(userName, firstName, lastName) ;
 	}
 
+	public static Connection getConnection(){
+		try{
+			String driver = "com.mysql.jdbc.Driver";
+		 	String url = "jdbc:mysql://localhost:3306/xaminedatabase";
+			String username = "root";
+			String password = "EnterYourSQLPasswordHere";
+			Class.forName(driver);
+			   
+			Connection conn = DriverManager.getConnection(url,username,password);
+			System.out.println("Connected");
+			System.out.println("");
+			return conn;
+		} 
+		catch(Exception e){
+			System.out.println(e);
+		}	  
+		return null ;
+	}
+	
 	public String getUserId() {
 		return userId;
 	}
