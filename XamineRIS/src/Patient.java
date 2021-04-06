@@ -8,11 +8,10 @@ public class Patient {
 	// implement date
 	
 
-	public Patient(String firstName, String lastName, String email, String phoneNumber) {
+	public Patient(String firstName, String lastName, String email) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
-		this.phoneNumber = phoneNumber;
 	}
 
 	public String getPatientId() {
