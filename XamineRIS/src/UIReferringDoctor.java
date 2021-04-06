@@ -1,6 +1,7 @@
-
+package XamineRIS;
 
 import java.awt.BorderLayout;
+import java.awt.Button;
 import java.awt.EventQueue;
 
 import javax.swing.JButton;
@@ -139,16 +140,17 @@ public class UIReferringDoctor extends JFrame {
 		SearchPatientPanel.add(txtsearchPatientLastName);
 		txtsearchPatientLastName.setColumns(10);
 		
-		Label lblsearchPatientLastName = new Label("Last Name");
+		Label lblsearchPatientLastName = new Label("Last Name*");
 		lblsearchPatientLastName.setBounds(28, 113, 74, 22);
 		SearchPatientPanel.add(lblsearchPatientLastName);
 		
 		txtsearchPatientDoB = new JTextField();
+		txtsearchPatientDoB.setText("YYYY-MM-DD");
 		txtsearchPatientDoB.setBounds(106, 160, 164, 20);
 		SearchPatientPanel.add(txtsearchPatientDoB);
 		txtsearchPatientDoB.setColumns(10);
 		
-		Label lblsearchPatientDoB = new Label("Date of Birth");
+		Label lblsearchPatientDoB = new Label("Date of Birth*");
 		lblsearchPatientDoB.setBounds(28, 158, 74, 22);
 		SearchPatientPanel.add(lblsearchPatientDoB);
 		
@@ -169,16 +171,192 @@ public class UIReferringDoctor extends JFrame {
 		searchPatientinstructionsLabel.setBounds(125, 26, 134, 14);
 		SearchPatientPanel.add(searchPatientinstructionsLabel);
 		
-		List searchPatientlist = new List();
-		searchPatientlist.setBounds(422, 74, 430, 156);
-		SearchPatientPanel.add(searchPatientlist);
-		
 		JLabel searchPatientsResultsLabel = new JLabel("Search Results");
-		searchPatientsResultsLabel.setBounds(596, 26, 89, 14);
+		searchPatientsResultsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		searchPatientsResultsLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		searchPatientsResultsLabel.setBounds(520, 0, 120, 14);
 		SearchPatientPanel.add(searchPatientsResultsLabel);
 		
+		JLabel lblPatientId = new JLabel("Patient ID");
+		lblPatientId.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPatientId.setBounds(277, 30, 70, 14);
+		SearchPatientPanel.add(lblPatientId);
+		
+		JLabel PatientIDLabel01 = new JLabel("1 ");
+		PatientIDLabel01.setHorizontalAlignment(SwingConstants.CENTER);
+		PatientIDLabel01.setBounds(289, 75, 48, 14);
+		SearchPatientPanel.add(PatientIDLabel01);
+		
+		JLabel PatientIDLabel02 = new JLabel("1 ");
+		PatientIDLabel02.setHorizontalAlignment(SwingConstants.CENTER);
+		PatientIDLabel02.setBounds(289, 155, 48, 14);
+		SearchPatientPanel.add(PatientIDLabel02);
+		
+		JLabel PatientIDLabel03 = new JLabel("1 ");
+		PatientIDLabel03.setHorizontalAlignment(SwingConstants.CENTER);
+		PatientIDLabel03.setBounds(289, 115, 48, 14);
+		SearchPatientPanel.add(PatientIDLabel03);
+		
+		JLabel PatientIDLabel04 = new JLabel("1 ");
+		PatientIDLabel04.setHorizontalAlignment(SwingConstants.CENTER);
+		PatientIDLabel04.setBounds(289, 195, 48, 14);
+		SearchPatientPanel.add(PatientIDLabel04);
+		
+		JLabel PatientIDLabel05 = new JLabel("1 ");
+		PatientIDLabel05.setHorizontalAlignment(SwingConstants.CENTER);
+		PatientIDLabel05.setBounds(289, 235, 48, 14);
+		SearchPatientPanel.add(PatientIDLabel05);
+		
+		JLabel PatientFirstNameLabel01 = new JLabel("Patient First Name");
+		PatientFirstNameLabel01.setHorizontalAlignment(SwingConstants.CENTER);
+		PatientFirstNameLabel01.setBounds(347, 75, 108, 14);
+		SearchPatientPanel.add(PatientFirstNameLabel01);
+		
+		JLabel PatientFirstNameLabel02 = new JLabel("Patient First Name");
+		PatientFirstNameLabel02.setHorizontalAlignment(SwingConstants.CENTER);
+		PatientFirstNameLabel02.setBounds(347, 115, 108, 14);
+		SearchPatientPanel.add(PatientFirstNameLabel02);
+		
+		JLabel PatientFirstNameLabel03 = new JLabel("Patient First Name");
+		PatientFirstNameLabel03.setHorizontalAlignment(SwingConstants.CENTER);
+		PatientFirstNameLabel03.setBounds(347, 155, 108, 14);
+		SearchPatientPanel.add(PatientFirstNameLabel03);
+		
+		JLabel PatientFirstNameLabel04 = new JLabel("Patient First Name");
+		PatientFirstNameLabel04.setHorizontalAlignment(SwingConstants.CENTER);
+		PatientFirstNameLabel04.setBounds(347, 195, 108, 14);
+		SearchPatientPanel.add(PatientFirstNameLabel04);
+		
+		JLabel PatientFirstNameLabel05 = new JLabel("Patient First Name");
+		PatientFirstNameLabel05.setHorizontalAlignment(SwingConstants.CENTER);
+		PatientFirstNameLabel05.setBounds(347, 235, 108, 14);
+		SearchPatientPanel.add(PatientFirstNameLabel05);
+		
+		JLabel PatientLastNameLabel01 = new JLabel("Patient Last Name");
+		PatientLastNameLabel01.setHorizontalAlignment(SwingConstants.CENTER);
+		PatientLastNameLabel01.setBounds(465, 75, 108, 14);
+		SearchPatientPanel.add(PatientLastNameLabel01);
+		
+		JLabel PatientLastNameLabel02 = new JLabel("Patient Last Name");
+		PatientLastNameLabel02.setHorizontalAlignment(SwingConstants.CENTER);
+		PatientLastNameLabel02.setBounds(465, 115, 108, 14);
+		SearchPatientPanel.add(PatientLastNameLabel02);
+		
+		JLabel PatientLastNameLabel03 = new JLabel("Patient Last Name");
+		PatientLastNameLabel03.setHorizontalAlignment(SwingConstants.CENTER);
+		PatientLastNameLabel03.setBounds(465, 155, 108, 14);
+		SearchPatientPanel.add(PatientLastNameLabel03);
+		
+		JLabel PatientLastNameLabel04 = new JLabel("Patient Last Name");
+		PatientLastNameLabel04.setHorizontalAlignment(SwingConstants.CENTER);
+		PatientLastNameLabel04.setBounds(465, 195, 108, 14);
+		SearchPatientPanel.add(PatientLastNameLabel04);
+		
+		JLabel PatientLastNameLabel05 = new JLabel("Patient Last Name");
+		PatientLastNameLabel05.setHorizontalAlignment(SwingConstants.CENTER);
+		PatientLastNameLabel05.setBounds(465, 235, 108, 14);
+		SearchPatientPanel.add(PatientLastNameLabel05);
+		
+		JLabel lblFirstName = new JLabel("First Name");
+		lblFirstName.setHorizontalAlignment(SwingConstants.CENTER);
+		lblFirstName.setBounds(347, 30, 108, 14);
+		SearchPatientPanel.add(lblFirstName);
+		
+		JLabel lblLastName = new JLabel("Last Name");
+		lblLastName.setHorizontalAlignment(SwingConstants.CENTER);
+		lblLastName.setBounds(465, 30, 108, 14);
+		SearchPatientPanel.add(lblLastName);
+		
+		JLabel lblDateOfBirth = new JLabel("Date of Birth");
+		lblDateOfBirth.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDateOfBirth.setBounds(573, 30, 108, 14);
+		SearchPatientPanel.add(lblDateOfBirth);
+		
+		JLabel PatientDateOfBirth01 = new JLabel("Date of Birth");
+		PatientDateOfBirth01.setHorizontalAlignment(SwingConstants.CENTER);
+		PatientDateOfBirth01.setBounds(573, 75, 108, 14);
+		SearchPatientPanel.add(PatientDateOfBirth01);
+		
+		JLabel PatientDateOfBirth02 = new JLabel("Date of Birth");
+		PatientDateOfBirth02.setHorizontalAlignment(SwingConstants.CENTER);
+		PatientDateOfBirth02.setBounds(573, 115, 108, 14);
+		SearchPatientPanel.add(PatientDateOfBirth02);
+		
+		JLabel PatientDateOfBirth03 = new JLabel("Date of Birth");
+		PatientDateOfBirth03.setHorizontalAlignment(SwingConstants.CENTER);
+		PatientDateOfBirth03.setBounds(573, 155, 108, 14);
+		SearchPatientPanel.add(PatientDateOfBirth03);
+		
+		JLabel PatientDateOfBirth04 = new JLabel("Date of Birth");
+		PatientDateOfBirth04.setHorizontalAlignment(SwingConstants.CENTER);
+		PatientDateOfBirth04.setBounds(573, 195, 108, 14);
+		SearchPatientPanel.add(PatientDateOfBirth04);
+		
+		JLabel PatientDateOfBirth05 = new JLabel("Date of Birth");
+		PatientDateOfBirth05.setHorizontalAlignment(SwingConstants.CENTER);
+		PatientDateOfBirth05.setBounds(573, 235, 108, 14);
+		SearchPatientPanel.add(PatientDateOfBirth05);
+		
+		JLabel lblSearchPatientEmail = new JLabel("E-Mail");
+		lblSearchPatientEmail.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSearchPatientEmail.setBounds(680, 30, 108, 14);
+		SearchPatientPanel.add(lblSearchPatientEmail);
+		
+		JLabel PatientEmail01 = new JLabel("E-Mail");
+		PatientEmail01.setHorizontalAlignment(SwingConstants.CENTER);
+		PatientEmail01.setBounds(680, 75, 108, 14);
+		SearchPatientPanel.add(PatientEmail01);
+		
+		JLabel PatientEmail02 = new JLabel("E-Mail");
+		PatientEmail02.setHorizontalAlignment(SwingConstants.CENTER);
+		PatientEmail02.setBounds(680, 115, 108, 14);
+		SearchPatientPanel.add(PatientEmail02);
+		
+		JLabel PatientEmail03 = new JLabel("E-mail");
+		PatientEmail03.setHorizontalAlignment(SwingConstants.CENTER);
+		PatientEmail03.setBounds(680, 155, 108, 14);
+		SearchPatientPanel.add(PatientEmail03);
+		
+		JLabel PatientEmail04 = new JLabel("E-Mail");
+		PatientEmail04.setHorizontalAlignment(SwingConstants.CENTER);
+		PatientEmail04.setBounds(680, 195, 108, 14);
+		SearchPatientPanel.add(PatientEmail04);
+		
+		JLabel PatientEmail05 = new JLabel("E-Mail");
+		PatientEmail05.setHorizontalAlignment(SwingConstants.CENTER);
+		PatientEmail05.setBounds(680, 235, 108, 14);
+		SearchPatientPanel.add(PatientEmail05);
+		
+		JButton btnPatientId01 = new JButton("Select ");
+		btnPatientId01.setBounds(798, 75, 89, 20);
+		SearchPatientPanel.add(btnPatientId01);
+		
+		JButton btnPatientId02 = new JButton("Select");
+		btnPatientId02.setBounds(798, 111, 89, 20);
+		SearchPatientPanel.add(btnPatientId02);
+		
+		JButton btnPatientId03 = new JButton("Select");
+		btnPatientId03.setBounds(798, 151, 89, 20);
+		SearchPatientPanel.add(btnPatientId03);
+		
+		JButton btnPatientId04 = new JButton("Order ID");
+		btnPatientId04.setBounds(798, 191, 89, 20);
+		SearchPatientPanel.add(btnPatientId04);
+		
+		JButton btnPatientId05 = new JButton("Order ID");
+		btnPatientId05.setBounds(798, 231, 89, 20);
+		SearchPatientPanel.add(btnPatientId05);
+		
+		JButton btnNextPage = new JButton("Next Page");
+		btnNextPage.setBounds(633, 301, 120, 23);
+		SearchPatientPanel.add(btnNextPage);
+		
+		JButton btnPreviousPage = new JButton("Previous Page");
+		btnPreviousPage.setBounds(465, 301, 120, 23);
+		SearchPatientPanel.add(btnPreviousPage);
 		
 		
+		// Panel to view/search all orders associtated to a patient 
 		Panel viewOpenOrdersPanel = new Panel();
 		viewOpenOrdersPanel.setBounds(255, 33, 913, 420);
 		viewOpenOrdersPanel.setLayout(null);
@@ -209,7 +387,7 @@ public class UIReferringDoctor extends JFrame {
 		viewOpenOrdersPanel.add(txtviewOrderFirstName);
 		txtviewOrderFirstName.setColumns(10);
 		
-		JLabel lblviewOrderLastName = new JLabel("Last Name");
+		JLabel lblviewOrderLastName = new JLabel("Last Name*");
 		lblviewOrderLastName.setBounds(27, 190, 75, 24);
 		viewOpenOrdersPanel.add(lblviewOrderLastName);
 		
@@ -217,11 +395,12 @@ public class UIReferringDoctor extends JFrame {
 		txtviewOrderLastName.setBounds(138, 192, 129, 22);
 		viewOpenOrdersPanel.add(txtviewOrderLastName);
 		
-		JLabel lblviewOrderDateOfBirth = new JLabel("Date Of Birth");
+		JLabel lblviewOrderDateOfBirth = new JLabel("Date Of Birth*");
 		lblviewOrderDateOfBirth.setBounds(27, 247, 87, 14);
 		viewOpenOrdersPanel.add(lblviewOrderDateOfBirth);
 		
 		txtviewOrderDateOfBirth = new JTextField();
+		txtviewOrderDateOfBirth.setText("YYYY-MM-DD");
 		txtviewOrderDateOfBirth.setBounds(138, 244, 129, 20);
 		viewOpenOrdersPanel.add(txtviewOrderDateOfBirth);
 		txtviewOrderDateOfBirth.setColumns(10);
@@ -235,15 +414,191 @@ public class UIReferringDoctor extends JFrame {
 		lblviewOrderEMail.setBounds(27, 307, 75, 14);
 		viewOpenOrdersPanel.add(lblviewOrderEMail);
 		
-		List searchOrderlist = new List();
-		searchOrderlist.setBounds(422, 74, 430, 156);
-		viewOpenOrdersPanel.add(searchOrderlist);
-		
 		JLabel searchOrderResultsLabel = new JLabel("Search Results");
-		searchOrderResultsLabel.setBounds(596, 26, 89, 14);
+		searchOrderResultsLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		searchOrderResultsLabel.setBounds(573, 0, 100, 20);
 		viewOpenOrdersPanel.add(searchOrderResultsLabel);
 		
+		JLabel lblOrderPatientId = new JLabel("Patient ID");
+		lblOrderPatientId.setHorizontalAlignment(SwingConstants.CENTER);
+		lblOrderPatientId.setBounds(277, 30, 70, 14);
+		viewOpenOrdersPanel.add(lblOrderPatientId);
 		
+		JLabel OrderPatientIDLabel01 = new JLabel("1 ");
+		OrderPatientIDLabel01.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderPatientIDLabel01.setBounds(289, 75, 48, 14);
+		viewOpenOrdersPanel.add(OrderPatientIDLabel01);
+		
+		JLabel OrderPatientIDLabel02 = new JLabel("1 ");
+		OrderPatientIDLabel02.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderPatientIDLabel02.setBounds(289, 155, 48, 14);
+		viewOpenOrdersPanel.add(OrderPatientIDLabel02);
+		
+		JLabel OrderPatientIDLabel03 = new JLabel("1 ");
+		OrderPatientIDLabel03.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderPatientIDLabel03.setBounds(289, 115, 48, 14);
+		viewOpenOrdersPanel.add(OrderPatientIDLabel03);
+		
+		JLabel OrderPatientIDLabel04 = new JLabel("1 ");
+		OrderPatientIDLabel04.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderPatientIDLabel04.setBounds(289, 195, 48, 14);
+		viewOpenOrdersPanel.add(OrderPatientIDLabel04);
+		
+		JLabel OrderPatientIDLabel05 = new JLabel("1 ");
+		OrderPatientIDLabel05.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderPatientIDLabel05.setBounds(289, 235, 48, 14);
+		viewOpenOrdersPanel.add(OrderPatientIDLabel05);
+		
+		JLabel OrderPatientFirstNameLabel01 = new JLabel("Patient First Name");
+		OrderPatientFirstNameLabel01.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderPatientFirstNameLabel01.setBounds(347, 75, 108, 14);
+		viewOpenOrdersPanel.add(OrderPatientFirstNameLabel01);
+		
+		JLabel OrderPatientFirstNameLabel02 = new JLabel("Patient First Name");
+		OrderPatientFirstNameLabel02.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderPatientFirstNameLabel02.setBounds(347, 115, 108, 14);
+		viewOpenOrdersPanel.add(OrderPatientFirstNameLabel02);
+		
+		JLabel OrderPatientFirstNameLabel03 = new JLabel("Patient First Name");
+		OrderPatientFirstNameLabel03.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderPatientFirstNameLabel03.setBounds(347, 155, 108, 14);
+		viewOpenOrdersPanel.add(OrderPatientFirstNameLabel03);
+		
+		JLabel OrderPatientFirstNameLabel04 = new JLabel("Patient First Name");
+		OrderPatientFirstNameLabel04.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderPatientFirstNameLabel04.setBounds(347, 195, 108, 14);
+		viewOpenOrdersPanel.add(OrderPatientFirstNameLabel04);
+		
+		JLabel OrderPatientFirstNameLabel05 = new JLabel("Patient First Name");
+		OrderPatientFirstNameLabel05.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderPatientFirstNameLabel05.setBounds(347, 235, 108, 14);
+		viewOpenOrdersPanel.add(OrderPatientFirstNameLabel05);
+		
+		JLabel OrderPatientLastNameLabel01 = new JLabel("Patient Last Name");
+		OrderPatientLastNameLabel01.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderPatientLastNameLabel01.setBounds(465, 75, 108, 14);
+		viewOpenOrdersPanel.add(OrderPatientLastNameLabel01);
+		
+		JLabel OrderPatientLastNameLabel02 = new JLabel("Patient Last Name");
+		OrderPatientLastNameLabel02.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderPatientLastNameLabel02.setBounds(465, 115, 108, 14);
+		viewOpenOrdersPanel.add(OrderPatientLastNameLabel02);
+		
+		JLabel OrderPatientLastNameLabel03 = new JLabel("Patient Last Name");
+		OrderPatientLastNameLabel03.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderPatientLastNameLabel03.setBounds(465, 155, 108, 14);
+		viewOpenOrdersPanel.add(OrderPatientLastNameLabel03);
+		
+		JLabel OrderPatientLastNameLabel04 = new JLabel("Patient Last Name");
+		OrderPatientLastNameLabel04.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderPatientLastNameLabel04.setBounds(465, 195, 108, 14);
+		viewOpenOrdersPanel.add(OrderPatientLastNameLabel04);
+		
+		JLabel OrderPatientLastNameLabel05 = new JLabel("Patient Last Name");
+		OrderPatientLastNameLabel05.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderPatientLastNameLabel05.setBounds(465, 235, 108, 14);
+		viewOpenOrdersPanel.add(OrderPatientLastNameLabel05);
+		
+		JLabel OrderlblFirstName = new JLabel("First Name");
+		OrderlblFirstName.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderlblFirstName.setBounds(347, 30, 108, 14);
+		viewOpenOrdersPanel.add(OrderlblFirstName);
+		
+		JLabel OrderlblLastName = new JLabel("Last Name");
+		OrderlblLastName.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderlblLastName.setBounds(465, 30, 108, 14);
+		viewOpenOrdersPanel.add(OrderlblLastName);
+		
+		JLabel OrderlblDateOfBirth = new JLabel("Date of Birth");
+		OrderlblDateOfBirth.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderlblDateOfBirth.setBounds(573, 30, 108, 14);
+		viewOpenOrdersPanel.add(OrderlblDateOfBirth);
+		
+		JLabel OrderPatientDateOfBirth01 = new JLabel("Date of Birth");
+		OrderPatientDateOfBirth01.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderPatientDateOfBirth01.setBounds(573, 75, 108, 14);
+		viewOpenOrdersPanel.add(OrderPatientDateOfBirth01);
+		
+		JLabel OrderPatientDateOfBirth02 = new JLabel("Date of Birth");
+		OrderPatientDateOfBirth02.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderPatientDateOfBirth02.setBounds(573, 115, 108, 14);
+		viewOpenOrdersPanel.add(OrderPatientDateOfBirth02);
+		
+		JLabel OrderPatientDateOfBirth03 = new JLabel("Date of Birth");
+		OrderPatientDateOfBirth03.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderPatientDateOfBirth03.setBounds(573, 155, 108, 14);
+		viewOpenOrdersPanel.add(OrderPatientDateOfBirth03);
+		
+		JLabel OrderPatientDateOfBirth04 = new JLabel("Date of Birth");
+		OrderPatientDateOfBirth04.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderPatientDateOfBirth04.setBounds(573, 195, 108, 14);
+		viewOpenOrdersPanel.add(OrderPatientDateOfBirth04);
+		
+		JLabel OrderPatientDateOfBirth05 = new JLabel("Date of Birth");
+		OrderPatientDateOfBirth05.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderPatientDateOfBirth05.setBounds(573, 235, 108, 14);
+		viewOpenOrdersPanel.add(OrderPatientDateOfBirth05);
+		
+		JLabel OrderlblOrderStatus = new JLabel("Order Status");
+		OrderlblOrderStatus.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderlblOrderStatus.setBounds(680, 30, 108, 14);
+		viewOpenOrdersPanel.add(OrderlblOrderStatus);
+		
+		JLabel OrderPatientOrderStatus01 = new JLabel("Order Status");
+		OrderPatientOrderStatus01.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderPatientOrderStatus01.setBounds(680, 75, 108, 14);
+		viewOpenOrdersPanel.add(OrderPatientOrderStatus01);
+		
+		JLabel OrderPatientOrderStatus02 = new JLabel("Order Status");
+		OrderPatientOrderStatus02.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderPatientOrderStatus02.setBounds(680, 115, 108, 14);
+		viewOpenOrdersPanel.add(OrderPatientOrderStatus02);
+		
+		JLabel OrderPatientOrderStatus03 = new JLabel("Order Status");
+		OrderPatientOrderStatus03.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderPatientOrderStatus03.setBounds(680, 155, 108, 14);
+		viewOpenOrdersPanel.add(OrderPatientOrderStatus03);
+		
+		JLabel OrderPatientOrderStatus04 = new JLabel("Order Status");
+		OrderPatientOrderStatus04.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderPatientOrderStatus04.setBounds(680, 195, 108, 14);
+		viewOpenOrdersPanel.add(OrderPatientOrderStatus04);
+		
+		JLabel OrderPatientOrderStatus05 = new JLabel("Order Status");
+		OrderPatientOrderStatus05.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderPatientOrderStatus05.setBounds(680, 235, 108, 14);
+		viewOpenOrdersPanel.add(OrderPatientOrderStatus05);
+		
+		JButton OrderbtnOrderId01 = new JButton("Order ID");
+		OrderbtnOrderId01.setBounds(798, 75, 89, 20);
+		viewOpenOrdersPanel.add(OrderbtnOrderId01);
+		
+		JButton OrderbtnOrderId02 = new JButton("Order ID");
+		OrderbtnOrderId02.setBounds(798, 111, 89, 20);
+		viewOpenOrdersPanel.add(OrderbtnOrderId02);
+		
+		JButton OrderbtnOrderId03 = new JButton("Order ID");
+		OrderbtnOrderId03.setBounds(798, 151, 89, 20);
+		viewOpenOrdersPanel.add(OrderbtnOrderId03);
+		
+		JButton OrderbtnOrderId04 = new JButton("Order ID");
+		OrderbtnOrderId04.setBounds(798, 191, 89, 20);
+		viewOpenOrdersPanel.add(OrderbtnOrderId04);
+		
+		JButton OrderbtnOrderId05 = new JButton("Order ID");
+		OrderbtnOrderId05.setBounds(798, 231, 89, 20);
+		viewOpenOrdersPanel.add(OrderbtnOrderId05);
+		
+		JButton OrderbtnNextPage = new JButton("Next Page");
+		OrderbtnNextPage.setBounds(633, 301, 120, 23);
+		viewOpenOrdersPanel.add(OrderbtnNextPage);
+		
+		JButton OrderbtnPreviousPage = new JButton("Previous Page");
+		OrderbtnPreviousPage.setBounds(465, 301, 120, 23);
+		viewOpenOrdersPanel.add(OrderbtnPreviousPage);
+		
+		
+		// Panel to create a new Patient 
 		Panel newPatientPanel = new Panel();
 		newPatientPanel.setBounds(255, 33, 913, 420);
 		newPatientPanel.setLayout(null);
@@ -342,108 +697,91 @@ public class UIReferringDoctor extends JFrame {
 		newPatientPanel.add(btnCreateNewPatient);
 		
 		
+		// panel to create a new order 
 		JPanel newOrderPanel = new JPanel();
 		newOrderPanel.setBounds(255, 33, 913, 420);
 		newOrderPanel.setLayout(null);
-		
-		JLabel lblSelectThePatient = new JLabel("Select an exisiting patient");
-		lblSelectThePatient.setBounds(43, 33, 153, 14);
+				
+		JLabel lblSelectThePatient = new JLabel("First Select a Patient");
+		lblSelectThePatient.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSelectThePatient.setBounds(43, 63, 150, 20);
 		newOrderPanel.add(lblSelectThePatient);
-		
-		JLabel lblnewOrderFirstName = new JLabel("First Name");
-		lblnewOrderFirstName.setBounds(33, 66, 72, 14);
-		newOrderPanel.add(lblnewOrderFirstName);
-		
-		JLabel lblnewOrderLastName = new JLabel("Last Name");
-		lblnewOrderLastName.setBounds(33, 91, 72, 14);
-		newOrderPanel.add(lblnewOrderLastName);
-		
-		JLabel lblnewOrderDateOfBirth = new JLabel("Date of Birth ");
-		lblnewOrderDateOfBirth.setBounds(33, 116, 96, 14);
-		newOrderPanel.add(lblnewOrderDateOfBirth);
-		
-		JLabel lblnewOrderEmail = new JLabel("E-Mail");
-		lblnewOrderEmail.setBounds(33, 141, 72, 14);
-		newOrderPanel.add(lblnewOrderEmail);
-		
-		txtnewOrderLastName = new JTextField();
-		txtnewOrderLastName.setBounds(111, 88, 96, 20);
-		newOrderPanel.add(txtnewOrderLastName);
-		txtnewOrderLastName.setColumns(10);
-		
-		txtnewOrderDoB = new JTextField();
-		txtnewOrderDoB.setBounds(111, 116, 96, 20);
-		newOrderPanel.add(txtnewOrderDoB);
-		txtnewOrderDoB.setColumns(10);
-		
-		txtnewOrderEMail = new JTextField();
-		txtnewOrderEMail.setBounds(111, 147, 96, 20);
-		newOrderPanel.add(txtnewOrderEMail);
-		txtnewOrderEMail.setColumns(10);
-		
-		txtnewOrderFirstName = new JTextField();
-		txtnewOrderFirstName.setBounds(111, 58, 96, 20);
-		newOrderPanel.add(txtnewOrderFirstName);
-		txtnewOrderFirstName.setColumns(10);
-		
-		JButton btnnewOrderSearch = new JButton("Search");
-		btnnewOrderSearch.setBounds(62, 184, 114, 23);
-		newOrderPanel.add(btnnewOrderSearch);
-		
-		Choice newOrderPatientChoice = new Choice();
-		newOrderPatientChoice.setBounds(33, 221, 174, 20);
-		newOrderPanel.add(newOrderPatientChoice);
-		
+				
 		JTextArea newOrderReasonForVisit = new JTextArea();
 		newOrderReasonForVisit.setLineWrap(true);
 		newOrderReasonForVisit.setBounds(620, 66, 283, 284);
 		newOrderPanel.add(newOrderReasonForVisit);
-		
+				
 		JLabel lblReasonForDoctor = new JLabel("Reason For Doctor Visit");
 		lblReasonForDoctor.setBounds(708, 33, 139, 14);
 		newOrderPanel.add(lblReasonForDoctor);
-		
-		JLabel lblModalityRequired = new JLabel("Modality Required ");
-		lblModalityRequired.setBounds(396, 33, 109, 14);
-		newOrderPanel.add(lblModalityRequired);
-		
+				
 		JLabel lblImagingRequired = new JLabel("Imaging Required");
-		lblImagingRequired.setBounds(389, 116, 116, 14);
+		lblImagingRequired.setBounds(389, 33, 116, 14);
 		newOrderPanel.add(lblImagingRequired);
-		
+				
 		JLabel lblnewOrder = new JLabel("Create a New Order");
-		lblnewOrder.setBounds(33, 0, 143, 14);
+		lblnewOrder.setHorizontalAlignment(SwingConstants.CENTER);
+		lblnewOrder.setBounds(43, 33, 143, 14);
 		newOrderPanel.add(lblnewOrder);
-		
+				
 		JLabel lblCurrentPatient = new JLabel("Current patient displayed here");
 		lblCurrentPatient.setBounds(10, 351, 181, 14);
 		actionPanel.add(lblCurrentPatient);
-		
-		JLabel txtnewPatient = new JLabel("Create a new patient ");
-		txtnewPatient.setBounds(62, 277, 138, 14);
-		newOrderPanel.add(txtnewPatient);
-		
-		JButton newpatientbutton = new JButton("New Patient");
-		newpatientbutton.setBounds(62, 313, 114, 23);
-		newOrderPanel.add(newpatientbutton);
-		
-		JLabel lblOr = new JLabel("or");
-		lblOr.setBounds(110, 252, 48, 14);
-		newOrderPanel.add(lblOr);
-		
-		Choice Modalitychoice = new Choice();
-		Modalitychoice.setBounds(378, 66, 129, 20);
-		newOrderPanel.add(Modalitychoice);
-		
+				
 		JTextArea txtimagesneeded = new JTextArea();
 		txtimagesneeded.setLineWrap(true);
-		txtimagesneeded.setBounds(294, 145, 283, 205);
+		txtimagesneeded.setBounds(294, 66, 283, 284);
 		newOrderPanel.add(txtimagesneeded);
-		
+				
 		Button buttoncreateorder = new Button("Create Order");
-		buttoncreateorder.setBounds(564, 388, 80, 22);
+		buttoncreateorder.setBounds(560, 388, 80, 22);
 		newOrderPanel.add(buttoncreateorder);
+		
+		JLabel lblSelectedPatient = new JLabel("Selected Patient:");
+		lblSelectedPatient.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSelectedPatient.setBounds(43, 172, 150, 14);
+		newOrderPanel.add(lblSelectedPatient);
+		
+		JLabel lblNewOrderName = new JLabel("First Name:");
+		lblNewOrderName.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblNewOrderName.setBounds(0, 200, 78, 14);
+		newOrderPanel.add(lblNewOrderName);
+		
+		JLabel lblNeworderdob = new JLabel("Date of Birth:");
+		lblNeworderdob.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblNeworderdob.setBounds(0, 260, 78, 14);
+		newOrderPanel.add(lblNeworderdob);
+		
+		JLabel lblNewOrderLastName = new JLabel("Last Name:");
+		lblNewOrderLastName.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblNewOrderLastName.setBounds(0, 230, 78, 14);
+		newOrderPanel.add(lblNewOrderLastName);
+		
+		JLabel lblNewOrderEmail = new JLabel("Email:");
+		lblNewOrderEmail.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblNewOrderEmail.setBounds(0, 290, 78, 14);
+		newOrderPanel.add(lblNewOrderEmail);
+		
+		JLabel lblNewOrderPatietFirstName = new JLabel("First Name:");
+		lblNewOrderPatietFirstName.setBounds(88, 200, 150, 14);
+		newOrderPanel.add(lblNewOrderPatietFirstName);
+		
+		JLabel lblNewOrderPatientLastName = new JLabel("Last Name:");
+		lblNewOrderPatientLastName.setBounds(88, 230, 150, 14);
+		newOrderPanel.add(lblNewOrderPatientLastName);
+		
+		JLabel lblNewOrderPatientDoB = new JLabel("Date of Birth:");
+		lblNewOrderPatientDoB.setBounds(88, 260, 150, 14);
+		newOrderPanel.add(lblNewOrderPatientDoB);
+		
+		JLabel lblNewOrderPatientEmail = new JLabel("Email:");
+		lblNewOrderPatientEmail.setBounds(88, 290, 150, 14);
+		newOrderPanel.add(lblNewOrderPatientEmail);
 
+		
+		
+		
 		JButton newPatient = new JButton("New Patient");
 		newPatient.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -496,7 +834,33 @@ public class UIReferringDoctor extends JFrame {
 		actionPanel.add(newOrder);
 		
 		
-		//subActionPanel.add(newOrderPanel);
+		JButton newpatientbutton = new JButton("New Patient");
+		newpatientbutton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				subActionPanel.remove(SearchPatientPanel);
+				subActionPanel.remove(viewOpenOrdersPanel);
+				subActionPanel.remove(newOrderPanel);
+				subActionPanel.add(newPatientPanel);
+			}
+		});
+		newpatientbutton.setBounds(43, 128, 150, 23);
+		newOrderPanel.add(newpatientbutton);
 		
+		JButton newSelectPatient = new JButton("Search for Patient");
+		newSelectPatient.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				subActionPanel.remove(viewOpenOrdersPanel);
+				subActionPanel.remove(newPatientPanel);
+				subActionPanel.remove(newOrderPanel);
+				subActionPanel.add(SearchPatientPanel);
+			}
+		});
+		newSelectPatient.setBounds(43, 94, 150, 23);
+		newOrderPanel.add(newSelectPatient);
+	
+		//subActionPanel.remove(newPatientPanel);
+		//subActionPanel.remove(SearchPatientPanel);
+		//subActionPanel.add(newOrderPanel);
+		//subActionPanel.add(viewOpenOrdersPanel);
 	}
 }
