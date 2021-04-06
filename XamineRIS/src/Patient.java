@@ -125,7 +125,14 @@ public class Patient {
 	public void setAllergy(String allergy) {
 		this.allergy = allergy;
 	}
-
+	
+	public String getDateOfBirth() {
+		return dateOfBirth ;
+	}
+	
+	public void setDateOfBirth(Seting dateOfBirth) {
+		this.dateOfBirth = dateOfBirth ;
+	}
 
 	
 	
