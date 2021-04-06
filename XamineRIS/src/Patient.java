@@ -1,6 +1,6 @@
 public class Patient {
 
-	private String patientId, email, firstName, lastName, gender, middleName, notes = "No notes", phoneNumber;
+	private String patientId, email, firstName, lastName, gender, middleName, notes = "No notes", phoneNumber, dateOfBirth;
 	private int age;
 	private boolean allergyLatex, allergyAsthma, allergyMridye, allergyXraydye;
 	private String allergy = "No known allergies";
