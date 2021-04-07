@@ -13,7 +13,7 @@ Deliverable 1: Schedule
 
 
 Deliverable 2: List of requirements 
-- On jira, probably need to edit it to match what we ended up with, still need collected 
+- **Collected, just need final requirements complete**
 - 5/5 points
 
 
