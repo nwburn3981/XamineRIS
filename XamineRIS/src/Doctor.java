@@ -102,7 +102,7 @@ public class Doctor extends User {
 	}
 	
 	public void newPatient(String firstName, String lastName, String dateOfbirth, String email, String gender, String Phone, 
-			boolean latex, boolean xraydye, boolean mridye, boolean asthma, String Notes  ) {
+			boolean latex, boolean xraydye, boolean mridye, String Notes  ) {
 		
 		int IDnum ;
 		getConnection() ;
