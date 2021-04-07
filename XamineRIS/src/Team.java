@@ -1,6 +1,6 @@
 
 public class Team {
-	private String teamID;
+	private int teamID;
 	private String teamName;
 	
 	public Team(String id, String name) {
