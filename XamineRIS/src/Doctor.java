@@ -1,72 +1,71 @@
+
 import java.sql.*;
 
 public class Doctor extends User {
 	
-	private String userId, firstName, lastName , password , email , userName; 
+	private String userId, firstName, lastName , email , userName, password; 
 	private boolean isActive, isStaff, isSuperUser ;
 	private Permission userPermission ;
 	
 	public Doctor( String firstName, String lastName, String email, String userName) {
-		
 		super(firstName, lastName, email, userName);
 		
-		
-		userPermission.setAccessLvl(1) ;
-		userPermission.setCodeName("RefDr");
-		userPermission.setProgramName("Referring Doctor");
-		userPermission.setName(userName, firstName, lastName) ;
+		//userPermission.setAccessLvl(1) ;
+		//userPermission.setCodeName("RefDr");
+		//userPermission.setProgramName("Referring Doctor");
+		//userPermission.setName(userName, firstName, lastName) ;
 	}
-
+	
 	public static Connection getConnection(){
-		try{
-			String driver = "com.mysql.jdbc.Driver";
-		 	String url = "jdbc:mysql://localhost:3306/xaminedatabase";
-			String username = "root";
-			String password = "EnterYourSQLPasswordHere";
-			Class.forName(driver);
+		 try{
+			   String driver = "com.mysql.cj.jdbc.Driver";
+			   String url = "jdbc:mysql://localhost:3306/xaminedatabase";
+			   String username = "root";
+			   String password = "Et70670!";
+			   Class.forName(driver);
 			   
-			Connection conn = DriverManager.getConnection(url,username,password);
-			System.out.println("Connected");
-			System.out.println("");
-			return conn;
-		} 
-		catch(Exception e){
-			System.out.println(e);
+			   Connection conn = DriverManager.getConnection(url,username,password);
+			   System.out.println("Connected");
+			   System.out.println("");
+			   return conn;
+			  } 
+		 catch(Exception e){
+			 System.out.println(e);
 		}	  
 		return null ;
 	}
 	
-	
-	public Patient[] returnPatient(String firstName, String lastName, String dateOfBirth, String email) {
+	public Patient[] returnPatient(String firstName, String lastName, String dateOfBirth, String email) throws SQLException {
 		
-		 Patient[] Patients = new Patient[5] ;
+		 Patient[] Patients = new Patient[10] ;
 		 String  DoctorName = this.userName ;
+		 int index = 0 ;
 		 
-		 getConnection() ;
+		 Connection conn = getConnection() ;
+		 PreparedStatement statement = conn.prepareStatement(" Select patientID , firstName , lastName , dateOfBirth , email \r\n\t" + 
+		 		"From patient" + "\r\n\t" + 
+		 		"Where firstName = ? \r\n\t" + 
+		 		"And lastName = ? \r\n\t" + 
+		 		"AND email = ? \r\n\t" + 
+		 		"AND dateOfBirth = ? ;") ;
+		 
+		statement.setString(1, firstName);
+		statement.setString(2, lastName);
+		statement.setString(3, email);
+		statement.setString(4, dateOfBirth);
+		ResultSet result = statement.executeQuery() ;
 		
-		// pass this statement to SQL to return the appropriate search criteria 
-		// Select patientID , firstName , lastName , dateOfBirth , email 
-		//	  From patient 
-		//    Where firstName = firstName
-		//    And lastName = lastName 
-		//    AND email = email 
-		//    AND dateOfBirth = dateofBirth 
-		//    AND referringDoctorUserName = DoctorName ;
-		 
-		// insert results into Patient objects here 
-		// can make for loop run as many times as there are sql results up to 5
-		 for (int x = 0 ; x < 5 ; x++) {
-			 // create Patient object with SQL result ( the returned row will correspond with the patient)
-			 Patients[x] = new Patient(SQLfirstName, SQLlastName, SQLEmail );
-			 Patients[x].setDateOfBirth(SQLdateOfBirth ) ;
-			 Patients[x].setPatientId(SQLpatientID) ;
+		while(result.next() && index <= 4) {
+			 Patients[index] = new Patient(result.getString("firstName"), result.getString("lastName")) ;
+			 index++ ;
 		 }
-		 
-		return Patients ;
 		
+		result.close();
+		
+		return Patients ;
 	}
 	
-	public Order[] returnOrders(String firstName, String lastName, String dateOfBirth, String email) {
+	public Order[] returnOrders(String firstName, String lastName, String dateOfBirth, String email) throws SQLException {
 		
 		 Order[] Orders = new Order[5] ;
 		 Patient[] Patients = returnPatient(firstName, lastName, dateOfBirth, email) ;
@@ -74,28 +73,7 @@ public class Doctor extends User {
 		 
 		 getConnection() ;
 		
-		// pass this statement to SQL to return the appropriate search criteria 
-		// Select OrderId, patientID, orderStatus, appointment, visitReason, imagingNeeded
-		//	From imagingOrder
-		//    Where patientID in (Select patientID 
-		//	  	From patient 
-		//    	Where firstName = firstName
-		//   	And lastName = lastName 
-		//   	AND email = email 
-		//    	AND dateOfBirth = dateOfBirth 
-		//    	AND referringDoctorUserName = DoctorName );
-		 	
-		// insert results into Patient objects here 
-		// can make for loop run as many times as there are sql results up to 5
-		 for (int x = 0 ; x < 5 ; x++) {
-			 // create Patient object with SQL result ( the returned row will correspond with the patient)
-			 Orders[x] = new Order(SQLOrderID , Patients[x]);
-			 Orders[x].setImagingOrderStatus(SQLorderStatus);
-			 Orders[x].setApptDay(SQLappointment);
-			 Orders[x].setVisitReason(SQLvisitReason);
-			 Orders[x].setImagingOrder(SQLimagingNeeded);
-			 
-		 }
+		
 		 
 		return Orders ;
 		
@@ -129,8 +107,6 @@ public class Doctor extends User {
 		// Insert into imagingorder values( IDnum , patient.getPatientID() , "Open" , null , notes , imagesNeeded , null, null, null, null ) ;
 	}
 
-
-	
 	public String getUserId() {
 		return userId;
 	}
@@ -155,9 +131,6 @@ public class Doctor extends User {
 		this.lastName = lastName;
 	}
 
-	public String getPassword() {
-		return password;
-	}
 
 	public void setPassword(String password) {
 		this.password = password;
@@ -211,3 +184,4 @@ public class Doctor extends User {
 		this.userPermission = userPermission;
 	}
 	
+}
