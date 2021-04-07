@@ -181,6 +181,33 @@ public class UIRadiologist extends JFrame {
 	private JPanel contentPane;
 	private static UIRadiologist frame;
 	//private User currentUser;
+	
+	
+	
+	
+	
+	
+
+	private JTextField txtsearchPatientFirstName;
+	private JTextField txtsearchPatientLastName;
+	private JTextField txtsearchPatientDoB;
+	private JTextField txtsearchPatientEmail;
+	private JTextField txtviewOrderOrderId;
+	private JTextField txtviewOrderFirstName;
+	private JTextField txtviewOrderDateOfBirth;
+	private JTextField txtviewOrderEmail;
+	private JTextField txtnewPatientEMail;
+	private JTextField txtnewPatientDoB;
+	private JTextField txtnewPatientLastName;
+	private JTextField txtnewPatientGender;
+	private JTextField txtnewPatientPhoneNumber;
+	private JTextField txtnewOrderLastName;
+	private JTextField txtnewOrderDoB;
+	private JTextField txtnewOrderEMail;
+	private JTextField txtnewOrderFirstName;
+	
+	
+	
 
 	/**
 	 * Launch the application.
@@ -228,7 +255,7 @@ public class UIRadiologist extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent click) {
 				
-				UILogin.main(null);
+				//UILogin.main(null);
 				frame.dispose();	
 			}
 		};
@@ -256,10 +283,222 @@ public class UIRadiologist extends JFrame {
 		actionPanel.setLayout(null);
 		
 		
+		
+		
+		Panel SearchPatientPanel = new Panel();
+		SearchPatientPanel.setBounds(255, 33, 1000, 420);
+		SearchPatientPanel.setLayout(null);
+		
+		
+		
+
+		
+		txtsearchPatientFirstName = new JTextField();
+		txtsearchPatientFirstName.setBounds(125, 74, 164, 20);
+		SearchPatientPanel.add(txtsearchPatientFirstName);
+		txtsearchPatientFirstName.setColumns(10);
+		
+		Label lblsearchPatientFirstName = new Label("First Name ");
+		lblsearchPatientFirstName.setBounds(15, 72, 74, 22);
+		SearchPatientPanel.add(lblsearchPatientFirstName);
+		txtsearchPatientFirstName.setColumns(10);
+		
+		
+		
+		
+		txtsearchPatientLastName = new JTextField();
+		txtsearchPatientLastName.setBounds(125, 115, 164, 20);
+		SearchPatientPanel.add(txtsearchPatientLastName);
+		txtsearchPatientLastName.setColumns(10);
+		
+		Label lblsearchPatientLastName = new Label("Last Name ");
+		lblsearchPatientLastName.setBounds(15, 113, 74, 22);
+		SearchPatientPanel.add(lblsearchPatientLastName);
+		txtsearchPatientFirstName.setColumns(10);
+		
+		
+	
+		Label lblsearchPatientDoB = new Label("Date of Birth*");
+		lblsearchPatientDoB.setBounds(15, 155, 95, 22);
+		SearchPatientPanel.add(lblsearchPatientDoB);
+		
+		
+		
+		txtsearchPatientDoB = new JTextField();
+		txtsearchPatientDoB.setText("YYYY-MM-DD");
+		txtsearchPatientDoB.setBounds(125, 160, 164, 20);
+		SearchPatientPanel.add(txtsearchPatientDoB);
+		txtsearchPatientDoB.setColumns(10);
+		
+		
+		txtsearchPatientLastName = new JTextField();
+		txtsearchPatientLastName.setBounds(125, 115, 164, 20);
+		SearchPatientPanel.add(txtsearchPatientLastName);
+		txtsearchPatientLastName.setColumns(10);
+		
+		
+	
+		
+		JButton addButton = new JButton("Add");
+		addButton.setBounds(49,269,89,23);
+		SearchPatientPanel.add(addButton);
+		
+	
+		
+		JButton retrieveButton = new JButton("Retrieve");
+		retrieveButton.setBounds(141, 269, 89, 23);
+		SearchPatientPanel.add(retrieveButton);
+		
+		
+		
+		JButton saveButton = new JButton ("Save ");
+		saveButton.setBounds(233,269,89,23);
+		SearchPatientPanel.add(saveButton);
+		
+
+		JButton submitOrder = new JButton("Submit ");
+		submitOrder.setBounds(323, 269, 89, 23);
+		SearchPatientPanel.add(submitOrder);
+		
+		JButton Searchbutton1 = new JButton("Search");
+		Searchbutton1.setBounds(92, 213, 257, 23);
+		SearchPatientPanel.add(Searchbutton1);
+		
+		
+		
+		
+		//---------------------------------------------------------------
+		
+		
+		
+		Panel viewOrdersButtonPanel = new Panel();
+		viewOrdersButtonPanel.setBounds(255, 33, 913, 420);
+		viewOrdersButtonPanel.setLayout(null);
+		
+		
+		
+		
+		JLabel lblviewOrderInfo = new JLabel("Order Information");
+		lblviewOrderInfo.setBounds(93, 35, 148, 14);
+		viewOrdersButtonPanel.add(lblviewOrderInfo);
+		
+		JLabel lblviewOrderOrderIdNumber = new JLabel("Order ID Number");
+		lblviewOrderOrderIdNumber.setBounds(15, 70, 130, 14);
+		viewOrdersButtonPanel.add(lblviewOrderOrderIdNumber);
+		
+		txtviewOrderOrderId = new JTextField();
+		txtviewOrderOrderId.setBounds(138, 67, 129, 20);
+		viewOrdersButtonPanel.add(txtviewOrderOrderId);
+		txtviewOrderOrderId.setColumns(10);
+		
+		JLabel lblviewOrderPatient = new JLabel("Patient Information");
+		lblviewOrderPatient.setBounds(93, 108, 148, 14);
+		viewOrdersButtonPanel.add(lblviewOrderPatient);
+		
+		JLabel lblviewOrderFirstName = new JLabel("First Name");
+		lblviewOrderFirstName.setBounds(15, 146, 75, 14);
+		viewOrdersButtonPanel.add(lblviewOrderFirstName);
+		
+		
+		txtviewOrderFirstName = new JTextField();
+		txtviewOrderFirstName.setBounds(138, 143, 129, 20);
+		viewOrdersButtonPanel.add(txtviewOrderFirstName);
+		txtviewOrderFirstName.setColumns(10);
+
+		
+		JLabel lblviewOrderLastName = new JLabel("Last Name");
+		lblviewOrderLastName.setBounds(15, 190, 75, 24);
+		viewOrdersButtonPanel.add(lblviewOrderLastName);
+		
+		TextField txtviewOrderLastName = new TextField();
+		txtviewOrderLastName.setBounds(138, 192, 129, 20);
+		viewOrdersButtonPanel.add(txtviewOrderLastName);
+		
+		JLabel lblviewOrderDateOfBirth = new JLabel("Date Of Birth");
+		lblviewOrderDateOfBirth.setBounds(15, 247, 87, 14);
+		viewOrdersButtonPanel.add(lblviewOrderDateOfBirth);
+		
+		txtviewOrderDateOfBirth = new JTextField();
+		txtviewOrderDateOfBirth.setText("YYYY-MM-DD");
+		txtviewOrderDateOfBirth.setBounds(138, 244, 129, 20);
+		viewOrdersButtonPanel.add(txtviewOrderDateOfBirth);
+		txtviewOrderDateOfBirth.setColumns(10);
+		
+		
+		JButton Searchbutton = new JButton("Search");
+		Searchbutton.setBounds(85, 300, 257, 23);
+		viewOrdersButtonPanel.add(Searchbutton);
+		
+		
+		
+		
+		//---------------------------------------------------
+		
+		
+		
+		Panel newPatientPanel = new Panel();
+		newPatientPanel.setBounds(255, 33, 913, 420);
+		newPatientPanel.setLayout(null);
+		
+		
+		
+		JLabel lblNewPatient = new JLabel("New Patient Information ");
+		lblNewPatient.setBounds(15, 11, 179, 14);
+		newPatientPanel.add(lblNewPatient);
+		
+		JLabel NewPatinetFirstName = new JLabel("First Name ");
+		NewPatinetFirstName.setBounds(15, 66, 89, 14);
+		newPatientPanel.add(NewPatinetFirstName);
+		
+		Label NewPatientLastName = new Label("Last Name ");
+		NewPatientLastName.setBounds(15, 100, 89, 22);
+		newPatientPanel.add(NewPatientLastName);
+		
+		JLabel lblDateOfBirth_1 = new JLabel("Date of Birth ");
+		lblDateOfBirth_1.setBounds(15, 148, 99, 14);
+		newPatientPanel.add(lblDateOfBirth_1);
+		
+		JLabel lblEmail = new JLabel("E-Mail ");
+		lblEmail.setBounds(15, 196, 89, 14);
+		newPatientPanel.add(lblEmail);
+		
+		txtnewPatientEMail = new JTextField();
+		txtnewPatientEMail.setBounds(155, 193, 128, 20);
+		newPatientPanel.add(txtnewPatientEMail);
+		txtnewPatientEMail.setColumns(10);
+		
+		txtnewPatientDoB = new JTextField();
+		txtnewPatientDoB.setBounds(155, 145, 128, 20);
+		newPatientPanel.add(txtnewPatientDoB);
+		txtnewPatientDoB.setColumns(10);
+		
+		txtnewPatientLastName = new JTextField();
+		txtnewPatientLastName.setBounds(155, 102, 128, 20);
+		newPatientPanel.add(txtnewPatientLastName);
+		txtnewPatientLastName.setColumns(10);
+		
+		TextField txtnewPatientFirstName = new TextField();
+		txtnewPatientFirstName.setBounds(155, 58, 128, 22);
+		newPatientPanel.add(txtnewPatientFirstName);
+		
+		
+		
 
 		JButton newPatient = new JButton("New Patient");
 		newPatient.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				
+				
+				subActionPanel.add(newPatientPanel);
+				subActionPanel.remove(SearchPatientPanel);
+				subActionPanel.remove(viewOrdersButtonPanel);
+				
+				
+				
+				
+				
+				
 				
 			}
 		});
@@ -269,6 +508,15 @@ public class UIRadiologist extends JFrame {
 		JButton viewOrdersButton = new JButton("View Open Orders");
 		viewOrdersButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				
+				
+				subActionPanel.add(viewOrdersButtonPanel);
+				subActionPanel.remove(SearchPatientPanel);
+				subActionPanel.remove(newPatientPanel);
+				
+				
+				
 				
 				
 			}
@@ -281,49 +529,21 @@ public class UIRadiologist extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				
+				
+		
+				subActionPanel.add(SearchPatientPanel);
+				subActionPanel.remove(viewOrdersButtonPanel);
+				subActionPanel.remove(newPatientPanel);
+				
+				
 			}
 		});
 		searchPatient.setBounds(10, 28, 203, 23);
 		actionPanel.add(searchPatient);
 		
-		JButton newOrder = new JButton("New Order");
-		newOrder.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		
 				
-				
-			}
-		});
-		newOrder.setBounds(10, 130, 203, 23);
-		actionPanel.add(newOrder);
 		
-		Panel panel = new Panel();
-		panel.setBounds(414, 33, 239, 420);
-		subActionPanel.add(panel);
-		panel.setLayout(null);
-		
-		JButton AddReport = new JButton("Add Report");
-		AddReport.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		AddReport.setBounds(10, 28, 203, 23);
-		panel.add(AddReport);
-		
-		JButton SaveReport = new JButton("Save Report");
-		SaveReport.setBounds(10, 65, 203, 23);
-		panel.add(SaveReport);
-		
-		JButton RetrieveReport = new JButton("Retrieve Report");
-		RetrieveReport.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		RetrieveReport.setBounds(10, 100, 203, 23);
-		panel.add(RetrieveReport);
-		
-		JButton SubmitOrder = new JButton("Submit Order");
-		SubmitOrder.setBounds(10, 135, 203, 23);
-		panel.add(SubmitOrder);
-		
-	}
+
+}
 }
