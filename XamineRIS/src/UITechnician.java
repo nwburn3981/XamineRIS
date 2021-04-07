@@ -166,44 +166,7 @@ public class UITechnician extends JFrame {
 		viewPanel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		viewPanel.setBounds(259, 36, 919, 426);
 		frame.getContentPane().add(viewPanel);
-		viewPanel.setLayout(new FormLayout(new ColumnSpec[] {
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(16dlu;default)"),
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,},
-			new RowSpec[] {
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,}));
+		viewPanel.setLayout(null);
 		
 		//Button group for all generated radio buttons
 		ButtonGroup radioButtonGroup = new ButtonGroup(); 
@@ -569,10 +532,8 @@ public class UITechnician extends JFrame {
 					
 					appts.addAll(Technician.ViewAppointments(LocalDate.now()));
 					
-					int yValue = 4;
-					int xCorrection = 0;
-					String buttonXCoordinate = "";
-					String buttonYCoordinate =String.valueOf(yValue);
+					int yValue = 10;
+					int xValue = 20;
 					
 					//CREATE ARRAY FOR BUTTONS HERE
 					
@@ -586,17 +547,12 @@ public class UITechnician extends JFrame {
 						buttonTracker.add(apptRdButton);
 						orderTracker.add(appts.get(i));
 						
-						buttonXCoordinate = String.valueOf(((i+1)*2)-xCorrection);
-						viewPanel.add(apptRdButton, buttonYCoordinate + ", " + buttonXCoordinate);
+						apptRdButton.setBounds(xValue, yValue, 250, 15);
+						viewPanel.add(apptRdButton);
 						apptRdButton.addActionListener(radioListener);
 						radioButtonGroup.add(apptRdButton);
 						
-						//This if statement iterates to the next column once the current one is filled to avoid out of bounds errors.
-						if (((i+1)*2)%10 == 0) {
-							yValue += 2;
-							xCorrection += 10;
-							buttonYCoordinate =String.valueOf(yValue);	
-						}//end if
+						yValue += 20;
 						
 					}//end for
 					
@@ -623,30 +579,22 @@ public class UITechnician extends JFrame {
 					
 					orders.addAll(Technician.ViewOrders());
 					
-					int yValue = 4;
-					int xCorrection = 0;
-					String buttonXCoordinate = "";
-					String buttonYCoordinate =String.valueOf(yValue);
-					
+					int yValue = 10;
+					int xValue = 20;					
 					
 					//fills out view panel with radio buttons for each order that has not been completed.
 					for(int i = 0; i < orders.size(); i++) {
 						
 						JRadioButton orderRdButton = new JRadioButton("Order " + ": " + orders.get(i).getOrderID() + " Room: " + orders.get(i).getApptRoom() + " " + orders.get(i).getImagingOrder());
-						buttonXCoordinate = String.valueOf(((i+1)*2)-xCorrection);
-						viewPanel.add(orderRdButton, buttonYCoordinate + ", " + buttonXCoordinate);
+						orderRdButton.setBounds(xValue, yValue, 250, 15);
+						viewPanel.add(orderRdButton);
 						orderRdButton.addActionListener(radioListener);
 						radioButtonGroup.add(orderRdButton);
 						
 						buttonTracker.add(orderRdButton);
 						orderTracker.add(orders.get(i));
 						
-						//This if statement iterates to the next column once the current one is filled to avoid out of bounds errors.
-						if (((i+1)*2)%10 == 0) {
-							yValue += 2;
-							xCorrection += 10;
-							buttonYCoordinate =String.valueOf(yValue);	
-						}//end if
+						yValue += 20;
 						
 					}//end for
 					
@@ -668,8 +616,4 @@ public class UITechnician extends JFrame {
 
 	}//end initialize
 	
-	private void updateDetails() {
-		
-		
-	}
 }
