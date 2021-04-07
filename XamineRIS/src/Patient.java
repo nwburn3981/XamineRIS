@@ -1,14 +1,14 @@
 public class Patient {
 
-	private String patientId, email, firstName, lastName, gender, middleName, notes = "No notes", phoneNumber, dateOfBirth;
-	private int age;
+	private String  email, firstName, lastName, gender, middleName, notes = "No notes", phoneNumber, dateOfBirth;
+	private int age , patientId;
 	private boolean allergyLatex, allergyAsthma, allergyMridye, allergyXraydye;
 	private String allergy = "No known allergies";
 	// private Doctor patientDr
 	// implement date
 	
 
-	public Patient(String firstName, String lastName, String email) {
+	public Patient(String firstName, String lastName) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
