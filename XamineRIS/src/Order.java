@@ -193,5 +193,21 @@ public class Order
 		//Checks if allergies conflict with imaging ordered
 		
 	}//end AllergyConflictCheck
+	
+	public String toString() {
+		String result ;
+		
+		result = "OrderID: " + orderID + "\n" +
+				 "PatientID " + patient.getPatientId() + "\n" +
+				 "PatientName: " + patient.getFirstName() + " " + patient.getLastName() + "\n" +
+				 "Patient E-mail: " + patient.getEmail() + "\n" +
+				 "Patient DoB: " + patient.getDateOfBirth() + "\n" +
+				 "Order Status " + orderStatus + "\n" + 
+				 "Appointment: " + apptTime + "\n" + 
+				 "Visit Reason: " + visitReason + "\n" +
+				 "Imagaing Required: " + imagingOrder ;
+		
+		return result ;
+	}
     
 }
