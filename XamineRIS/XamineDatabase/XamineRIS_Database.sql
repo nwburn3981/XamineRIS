@@ -18,7 +18,7 @@ PRIMARY KEY(accesslvl)) ;
 -- Each team can have up to 10 members (references by their unqiue userName) and are kept seperate 
 -- via the unique teamID 
 CREATE TABLE team (
-teamID VARCHAR(255) ,
+teamID int ,
 teamName VARCHAR(255) ,
 PRIMARY KEY(teamID));
 
@@ -35,7 +35,7 @@ lastName VARCHAR(255) ,
 password VARCHAR(255) ,
 email VARCHAR(255) ,
 codeName VARCHAR(255),
-teamID VARCHAR(255) ,
+teamID int ,
 isActive boolean ,
 isStaff boolean ,
 isSuperUser boolean ,
@@ -51,7 +51,7 @@ FOREIGN KEY(accesslvl) REFERENCES permission(accesslvl));
 -- who referred them. The username of the refferring dr is suffiecient as both 
 -- Priamry and Foreign keys.
 CREATE TABLE patient (
-patientID VARCHAR(255) ,
+patientID int ,
 referringDoctorUserName VARCHAR(255) ,
 firstName VARCHAR(255) ,
 lastName VARCHAR(255) ,
@@ -83,13 +83,13 @@ PRIMARY KEY(modalityID));
 -- that were used in the order. The images taken to the order are attached to the order via a reference to the orderID which keeps each 
 -- order unique. additionally each order requires a patient so it is included in the primary key 
 CREATE TABLE imagingOrder (
-orderID VARCHAR(255) ,
-patientID VARCHAR(255) ,
+orderID int ,
+patientID int ,
 orderStatus VARCHAR(255) ,
 appointment datetime ,
 visitReason VARCHAR(255) ,
 imagingNeeded VARCHAR(255) ,
-teamID VARCHAR(255) ,
+teamID int ,
 modalityID VARCHAR(255) ,
 imageFolderID VARCHAR(255) ,
 technicalReport VARCHAR(2500) ,
@@ -103,22 +103,10 @@ FOREIGN KEY(modalityID) REFERENCES modality(modalityID));
 -- each image is tracked via a unique imageID and linked to thier appropriate order via the orderID 
 -- the image is stored via the BLOB data type that expands / shrinks depending on the size of the input.
 CREATE TABLE image (
-imageID VARCHAR(255) ,
-orderID VARCHAR(255) ,
+imageID int ,
+orderID int ,
 imagelabel VARCHAR(255) ,
 imageDate datetime ,
 imageFile BLOB,
 PRIMARY KEY(imageID, orderID),
 FOREIGN KEY(orderID) REFERENCES imagingOrder(orderID)) ;
-
-
-
-
-
-
-
-
-
-
-
-
