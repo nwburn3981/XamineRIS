@@ -216,4 +216,23 @@ public class UILogin extends JFrame {
 		// TODO Auto-generated method stub
 		window.close();
 	}
+	
+	public static Connection getConnection(){
+		 try{
+			   String driver = "com.mysql.cj.jdbc.Driver";
+			   String url = "jdbc:mysql://localhost:3306/xaminedatabase";
+			   String username = "root";
+			   String password = "password";
+			   Class.forName(driver);
+			   
+			   Connection conn = DriverManager.getConnection(url,username,password);
+			   System.out.println("Connected");
+			   System.out.println("");
+			   return conn;
+			  } 
+		 catch(Exception e){
+			 System.out.println(e);
+		}	  
+		return null ;
+	}
 }
