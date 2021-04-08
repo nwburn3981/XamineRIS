@@ -28,6 +28,7 @@ import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
+import java.awt.Font;
 
 //ToDO
 //Password stuff, gonna wait for SQL
@@ -76,6 +77,31 @@ public class UISuperUser extends JFrame {
 	private JTextField firstNameTextField;
 	private JTextField lastNameTextField;
 	private JTextField emailTextField;
+	private JLabel Userlbl;
+	private JLabel UserOut;
+	private JLabel fname;
+	private JLabel fnameOut;
+	private JLabel lname;
+	private JLabel lnameOut;
+	private JLabel email;
+	private JLabel emailOut;
+	private JLabel username;
+	private JLabel usernameOut;
+	private JLabel password;
+	private JLabel passwordOut;
+	private JLabel userIDlbl;
+	private JLabel fnamelbl;
+	private JLabel lnamelbl;
+	private JLabel emaillbl;
+	private JLabel usernamelbl;
+	private JLabel passwordlbl;
+	private JLabel perlbl;
+	private JTextField userIDOut;
+	private JTextField fnameoutlbl;
+	private JTextField lnameoutlbl;
+	private JTextField emailoutlbl;
+	private JTextField usernameoutlbl;
+	private JTextField passwordoutlbl;
 	/**
 	 * Launch the application.
 	 */
@@ -197,93 +223,7 @@ public class UISuperUser extends JFrame {
 		viewPanel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		viewPanel.setBounds(259, 36, 919, 426);
 		frame.getContentPane().add(viewPanel);
-		viewPanel.setLayout(new FormLayout(new ColumnSpec[] {
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(16dlu;default)"),
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(104dlu;default):grow"),
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(15dlu;default)"),
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(124dlu;default)"),
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				FormSpecs.DEFAULT_COLSPEC,
-				FormSpecs.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(117dlu;default):grow"),
-				FormSpecs.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),},
-			new RowSpec[] {
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,}));
-		
+		viewPanel.setLayout(null);		
 
 		//Button group for all generated radio buttons
 		radioButtonGroup = new ButtonGroup(); 
@@ -369,30 +309,20 @@ public class UISuperUser extends JFrame {
 					buttonTracker.clear();					
 					userTracker.clear();
 					
-					int yValue = 2;
-					int xCorrection = 0;
-					String buttonXCoordinate = "";
-					String buttonYCoordinate =String.valueOf(yValue);
-					
+					int yValue = 10;
+					int xValue = 20;					
 					
 					//fills out view panel with radio buttons for each order that has not been completed.
 					for(int i = 0; i < userList.size(); i++) {
 						
 						JRadioButton userRdButton = new JRadioButton("UserID: " + userList.get(i).getUserId() + " - " + userList.get(i).getFirstName() + " " + userList.get(i).getLastName());
-						buttonXCoordinate = String.valueOf(((i+1)*2)-xCorrection);
-						viewPanel.add(userRdButton, buttonYCoordinate + ", " + buttonXCoordinate);
+						userRdButton.setBounds(xValue, yValue, 250, 15);
+						viewPanel.add(userRdButton);
 						userRdButton.addActionListener(radioListener);
 						radioButtonGroup.add(userRdButton);
 						
 						buttonTracker.add(userRdButton);
 						userTracker.add(userList.get(i));
-						
-						//This if statement iterates to the next column once the current one is filled to avoid out of bounds errors.
-						if (((i+1)*2)%10 == 0) {
-							yValue += 2;
-							xCorrection += 10;
-							buttonYCoordinate =String.valueOf(yValue);	
-						}//end if
 						
 					}//end for
 					
@@ -410,40 +340,70 @@ public class UISuperUser extends JFrame {
 		viewPanel.removeAll();
 		
 		JLabel userIDLabel = new JLabel("User ID: ");
-		viewPanel.add(userIDLabel, "8, 6, right, default");
+		userIDLabel.setHorizontalAlignment(SwingConstants.TRAILING);
+		userIDLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		userIDLabel.setBounds(315, 50, 100, 24);
+		viewPanel.add(userIDLabel);
 		
 		JLabel userIDCurrentLabel = new JLabel(user.getUserId());
-		viewPanel.add(userIDCurrentLabel, "10, 6, fill, default");
+		userIDCurrentLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		userIDCurrentLabel.setBounds(485, 50, 100, 24);
+		viewPanel.add(userIDCurrentLabel);
 		
 		JLabel firstNameLabel = new JLabel("First Name: ");
-		viewPanel.add(firstNameLabel, "8, 10, right, default");
+		firstNameLabel.setHorizontalAlignment(SwingConstants.TRAILING);
+		firstNameLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		firstNameLabel.setBounds(315, 100, 100, 24);
+		viewPanel.add(firstNameLabel);
 		
 		JLabel firstNameCurrentLabel= new JLabel(user.getFirstName());
-		viewPanel.add(firstNameCurrentLabel, "10, 10, fill, default");
+		firstNameCurrentLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		firstNameCurrentLabel.setBounds(485, 100, 100, 24);
+		viewPanel.add(firstNameCurrentLabel);
 		
 		JLabel lastNameLabel = new JLabel("Last Name: ");
-		viewPanel.add(lastNameLabel, "8, 14, right, default");
+		lastNameLabel.setHorizontalAlignment(SwingConstants.TRAILING);
+		lastNameLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lastNameLabel.setBounds(315, 146, 100, 24);
+		viewPanel.add(lastNameLabel);
 		
 		JLabel lastNameCurrentLabel = new JLabel(user.getLastName());
-		viewPanel.add(lastNameCurrentLabel, "10, 14, fill, default");
+		lastNameCurrentLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lastNameCurrentLabel.setBounds(485, 146, 100, 24);
+		viewPanel.add(lastNameCurrentLabel);
 		
 		JLabel emailLabel = new JLabel("Email: ");
-		viewPanel.add(emailLabel, "8, 18, right, default");
+		emailLabel.setHorizontalAlignment(SwingConstants.TRAILING);
+		emailLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		emailLabel.setBounds(315, 191, 100, 24);
+		viewPanel.add(emailLabel);
 		
 		JLabel emailCurrentLabel = new JLabel(user.getEmail());
-		viewPanel.add(emailCurrentLabel, "10, 18, fill, default");
+		emailCurrentLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		emailCurrentLabel.setBounds(485, 191, 100, 24);
+		viewPanel.add(emailCurrentLabel);
 		
 		JLabel usernameLabel = new JLabel("Username: ");
-		viewPanel.add(usernameLabel, "8, 22");
+		usernameLabel.setHorizontalAlignment(SwingConstants.TRAILING);
+		usernameLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		usernameLabel.setBounds(315, 240, 100, 24);
+		viewPanel.add(usernameLabel);
 		
 		JLabel usernameCurrentLabel = new JLabel(user.getUserName());
-		viewPanel.add(usernameCurrentLabel, "10, 22, fill, default");
+		usernameCurrentLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		usernameCurrentLabel.setBounds(485, 240, 100, 24);
+		viewPanel.add(usernameCurrentLabel);
 		
 		JLabel passwordLabel = new JLabel("Password: ");
-		viewPanel.add(passwordLabel, "8, 26, right, default");
+		passwordLabel.setHorizontalAlignment(SwingConstants.TRAILING);
+		passwordLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		passwordLabel.setBounds(315, 286, 100, 24);
+		viewPanel.add(passwordLabel);
 		
 		JLabel passwordCurrentLabel = new JLabel("Hidden");
-		viewPanel.add(passwordCurrentLabel, "10, 26, fill, default");
+		passwordCurrentLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		passwordCurrentLabel.setBounds(485, 286, 100, 24);
+		viewPanel.add(passwordCurrentLabel);
 		
 		editUserButton = new JButton("Edit User");
 		editUserButton.setBounds(10, 30, 219, 37);
@@ -467,67 +427,98 @@ public class UISuperUser extends JFrame {
 		viewPanel.removeAll();
 		
 		JLabel userIDLabel = new JLabel("User ID:");
-		viewPanel.add(userIDLabel, "8, 6, right, default");
+		userIDLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		userIDLabel.setBounds(80, 50, 100, 23);
+		viewPanel.add(userIDlbl);
 		
 		userIDTextField = new JTextField();
-		viewPanel.add(userIDTextField, "10, 6, fill, default");
+		userIDTextField.setBounds(173, 53, 201, 20);
+		viewPanel.add(userIDTextField);
 		userIDTextField.setColumns(10);
 		
 		JLabel permissionLabel = new JLabel("Permission:");
-		viewPanel.add(permissionLabel, "26, 6, right, default");
+		permissionLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		permissionLabel.setBounds(587, 50, 100, 23);
+		viewPanel.add(permissionLabel);
 		
 		JRadioButton refDrRdButton = new JRadioButton("01 Referring Doctor");
-		viewPanel.add(refDrRdButton, "30, 6");
+		refDrRdButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		refDrRdButton.setBounds(677, 52, 201, 23);
+		viewPanel.add(refDrRdButton);
 		
 		JRadioButton recepRdButton = new JRadioButton("02 Receptionist");
-		viewPanel.add(recepRdButton, "30, 8");
+		recepRdButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		recepRdButton.setBounds(677, 99, 201, 23);
+		viewPanel.add(recepRdButton);
 		
 		JLabel firstNameLabel = new JLabel("First Name:");
-		viewPanel.add(firstNameLabel, "8, 10, right, default");
+		firstNameLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		firstNameLabel.setBounds(80, 98, 100, 23);
+		viewPanel.add(firstNameLabel);
 		
 		firstNameTextField = new JTextField();
-		viewPanel.add(firstNameTextField, "10, 10, fill, default");
 		firstNameTextField.setColumns(10);
+		firstNameTextField.setBounds(173, 101, 201, 20);
+		viewPanel.add(firstNameTextField);
 		
 		JRadioButton techRdButton = new JRadioButton("03 Technician");
-		viewPanel.add(techRdButton, "30, 10");
+		techRdButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		techRdButton.setBounds(677, 146, 201, 23);
+		viewPanel.add(techRdButton);
 		
 		JRadioButton radRdButton = new JRadioButton("04 Radiologist");
-		viewPanel.add(radRdButton, "30, 12");
+		radRdButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		radRdButton.setBounds(677, 182, 201, 23);
+		viewPanel.add(radRdButton);
 		
 		JLabel lastNameLabel = new JLabel("Last Name:");
-		viewPanel.add(lastNameLabel, "8, 14, right, default");
+		lastNameLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lastNameLabel.setBounds(80, 132, 100, 23);
+		viewPanel.add(lastNameLabel);
 		
 		lastNameTextField = new JTextField();
-		viewPanel.add(lastNameTextField, "10, 14, fill, default");
 		lastNameTextField.setColumns(10);
+		lastNameTextField.setBounds(173, 135, 201, 20);
+		viewPanel.add(lastNameTextField);
 		
 		JRadioButton supRdButton = new JRadioButton("05 Super User");
-		viewPanel.add(supRdButton, "30, 14");
+		supRdButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		supRdButton.setBounds(677, 222, 201, 23);
+		viewPanel.add(supRdButton);
 		
 		JLabel emailLabel = new JLabel("Email:");
-		viewPanel.add(emailLabel, "8, 18, right, default");
+		emailLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		emailLabel.setBounds(80, 181, 100, 23);
+		viewPanel.add(emailLabel);
 		
 		emailTextField = new JTextField();
-		viewPanel.add(emailTextField, "10, 18, fill, default");
 		emailTextField.setColumns(10);
+		emailTextField.setBounds(173, 184, 201, 20);
+		viewPanel.add(emailTextField);
 		
 		JLabel usernameLabel = new JLabel("Username:");
-		viewPanel.add(usernameLabel, "8, 22");
+		usernameLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		usernameLabel.setBounds(80, 240, 100, 23);
+		viewPanel.add(usernameLabel);
 		
 		usernameTextField = new JTextField();
-		viewPanel.add(usernameTextField, "10, 22, fill, default");
 		usernameTextField.setColumns(10);
+		usernameTextField.setBounds(173, 243, 201, 20);
+		viewPanel.add(usernameTextField);
 		
 		JLabel passwordLabel = new JLabel("Password:");
-		viewPanel.add(passwordLabel, "8, 26, right, default");
+		passwordLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		passwordLabel.setBounds(80, 294, 100, 23);
+		viewPanel.add(passwordLabel);
 		
 		passwordTextField = new JTextField();
-		viewPanel.add(passwordTextField, "10, 26, fill, default");
 		passwordTextField.setColumns(10);
+		passwordTextField.setBounds(173, 297, 201, 20);
+		viewPanel.add(passwordTextField);
 		
 		JButton submitButton = new JButton("Submit Changes");
-		viewPanel.add(submitButton, "30, 22");
+		submitButton.setBounds(626, 296, 252, 23);
+		viewPanel.add(submitButton);
 		
 		ActionListener submitNewButton = new ActionListener() {
 			
@@ -574,46 +565,95 @@ public class UISuperUser extends JFrame {
 		viewPanel.removeAll();
 		
 		JLabel userIDLabel = new JLabel("User ID:");
-		viewPanel.add(userIDLabel, "8, 6, right, default");
+		userIDLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		userIDLabel.setBounds(80, 50, 100, 23);
+		viewPanel.add(userIDlbl);
 		
 		userIDTextField = new JTextField();
-		viewPanel.add(userIDTextField, "10, 6, fill, default");
+		userIDTextField.setBounds(173, 53, 201, 20);
+		viewPanel.add(userIDTextField);
 		userIDTextField.setColumns(10);
-		userIDTextField.setText(user.getUserId());
 		
 		JLabel permissionLabel = new JLabel("Permission:");
-		viewPanel.add(permissionLabel, "26, 6, right, default");
+		permissionLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		permissionLabel.setBounds(587, 50, 100, 23);
+		viewPanel.add(permissionLabel);
 		
 		JRadioButton refDrRdButton = new JRadioButton("01 Referring Doctor");
-		viewPanel.add(refDrRdButton, "30, 6");
+		refDrRdButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		refDrRdButton.setBounds(677, 52, 201, 23);
+		viewPanel.add(refDrRdButton);
 		
 		JRadioButton recepRdButton = new JRadioButton("02 Receptionist");
-		viewPanel.add(recepRdButton, "30, 8");
+		recepRdButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		recepRdButton.setBounds(677, 99, 201, 23);
+		viewPanel.add(recepRdButton);
 		
 		JLabel firstNameLabel = new JLabel("First Name:");
-		viewPanel.add(firstNameLabel, "8, 10, right, default");
+		firstNameLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		firstNameLabel.setBounds(80, 98, 100, 23);
+		viewPanel.add(firstNameLabel);
 		
 		firstNameTextField = new JTextField();
-		viewPanel.add(firstNameTextField, "10, 10, fill, default");
 		firstNameTextField.setColumns(10);
-		firstNameTextField.setText(user.getFirstName());
+		firstNameTextField.setBounds(173, 101, 201, 20);
+		viewPanel.add(firstNameTextField);
 		
 		JRadioButton techRdButton = new JRadioButton("03 Technician");
-		viewPanel.add(techRdButton, "30, 10");
+		techRdButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		techRdButton.setBounds(677, 146, 201, 23);
+		viewPanel.add(techRdButton);
 		
 		JRadioButton radRdButton = new JRadioButton("04 Radiologist");
-		viewPanel.add(radRdButton, "30, 12");
+		radRdButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		radRdButton.setBounds(677, 182, 201, 23);
+		viewPanel.add(radRdButton);
 		
 		JLabel lastNameLabel = new JLabel("Last Name:");
-		viewPanel.add(lastNameLabel, "8, 14, right, default");
+		lastNameLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lastNameLabel.setBounds(80, 132, 100, 23);
+		viewPanel.add(lastNameLabel);
 		
 		lastNameTextField = new JTextField();
-		viewPanel.add(lastNameTextField, "10, 14, fill, default");
 		lastNameTextField.setColumns(10);
-		lastNameTextField.setText(user.getLastName());
+		lastNameTextField.setBounds(173, 135, 201, 20);
+		viewPanel.add(lastNameTextField);
 		
 		JRadioButton supRdButton = new JRadioButton("05 Super User");
-		viewPanel.add(supRdButton, "30, 14");
+		supRdButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		supRdButton.setBounds(677, 222, 201, 23);
+		viewPanel.add(supRdButton);
+		
+		JLabel emailLabel = new JLabel("Email:");
+		emailLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		emailLabel.setBounds(80, 181, 100, 23);
+		viewPanel.add(emailLabel);
+		
+		emailTextField = new JTextField();
+		emailTextField.setColumns(10);
+		emailTextField.setBounds(173, 184, 201, 20);
+		viewPanel.add(emailTextField);
+		
+		JLabel usernameLabel = new JLabel("Username:");
+		usernameLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		usernameLabel.setBounds(80, 240, 100, 23);
+		viewPanel.add(usernameLabel);
+		
+		usernameTextField = new JTextField();
+		usernameTextField.setColumns(10);
+		usernameTextField.setBounds(173, 243, 201, 20);
+		viewPanel.add(usernameTextField);
+		
+		JLabel passwordLabel = new JLabel("Password:");
+		passwordLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		passwordLabel.setBounds(80, 294, 100, 23);
+		viewPanel.add(passwordLabel);
+		
+		passwordTextField = new JTextField();
+		passwordTextField.setColumns(10);
+		passwordTextField.setBounds(173, 297, 201, 20);
+		viewPanel.add(passwordTextField);
+		
 		
 		//Makes sure proper permission is selected on view generation
 		switch(permission) {
@@ -640,31 +680,9 @@ public class UISuperUser extends JFrame {
 		}//end switch
 
 		
-		JLabel emailLabel = new JLabel("Email:");
-		viewPanel.add(emailLabel, "8, 18, right, default");
-		
-		emailTextField = new JTextField();
-		viewPanel.add(emailTextField, "10, 18, fill, default");
-		emailTextField.setColumns(10);
-		emailTextField.setText(user.getEmail());
-		
-		JLabel usernameLabel = new JLabel("Username:");
-		viewPanel.add(usernameLabel, "8, 22");
-		
-		usernameTextField = new JTextField();
-		viewPanel.add(usernameTextField, "10, 22, fill, default");
-		usernameTextField.setColumns(10);
-		usernameTextField.setText(user.getUserName());
-		
-		JLabel passwordLabel = new JLabel("Password:");
-		viewPanel.add(passwordLabel, "8, 26, right, default");
-		
-		passwordTextField = new JTextField();
-		viewPanel.add(passwordTextField, "10, 26, fill, default");
-		passwordTextField.setColumns(10);
-		
 		JButton submitButton = new JButton("Submit Changes");
-		viewPanel.add(submitButton, "30, 22");
+		submitButton.setBounds(626, 296, 252, 23);
+		viewPanel.add(submitButton);
 		
 		ActionListener submitEditListener = new ActionListener() {
 			
