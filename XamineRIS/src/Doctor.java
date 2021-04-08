@@ -22,7 +22,7 @@ public class Doctor extends User {
 			   String driver = "com.mysql.cj.jdbc.Driver";
 			   String url = "jdbc:mysql://localhost:3306/xaminedatabase";
 			   String username = "root";
-			   String password = "password";
+			   String password = "Et70670!";
 			   Class.forName(driver);
 			   
 			   Connection conn = DriverManager.getConnection(url,username,password);
@@ -43,12 +43,7 @@ public class Doctor extends User {
 		 int index = 0 ;
 		 
 		 Connection conn = getConnection() ;
-		 PreparedStatement statement = conn.prepareStatement(" Select patientID , firstName , lastName , dateOfBirth , email \r\n\t" + 
-		 		"From patient" + "\r\n\t" + 
-		 		"Where firstName = ? \r\n\t" + 
-		 		"And lastName = ? \r\n\t" + 
-		 		"AND email = ? \r\n\t" + 
-		 		"AND dateOfBirth = ? ;") ;
+		 PreparedStatement statement = conn.prepareStatement("Select * from patient Where patientID in ( Select PatientId from imagingorder Where appointment = ? ) ;" ) ;
 		 
 		statement.setString(1, firstName);
 		statement.setString(2, lastName);
@@ -58,6 +53,9 @@ public class Doctor extends User {
 		
 		while(result.next() && index <= 4) {
 			 Patients[index] = new Patient(result.getString("firstName"), result.getString("lastName")) ;
+			 Patients[index].setPatientId(result.getInt("patientID"));
+			 Patients[index].setEmail(result.getString("email"));
+			 Patients[index].setDateOfBirth(result.getString("dateOfBirth"));
 			 index++ ;
 		 }
 		
@@ -71,7 +69,6 @@ public class Doctor extends User {
 		 Order[] Orders = new Order[5] ;
 		 Patient[] Patients = returnPatient(firstName, lastName, dateOfBirth, email) ;
 		 String  DoctorName = getUserName() ;
-		 System.out.println(DoctorName);
 		 int index = 0 ;
 		 
 		 Connection conn = getConnection() ;
@@ -94,46 +91,96 @@ public class Doctor extends User {
 			
 			
 			while(result.next() && index <= 4) {
-				System.out.println(result.getInt("OrderId"));
-				Orders[index] = new Order(result.getInt("OrderId"), Patients[index]);
+				System.out.print(index);
+				Orders[index] = new Order(result.getInt("OrderId"), Patients[0]);
 				Orders[index].setImagingOrder(result.getString("imagingNeeded"));
 				Orders[index].setVisitReason(result.getString("visitReason"));
 				Orders[index].setOrderStatus(result.getString("orderStatus"));
 				Orders[index].setApptTime(result.getString("appointment"));
 				index++ ;
 			}
-		 
+			result.close();
+			
 		return Orders ;
 		
 	}
 	
 	public void newPatient(String firstName, String lastName, String dateOfbirth, String email, String gender, String Phone, 
-			boolean latex, boolean xraydye, boolean mridye, String Notes  ) {
+			boolean latex, boolean xraydye, boolean mridye, String Notes  ) throws SQLException {
 		
-		int IDnum ;
-		getConnection() ;
+		int IDNum = 0 ;
+		String  DoctorName = getUserName() ;
 		
-		// SQL need to find the max patient ID and add one to it 
-		// IDnum = select MAX(patientID) from patient ;
-		// IDnum++ ;
+		Connection conn = getConnection() ;
 		
-		// SQL Command to insert into Patient table 
-		// Insert into patient values( IDnum , userName, firstName, lastName, email, dateOfbirth, gender , latex, xraydye, mridye , notes , phoneNumber);
+		PreparedStatement newIdstatement = conn.prepareStatement("Select MAX(patientID) from patient ;") ;
+	    ResultSet newIdNum = newIdstatement.executeQuery() ;
 		
+	    while(newIdNum.next()) {
+	    IDNum = newIdNum.getInt("MAX(patientID)") ;
+	    }
+		newIdNum.close();
+	    
+	    IDNum++ ;
+	    
+	    PreparedStatement statement = conn.prepareStatement("Insert into patient(patientID, referringDoctorUserName, firstName, lastName, "
+	    		+ "email, dateOfBirth, gender, allergyLatex, allergyXrayDye, allergyMridye , notes , phoneNumber) "
+	    		+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ? , ? ) ;") ;
+	    
+	    statement.setInt(1 , IDNum );
+	    statement.setString(2, DoctorName);
+	    statement.setString(3, firstName);
+	    statement.setString(4, lastName);
+	    statement.setString(5, email);
+	    statement.setString(6, dateOfbirth);
+	    statement.setString(7, gender );
+	    statement.setBoolean(8, latex);
+	    statement.setBoolean(9,  xraydye);
+	    statement.setBoolean(10, mridye);
+	    statement.setString(11, Notes);
+	    statement.setString(12, Phone);
+	    
+	    statement.execute();
+	    
+	    System.out.println("Data Successfully Uploaded");
 	}
 	
-	public void newOrder( Patient patient , String imagesNeeded , String notes  ) {
+	public void newOrder( Patient patient , String imagesNeeded , String notes  ) throws SQLException {
 		
-		int IDnum ;
-		getConnection() ;
+		int OrderIDNum = 0 ;
 		
-		// SQL command needed to find the order with the largest id num 
-		// IDnum = select MAX(orderID) from imagingOrder ;
-		// IDnum++ ;
+		Connection conn = getConnection() ;
 		
-		// SQL needed to create a new order.
-		// Insert into imagingorder values( IDnum , patient.getPatientID() , "Open" , null , notes , imagesNeeded , null, null, null, null ) ;
-	}
+		PreparedStatement newIdstatement = conn.prepareStatement("Select MAX(OrderId) from imagingorder ;") ;
+	    ResultSet newIdNum = newIdstatement.executeQuery() ;
+		
+	    while(newIdNum.next()) {
+	    OrderIDNum = newIdNum.getInt("MAX(OrderId)") ;
+	    }
+		newIdNum.close();
+	    
+	    OrderIDNum++ ;
+	    
+	    PreparedStatement statement = conn.prepareStatement("Insert into imagingorder(orderID, patientID, orderStatus, appointment, "
+	    		+ "visitReason, imagingNeeded, teamID, modalityID, imagefolderID, technicalReport, apptTime) "
+	    		+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ;") ;
+	    
+	    statement.setInt(1 , OrderIDNum );
+	    statement.setInt(2, patient.getPatientId());
+	    statement.setString(3 , "Open");
+	    statement.setString(4, null);
+	    statement.setString(5,  notes);
+	    statement.setString(6,  imagesNeeded);
+	    statement.setString(7,  null);
+	    statement.setString(8,  null);
+	    statement.setString(9,  null);
+	    statement.setString(10, null);
+	    statement.setString(11, null);
+	    
+	    statement.execute() ;
+	    
+	    System.out.println("Data Successfully Uploaded");
+	} 
 
 	public String getUserId() {
 		return userId;
