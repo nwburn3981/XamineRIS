@@ -10,10 +10,11 @@ public class Doctor extends User {
 	public Doctor( String firstName, String lastName, String email, String userName) {
 		super(firstName, lastName, email, userName);
 		
-		//userPermission.setAccessLvl(1) ;
-		//userPermission.setCodeName("RefDr");
-		//userPermission.setProgramName("Referring Doctor");
-		//userPermission.setName(userName, firstName, lastName) ;
+		this.firstName = firstName ;
+		this.lastName = lastName ;
+		this.email = email ;
+		this.userName = userName ;
+		
 	}
 	
 	public static Connection getConnection(){
@@ -37,7 +38,7 @@ public class Doctor extends User {
 	
 	public Patient[] returnPatient(String firstName, String lastName, String dateOfBirth, String email) throws SQLException {
 		
-		 Patient[] Patients = new Patient[10] ;
+		 Patient[] Patients = new Patient[5] ;
 		 String  DoctorName = this.userName ;
 		 int index = 0 ;
 		 
@@ -69,11 +70,38 @@ public class Doctor extends User {
 		
 		 Order[] Orders = new Order[5] ;
 		 Patient[] Patients = returnPatient(firstName, lastName, dateOfBirth, email) ;
-		 String  DoctorName = this.userName ;
+		 String  DoctorName = getUserName() ;
+		 System.out.println(DoctorName);
+		 int index = 0 ;
 		 
-		 getConnection() ;
-		
-		
+		 Connection conn = getConnection() ;
+		 PreparedStatement statement = conn.prepareStatement("Select OrderId, patientID, orderStatus, appointment, visitReason, imagingNeeded \r\n\t" + 
+			 		"From imagingOrder" + "\r\n\t" +
+				 	"Where patientID in ( Select patientID " + "\r\n\t" +
+				 	"From patient" + "\r\n\t" + 
+			 		"Where firstName = ? \r\n\t" + 
+			 		"And lastName = ? \r\n\t" + 
+			 		"AND email = ? \r\n\t" + 
+			 		"AND dateOfBirth = ? " +
+			 		"AND referringDoctorUserName = ? );" ) ;
+		 
+		 	statement.setString(1, firstName);
+			statement.setString(2, lastName);
+			statement.setString(3, email);
+			statement.setString(4, dateOfBirth);
+			statement.setString(5, DoctorName);
+			ResultSet result = statement.executeQuery() ;
+			
+			
+			while(result.next() && index <= 4) {
+				System.out.println(result.getInt("OrderId"));
+				Orders[index] = new Order(result.getInt("OrderId"), Patients[index]);
+				Orders[index].setImagingOrder(result.getString("imagingNeeded"));
+				Orders[index].setVisitReason(result.getString("visitReason"));
+				Orders[index].setOrderStatus(result.getString("orderStatus"));
+				Orders[index].setApptTime(result.getString("appointment"));
+				index++ ;
+			}
 		 
 		return Orders ;
 		
@@ -185,3 +213,4 @@ public class Doctor extends User {
 	}
 	
 }
+	
