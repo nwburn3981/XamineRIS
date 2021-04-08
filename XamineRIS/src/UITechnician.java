@@ -1,13 +1,11 @@
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.BorderLayout;
 import javax.swing.SwingConstants;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.layout.FormSpecs;
+
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -45,6 +43,9 @@ import java.util.ArrayList;
 
 import javax.swing.Action;
 import java.awt.Font;
+
+import java.sql.Date;
+import java.sql.SQLException;
 
 //TODO
 //Send order method is finished but has bug that should be fixed by SQL introduction
@@ -549,7 +550,12 @@ public class UITechnician extends JFrame {
 					ArrayList<Order> appts = new ArrayList<Order>();
 					appts.clear();
 					
-					appts.addAll(Technician.ViewAppointments(LocalDate.now()));
+					try {
+						appts.addAll(Technician.ViewAppointments(LocalDate.now()));
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					
 					int yValue = 10;
 					int xValue = 20;
@@ -596,7 +602,12 @@ public class UITechnician extends JFrame {
 					ArrayList<Order> orders = new ArrayList<Order>();
 					orders.clear();
 					
-					orders.addAll(Technician.ViewOrders());
+					try {
+						orders.addAll(Technician.ViewOrders());
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					
 					int yValue = 10;
 					int xValue = 20;					
