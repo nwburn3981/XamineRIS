@@ -44,10 +44,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.swing.Action;
+import java.awt.Font;
 
 //TODO
 //Send order method is finished but has bug that should be fixed by SQL introduction
 //Implement allergy conflict
+//Fix details view for absolute layout
 
 public class UITechnician extends JFrame {
 
@@ -203,75 +205,92 @@ public class UITechnician extends JFrame {
 						//Patient info (Allergies, name, gender, age), checked-in, Appt ID, Date, Time, Order ID, Order Status, Modality, Imaging, Images on order
 						//Generate Details View
 						JLabel orderIDLabel = new JLabel("Order ID:");
-						orderIDLabel.setHorizontalAlignment(SwingConstants.CENTER);
-						viewPanel.add(orderIDLabel, "2, 2");
+						orderIDLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+						orderIDLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+						orderIDLabel.setBounds(359, 25, 100, 14);
+						viewPanel.add(orderIDLabel);
 						
 						JLabel orderIDOut = new JLabel("001");
-						orderIDOut.setHorizontalAlignment(SwingConstants.CENTER);
-						viewPanel.add(orderIDOut, "6, 2");
-						orderIDOut.setText(orderTransfer.getOrderID());
+						orderIDOut.setFont(new Font("Tahoma", Font.PLAIN, 18));
+						orderIDOut.setBounds(469, 25, 100, 14);
+						viewPanel.add(orderIDOut);
 						
 						JLabel patientNameLabel = new JLabel("Patient:");
-						patientNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-						viewPanel.add(patientNameLabel, "2, 4");
+						patientNameLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+						patientNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+						patientNameLabel.setBounds(95, 100, 100, 24);
+						viewPanel.add(patientNameLabel);
 						
 						JLabel patientNameOut = new JLabel(" FirstName + LastName");
-						patientNameOut.setHorizontalAlignment(SwingConstants.CENTER);
-						viewPanel.add(patientNameOut, "6, 4");
-						patientNameOut.setText(orderTransfer.getPatient().getFirstName() + " " + orderTransfer.getPatient().getLastName());
+						patientNameOut.setFont(new Font("Tahoma", Font.PLAIN, 14));
+						patientNameOut.setBounds(205, 100, 140, 24);
+						viewPanel.add(patientNameOut);
 						
 						JLabel ageLabel = new JLabel("Age:");
-						ageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-						viewPanel.add(ageLabel, "2, 6");
+						ageLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+						ageLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+						ageLabel.setBounds(95, 160, 100, 24);
+						viewPanel.add(ageLabel);
 						
 						JLabel ageOut = new JLabel("Age Here");
-						ageOut.setHorizontalAlignment(SwingConstants.CENTER);
-						viewPanel.add(ageOut, "6, 6");
-						ageOut.setText(String.valueOf(orderTransfer.getPatient().getAge()));
+						ageOut.setFont(new Font("Tahoma", Font.PLAIN, 14));
+						ageOut.setBounds(205, 160, 140, 24);
+						viewPanel.add(ageOut);
 						
 						JLabel allergiesLabel = new JLabel("Known Allergies:");
-						allergiesLabel.setHorizontalAlignment(SwingConstants.CENTER);
-						viewPanel.add(allergiesLabel, "2, 8");
+						allergiesLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+						allergiesLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+						allergiesLabel.setBounds(95, 224, 100, 24);
+						viewPanel.add(allergiesLabel);
 						
 						JLabel allergiesOut = new JLabel("Allergies Here");
-						allergiesOut.setHorizontalAlignment(SwingConstants.CENTER);
-						viewPanel.add(allergiesOut, "6, 8");
-						allergiesOut.setText(String.valueOf(orderTransfer.getPatient().getAllergy()));
+						allergiesOut.setFont(new Font("Tahoma", Font.PLAIN, 14));
+						allergiesOut.setBounds(205, 224, 140, 24);
+						viewPanel.add(allergiesOut);
 						
 						JLabel orderStatusLabel = new JLabel("Order Status:");
-						orderStatusLabel.setHorizontalAlignment(SwingConstants.CENTER);
-						viewPanel.add(orderStatusLabel, "2, 10");
+						orderStatusLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+						orderStatusLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+						orderStatusLabel.setBounds(537, 100, 100, 24);
+						viewPanel.add(orderStatusLabel);
 						
 						JLabel orderStatusOut = new JLabel("New label");
-						orderStatusOut.setHorizontalAlignment(SwingConstants.CENTER);
-						viewPanel.add(orderStatusOut, "6, 10");
-						orderStatusOut.setText(orderTransfer.getOrderStatus());
+						orderStatusOut.setFont(new Font("Tahoma", Font.PLAIN, 14));
+						orderStatusOut.setBounds(645, 100, 140, 24);
+						viewPanel.add(orderStatusOut);
 						
 						JLabel modalityLabel = new JLabel("Modality:");
-						modalityLabel.setHorizontalAlignment(SwingConstants.CENTER);
-						viewPanel.add(modalityLabel, "2, 12");
+						modalityLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+						modalityLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+						modalityLabel.setBounds(537, 160, 100, 24);
+						viewPanel.add(modalityLabel);
 						
 						JLabel modalityOut = new JLabel("New label");
-						modalityOut.setHorizontalAlignment(SwingConstants.CENTER);
-						viewPanel.add(modalityOut, "6, 12");
-						modalityOut.setText(orderTransfer.getModality());
+						modalityOut.setFont(new Font("Tahoma", Font.PLAIN, 14));
+						modalityOut.setBounds(645, 160, 140, 24);
+						viewPanel.add(modalityOut);
 						
 						JLabel imagingLabel = new JLabel("Imaging:");
-						imagingLabel.setHorizontalAlignment(SwingConstants.CENTER);
-						viewPanel.add(imagingLabel, "2, 14, default, center");
+						imagingLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+						imagingLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+						imagingLabel.setBounds(537, 224, 108, 24);
+						viewPanel.add(imagingLabel);
 						
 						JLabel imagingOut = new JLabel("New label");
-						imagingOut.setHorizontalAlignment(SwingConstants.CENTER);
-						viewPanel.add(imagingOut, "6, 14");
-						imagingOut.setText(orderTransfer.getImagingOrder());
+						imagingOut.setFont(new Font("Tahoma", Font.PLAIN, 14));
+						imagingOut.setBounds(655, 224, 140, 24);
+						viewPanel.add(imagingOut);
 						
 						JLabel filesLabel = new JLabel("Files on Order:");
-						filesLabel.setHorizontalAlignment(SwingConstants.CENTER);
-						viewPanel.add(filesLabel, "2, 16");
+						filesLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+						filesLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+						filesLabel.setBounds(261, 309, 100, 24);
+						viewPanel.add(filesLabel);
 						
 						JLabel filesOut = new JLabel();
-						filesOut.setHorizontalAlignment(SwingConstants.CENTER);
-						viewPanel.add(filesOut, "6, 16");
+						filesOut.setFont(new Font("Tahoma", Font.PLAIN, 14));
+						filesOut.setBounds(371, 316, 508, 14);
+						viewPanel.add(filesOut);
 						
 						if (orderTransfer.getImages().isEmpty() != true) {
 							
@@ -615,5 +634,4 @@ public class UITechnician extends JFrame {
 		viewOrdersButton.addActionListener(actionPanelListener);
 
 	}//end initialize
-	
 }
