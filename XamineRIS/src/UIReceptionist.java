@@ -1,3 +1,4 @@
+package XamineRIS;
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.EventQueue;
@@ -14,6 +15,11 @@ import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
@@ -54,40 +60,28 @@ public class UIReceptionist extends JFrame {
 	
 	private User currentUser;
 	
-	//Patients for test use in system
-	private Patient patient1 = new Patient("John", "Kramer", "jkramer@ung.edu", "5557777878");
-	private Patient patient2 = new Patient("Isa", "Balmer", "ibalmer@ung.edu", "7865551234");
-	private Patient patient3 = new Patient("Pop", "Johnson", "pjohnson@ung.edu", "8885551111");
-	private Patient patient4 = new Patient("James", "Williams", "jwilliams@ung.edu", "5050555050");
-	
 	//ArrayList to simulate database
 	private ArrayList<Order> testOrders = new ArrayList<>();
 	private ArrayList<Patient> testPatients = new ArrayList<>();
 	private ArrayList<Team> testTeams = new ArrayList<>();
 	
 	//Orders for test use
-	private Order order1 = new Order("001", patient1);
-	private Order order2 = new Order("002", patient2);
-	private Order order3 = new Order("003", patient3);
-	private Order order4 = new Order("004", patient4);
+	private Order order1 = new Order(1);
+	private Order order2 = new Order(2);
+	private Order order3 = new Order(3);
+	private Order order4 = new Order(4);
 	private Order orderTransfer;
 	
 	//Teams for test use
-	private Team team1 = new Team("01", "Team1");
-	private Team team2 = new Team("02", "Team2");
-	private Team team3 = new Team("03", "Team3");
-	
-	//Modalities for test use
-	private Modality Xray = new Modality("01");
-	private Modality MRI = new Modality("02");
-	private Modality Ultrasound = new Modality("03");
+	private Team team1 = new Team(1, "Team1");
+	private Team team2 = new Team(2, "Team2");
+	private Team team3 = new Team(3, "Team3");
 	
 	private JPanel actionPanel;
 	private JPanel subActionPanel;
 	
 	private JButton todaysAppointments;
 	private JButton viewUnscheduledOrders;
-	private JButton viewOrdersButton;
 	private JButton searchPatient;
 	
 	protected ArrayList<JRadioButton> buttonTracker = new ArrayList<>();
@@ -108,46 +102,31 @@ public class UIReceptionist extends JFrame {
 			}
 		});
 	}
+	
+	public static Connection getConnection(){
+		 try{
+			   String driver = "com.mysql.cj.jdbc.Driver";
+			   String url = "jdbc:mysql://localhost:3306/xaminedatabase";
+			   String username = "root";
+			   String password = "Restoration2021!";
+			   Class.forName(driver);
+			   
+			   Connection conn = DriverManager.getConnection(url,username,password);
+			   System.out.println("Connected");
+			   System.out.println("");
+			   return conn;
+			  } 
+		 catch(Exception e){
+			 System.out.println(e);
+		}	  
+		return null ;
+	}
 
 	/**
 	 * Create the frame.
 	 */
 	public UIReceptionist(User user) {
 		currentUser = user;
-		
-		//Adding parameters for testing
-		order1.setApptDay(LocalDate.now());
-		order1.setApptTime("11:00am");
-		order1.setApptRoom("101");
-		order1.setImagingOrder("X-Ray");
-		order1.setOrderStatus("Check-In");
-		order1.setPatientCheckedIn(true);
-		
-		order2.setApptDay(LocalDate.now());
-		order2.setApptTime("1:00pm");
-		order2.setApptRoom("102");
-		order2.setImagingOrder("Ultrasound");
-		order2.setOrderStatus("open");
-		
-		order3.setApptDay(LocalDate.now());
-		order3.setApptTime("10:00am");
-		order3.setApptRoom("103");
-		order3.setImagingOrder("MRI");
-		order3.setOrderStatus("completed");
-		
-		order4.setImagingOrder("Ultrasound");
-		order4.setOrderStatus("open");
-		
-		//filling test Order list
-		testOrders.add(order1);
-		testOrders.add(order2);
-		testOrders.add(order3);
-		testOrders.add(order4);
-		
-		testPatients.add(patient1);
-		testPatients.add(patient2);
-		testPatients.add(patient3);
-		testPatients.add(patient4);
 		
 		testTeams.add(team1);
 		testTeams.add(team2);
@@ -237,14 +216,24 @@ public class UIReceptionist extends JFrame {
 		todaysAppointments.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				ViewTodayAppts();
+				try {
+					ViewAppts();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
 		viewUnscheduledOrders.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				ViewUnScheduledAppts();
+				try {
+					ViewUnScheduledAppts();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -257,7 +246,7 @@ public class UIReceptionist extends JFrame {
 	}//end InitializeListener
 	
 	
-	public void ViewTodayAppts() {
+	public void ViewAppts() throws SQLException {
 		
 
 		// here is the panel that displays todays appointments 
@@ -306,7 +295,7 @@ public class UIReceptionist extends JFrame {
 		JTextArea textAreaTodayAppointment = new JTextArea();
 		textAreaTodayAppointment.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		textAreaTodayAppointment.setLineWrap(true);
-		textAreaTodayAppointment.setText("1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
+		textAreaTodayAppointment.setText("");
 		textAreaTodayAppointment.setBounds(10, 125, 315, 181);
 		todayAppointmentPanel.add(textAreaTodayAppointment);
 		
@@ -318,9 +307,16 @@ public class UIReceptionist extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				todayAppointmentPanel.removeAll();
-				CheckIn(orderTransfer.getPatient().getFirstName(), orderTransfer.getPatient().getLastName());
+				if(orderTransfer != null) {
+				try {
+					CheckIn(orderTransfer.getPatient().getFirstName(), orderTransfer.getPatient().getLastName());
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
-			}
+			}//end if
+			}//end Action
 		});	
 				
 		//Special listener for radio buttons
@@ -330,13 +326,14 @@ public class UIReceptionist extends JFrame {
 				
 				Object selected = selection.getSource();
 				int selectedIndex = buttonTracker.indexOf(selected);
-				orderTransfer = orderTracker.get(selectedIndex);
+				orderTransfer = orderTracker.get(selectedIndex);				
 				
-				lblCurrentOrderTodayAppointments.setText(orderTransfer.getOrderID());
+				lblCurrentOrderTodayAppointments.setText(String.valueOf(orderTransfer.getOrderID()));
 				lblNamelabel.setText(orderTransfer.getPatient().getLastName() + ", " + orderTransfer.getPatient().getFirstName() );
 				textAreaTodayAppointment.setText(orderTransfer.getImagingOrder());
-				lblInsertADate.setText(String.valueOf(orderTransfer.getApptDay()) + " " + orderTransfer.getApptTime());
+				lblInsertADate.setText(String.valueOf(orderTransfer.getApptDay()));
 				
+
 			}//end Action
 		};//end radioListener
 		
@@ -345,23 +342,24 @@ public class UIReceptionist extends JFrame {
 		int yValue = 40;
 		int xValue = 594;
 		
+		ArrayList<Order> allOrders = ViewAppointments();
+		
+		
 		//Iterates through Arraylist looking for current date, will iterate through database Order table in final version 
-		for(int i = 0; i < testOrders.size(); i++) {
-			
-			if(testOrders.get(i).getApptDay() != null) {
+		for(int i = 0; i < allOrders.size(); i++) {				
 				
-				if(testOrders.get(i).getApptDay().equals(LocalDate.now()) == true && testOrders.get(i).getPatientCheckedIn() == false) {
-					JRadioButton orderRdButton = new JRadioButton("Order " + ": " + testOrders.get(i).getOrderID());
+				if(allOrders.get(i).getPatientCheckedIn() == false) {
+					JRadioButton orderRdButton = new JRadioButton("Order " + ": " + allOrders.get(i).getOrderID());
 					orderRdButton.setBounds(xValue, yValue, 140, 14);
 					todayAppointmentPanel.add(orderRdButton);
 					orderRdButton.addActionListener(radioListener);
 					radioButtonGroup.add(orderRdButton);
 				
 					buttonTracker.add(orderRdButton);
-					orderTracker.add(testOrders.get(i));
+					orderTracker.add(allOrders.get(i));
 				
 					yValue += 20;
-				}//end nested if
+
 			}//end if
 		}//end for loop
 
@@ -370,7 +368,7 @@ public class UIReceptionist extends JFrame {
 		subActionPanel.repaint();
 	}//end viewTodayAppts
 	
-	public void ViewUnScheduledAppts() {
+	public void ViewUnScheduledAppts() throws SQLException {
 		
 		subActionPanel.removeAll() ;
 		subActionPanel.add(actionPanel);
@@ -438,18 +436,20 @@ public class UIReceptionist extends JFrame {
 				int yValue = 40;
 				int xValue = 594;
 				
+				ArrayList<Order> unscheduledOrders = ViewUnscheduledAppointments();
+				
 				//Iterates through Arraylist looking for current date, will iterate through database Order table in final version 
-				for(int i = 0; i < testOrders.size(); i++) {
+				for(int i = 0; i < unscheduledOrders.size(); i++) {
 					
-					if(testOrders.get(i).getApptDay() == null) {
-						JRadioButton orderRdButton = new JRadioButton("Order " + ": " + testOrders.get(i).getOrderID());
+					if(unscheduledOrders.get(i).getApptDay() == null) {
+						JRadioButton orderRdButton = new JRadioButton("Order " + ": " + unscheduledOrders.get(i).getOrderID());
 						orderRdButton.setBounds(xValue, yValue, 140, 14);
 						unscheduledOrdersPanel.add(orderRdButton);
 						orderRdButton.addActionListener(radioListener);
 						radioButtonGroup.add(orderRdButton);
 						
 						buttonTracker.add(orderRdButton);
-						orderTracker.add(testOrders.get(i));
+						orderTracker.add(unscheduledOrders.get(i));
 						
 						yValue += 20;
 					}//end if
@@ -466,19 +466,27 @@ public class UIReceptionist extends JFrame {
 					public void actionPerformed(ActionEvent click){
 						if (dateField.getText() != "" && timeField.getText() != "" && orderTransfer != null) {
 							
-							LocalDate scheduled = LocalDate.parse(dateField.getText());
-							String ID = orderTransfer.getOrderID();
+							String scheduled = dateField.getText();
 							
-							for(int i = 0; i < testOrders.size(); i++) {
-								if(ID == testOrders.get(i).getOrderID()) {
-									testOrders.get(i).setApptDay(scheduled);
-									testOrders.get(i).setApptTime(timeField.getText());
-									testOrders.get(i).setApptScheduled(true);
-									break;
-								}//end if
-							}//end for
+							//SQL HERE**********************************************
 							
-							ViewUnScheduledAppts();
+									orderTransfer.setApptDay(scheduled);
+									orderTransfer.setApptTime(timeField.getText());
+									orderTransfer.setApptScheduled(true);
+									
+							try {
+								ScheduleOrder(orderTransfer);
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							
+							try {
+								ViewUnScheduledAppts();
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}//end if
 						
 					}//end Action
@@ -652,19 +660,22 @@ public class UIReceptionist extends JFrame {
 							imagingOrderResult.setVisible(false);
 							imagingOrderStatusResult.setVisible(false);
 							
-							for(int i = 0; i < testPatients.size(); i++) {
-								if(testPatients.get(i).getFirstName().equalsIgnoreCase(fName) && testPatients.get(i).getLastName().equalsIgnoreCase(lName)) {
+							//SQL HERE******************************
+							try {
+								Patient foundPatient = ReturnPatient(fName, lName);							
+							
+							if(foundPatient  != null) {
 									fNameResult.setText("First Name:  " + fName);
 									fNameResult.setVisible(true);
 									lNameResult.setText("Last Name:  " + lName);	
 									lNameResult.setVisible(true);
-									emailResult.setText("Email:  " + testPatients.get(i).getEmail());	
+									emailResult.setText("Email:  " + foundPatient.getEmail());	
 									emailResult.setVisible(true);
-									phoneNumResult.setText("Phone #:  " + testPatients.get(i).getPhoneNumber());
+									phoneNumResult.setText("Phone #:  " + foundPatient.getPhoneNumber());
 									phoneNumResult.setVisible(true);
-									allergyResult.setText("Allergies:  " + testPatients.get(i).getAllergy());	
+									allergyResult.setText("Allergies:  " + foundPatient.getAllergy());	
 									allergyResult.setVisible(true);
-									notesResult.setText("Notes:  " + testPatients.get(i).getNotes());
+									notesResult.setText("Notes:  " + foundPatient.getNotes());
 									notesResult.setVisible(true);
 									
 									resultFound = true;
@@ -672,10 +683,12 @@ public class UIReceptionist extends JFrame {
 									SearchPatientPanel.revalidate();
 									SearchPatientPanel.repaint();
 									
-									break;
 								}//end if
-								
-							}//end for
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
 								
 							if (resultFound == false) {
 								fNameResult.setText("");
@@ -699,18 +712,20 @@ public class UIReceptionist extends JFrame {
 							phoneNumResult.setVisible(false);
 							allergyResult.setVisible(false);
 							notesResult.setVisible(false);
-
-							for(int i = 0; i < testOrders.size(); i++) {
-								if(testOrders.get(i).getOrderID().equals(txtviewOrderOrderId.getText())) {
-									fNameResult.setText("First Name:  " + testOrders.get(i).getPatient().getFirstName());	
+							
+							//MORE SQL HERE*************************************
+							try {
+								Order foundOrder = ReturnOrder(Integer.valueOf(txtviewOrderOrderId.getText()));
+											
+									fNameResult.setText("First Name:  " + foundOrder.getPatient().getFirstName());	
 									fNameResult.setVisible(true);
-									lNameResult.setText("Last Name:  " + testOrders.get(i).getPatient().getLastName());		
+									lNameResult.setText("Last Name:  " + foundOrder.getPatient().getLastName());		
 									lNameResult.setVisible(true);
-									orderStatusResult.setText("Order Status:  " + testOrders.get(i).getOrderStatus());	
+									orderStatusResult.setText("Order Status:  " + foundOrder.getOrderStatus());	
 									orderStatusResult.setVisible(true);
 									
-									if ((testOrders.get(i).getApptScheduled()) == true) {
-										apptScheduledResult.setText("Appointment:  " + String.valueOf(testOrders.get(i).getApptDay()));
+									if ((foundOrder.getApptScheduled()) == true) {
+										apptScheduledResult.setText("Appointment:  " + String.valueOf(foundOrder.getApptDay()));
 										apptScheduledResult.setVisible(true);
 									}//end if
 									else {
@@ -718,24 +733,49 @@ public class UIReceptionist extends JFrame {
 										apptScheduledResult.setVisible(true);
 									}//end else
 										
-									modalityResult.setText("Modality:  " + testOrders.get(i).getModality());
+									modalityResult.setText("Modality:  " + foundOrder.getModality());
 									modalityResult.setVisible(true);
-									imagingOrderResult.setText("Imaging Ordered:  " + testOrders.get(i).getImagingOrder());
+									imagingOrderResult.setText("Imaging Ordered:  " + foundOrder.getImagingOrder());
 									imagingOrderResult.setVisible(true);
-									imagingOrderStatusResult.setText("Imaging Status:  " + testOrders.get(i).getImagingOrderStatus());
+									imagingOrderStatusResult.setText("Imaging Status:  " + foundOrder.getImagingOrderStatus());
 									imagingOrderStatusResult.setVisible(true);
-									visitReasonResult.setText("Reason for Visit:  " + testOrders.get(i).getVisitReason());
+									visitReasonResult.setText("Reason for Visit:  " + foundOrder.getVisitReason());
 									visitReasonResult.setVisible(true);
 									
 									resultFound = true;
 									
 									SearchPatientPanel.revalidate();
 									SearchPatientPanel.repaint();
-									
-									break;
-								}//end if
 								
-							}//end for
+							} catch (NumberFormatException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+								fNameResult.setText("");
+								lNameResult.setText("");									
+								emailResult.setText("");									
+								phoneNumResult.setText("");									
+								allergyResult.setText("");									
+								notesResult.setText("No results, please check input");
+								notesResult.setVisible(true);
+								
+								SearchPatientPanel.revalidate();
+								SearchPatientPanel.repaint();
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+								fNameResult.setText("");
+								lNameResult.setText("");									
+								emailResult.setText("");									
+								phoneNumResult.setText("");									
+								allergyResult.setText("");									
+								notesResult.setText("No results, please check input");
+								notesResult.setVisible(true);
+								
+								SearchPatientPanel.revalidate();
+								SearchPatientPanel.repaint();
+							}
+								
+							
 							
 							if (resultFound == false) {
 								fNameResult.setText("");
@@ -761,12 +801,7 @@ public class UIReceptionist extends JFrame {
 		subActionPanel.add(SearchPatientPanel);	
 	}//end SearchPatient
 	
-	public void ViewPatientInfo (String patientFirstName, String patientLastName) {
-		
-		
-	}//end ViewPatientInfo
-	
-	public void CheckIn (String patientFirstName, String patientLastName) {
+	public void CheckIn (String patientFirstName, String patientLastName) throws SQLException {
 		
 		// panel for checking in a patient. use choice boxes to select an open technician, modality / equipment / room
 				// Ideally this panel is called when an appointment is selected from "Todays Appointment" and uses the order and patient 
@@ -819,11 +854,16 @@ public class UIReceptionist extends JFrame {
 				Choice choiceAvailableModality = new Choice();				
 				choiceAvailableModality.setBounds(566, 75, 250, 20);
 				CheckinPanel.add(choiceAvailableModality);
+				
+				
 				//Fill Choice menu
-				choiceAvailableModality.add(Xray.getModalityName());
-				choiceAvailableModality.add(MRI.getModalityName());
-				choiceAvailableModality.add(Ultrasound.getModalityName());
-								
+				//MORE SQL HERE****************************************************
+				ArrayList<Modality> foundMods = ReturnMod();
+				
+				for(Modality mod: foundMods) {
+				choiceAvailableModality.add(mod.getModalityName());
+				}//end for each 
+				
 				JLabel lblNewLabel = new JLabel("Select Available Team:");
 				lblNewLabel.setBounds(430, 115, 135, 14);
 				CheckinPanel.add(lblNewLabel);
@@ -831,8 +871,12 @@ public class UIReceptionist extends JFrame {
 				Choice choiceAvailableTeam = new Choice();
 				choiceAvailableTeam.setBounds(566, 115, 250, 20);
 				CheckinPanel.add(choiceAvailableTeam);
+				
 				//Fill choice menu
-				for(Team team: testTeams) {
+				//MORE SQL HERE ******************************
+				ArrayList<Team> foundTeams = ReturnTeam();
+				
+				for(Team team: foundTeams) {
 				choiceAvailableTeam.add(team.getTeamName());
 				}//end for each 
 				
@@ -879,24 +923,45 @@ public class UIReceptionist extends JFrame {
 					public void actionPerformed(ActionEvent e) {
 						// order status = checked-in 
 						// SQL ammend modality and team to the selected order 
+
+						orderTransfer.setPatientCheckedIn(true);
+						orderTransfer.setApptTeam(choiceAvailableTeam.getSelectedItem());
+						orderTransfer.setOrderStatus("Checked-In");
 						
-						String ID = orderTransfer.getOrderID();
-						
-						for(int i = 0; i < testOrders.size(); i++) {
-							if(ID == testOrders.get(i).getOrderID()) {
-								testOrders.get(i).setPatientCheckedIn(true);
-								testOrders.get(i).setModality(choiceAvailableModality.getSelectedItem());
-								testOrders.get(i).setApptRoom(choiceAvailableTeam.getSelectedItem());
-								testOrders.get(i).setOrderStatus("Checked-In");
+						//Iterate through foundTeams to match up with choice, then grab ID to pass to order
+						for(int i = 0; i < foundTeams.size(); i++) {
+							int ID;
+							if(foundTeams.get(i).getTeamName().equals(choiceAvailableTeam.getSelectedItem())) {
+								ID = foundTeams.get(i).getTeamID();
+								orderTransfer.setTeamID(ID);
 								break;
 							}//end if
 						}//end for
 						
-						/*JOptionPane confirm = new JOptionPane("Patient checked-in", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE);
-						confirm.setVisible(true);*/
+						//Iterate through foundMods to match up with choice, then pass to order
+						for(int i = 0; i < foundMods.size(); i++) {
+							int ID;
+							if(foundMods.get(i).getModalityName().equals(choiceAvailableModality.getSelectedItem())) {
+								orderTransfer.setModality(foundMods.get(i));
+								break;
+							}//end if
+						}//end for
+						
+						
+						try {
+							CheckInOrder(orderTransfer);
+						} catch (SQLException e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						}
 						
 						// consider a success pop-up frame here 
-						ViewTodayAppts();
+						try {
+							ViewAppts();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 						
 					}
 				});
@@ -909,5 +974,261 @@ public class UIReceptionist extends JFrame {
 		
 	}//end CheckIn
 	
+	public static ArrayList<Order> ViewAppointments() throws SQLException {
+		/*Searches through orders for current day's appointments
+		 * Puts Orders for selected date in arraylist for UIManager to access and display
+		 * UIManager displays orderID, appt time, room number, and imaging ordered
+		 * User can select appt and press select button to display patient information
+		 */		
+		
+		//Adding parameters for testing
+		ArrayList<Order> todaysOrders = new ArrayList<>();
+		Patient currPatient ;
+		int index = 0;
+		Connection conn = getConnection();
+		
+		PreparedStatement statement = conn.prepareStatement("Select * from imagingorder Where orderStatus = ? ; " ) ;
+		statement.setString(1, "Scheduled");
+		
+		ResultSet result = statement.executeQuery() ;
+		
+		while(result.next()) {
+			currPatient = ReturnPatient(result.getInt("patientID") ) ;
+			todaysOrders.add(index, new Order(result.getInt("orderID"), currPatient.getPatientId()));
+			todaysOrders.get(index).setApptTime(result.getString("appointment"));
+			todaysOrders.get(index).setImagingOrder(result.getString("imagingNeeded"));
+			todaysOrders.get(index).setVisitReason(result.getString("visitReason"));
+			todaysOrders.get(index).setOrderStatus(result.getString("orderStatus"));
+			todaysOrders.get(index).setApptTime(result.getString("appointment"));
+			
+			Patient patientTransfer = ReturnPatient(todaysOrders.get(index).getPatientID());
+			todaysOrders.get(index).setPatient(patientTransfer);
+			
+			index++ ;
+		}
+		
+		System.out.println(" Today's appointments found successfully");
+		return todaysOrders ;
+	}
+	
+	public static ArrayList<Order> ViewUnscheduledAppointments() throws SQLException {
+		/*Searches through orders for unscheduled appointments
+		 * Puts Orders in arraylist for UIManager to access and display
+		 * UIManager displays orderID, appt time, room number, and imaging ordered
+		 * User can select appt and press select button to display patient information
+		 */		
+		
+		
+		
+		//Adding parameters for testing
+		ArrayList<Order> unscheduledOrders = new ArrayList<>();
+		Patient currPatient ;
+		int index = 0;
+		Connection conn = getConnection();
+		
+		PreparedStatement statement = conn.prepareStatement("Select * from imagingorder Where appointment is null ; " ) ;
+		
+		
+		ResultSet result = statement.executeQuery() ;
+		
+		while(result.next()) {
+			currPatient = ReturnPatient(result.getInt("patientId")) ;
+			unscheduledOrders.add(index, new Order(result.getInt("OrderId"), currPatient.getPatientId() ));
+			unscheduledOrders.get(index).setPatient(currPatient);
+			unscheduledOrders.get(index).setApptTime(result.getString("appointment"));
+			unscheduledOrders.get(index).setImagingOrder(result.getString("imagingNeeded"));
+			unscheduledOrders.get(index).setVisitReason(result.getString("visitReason"));
+			unscheduledOrders.get(index).setOrderStatus(result.getString("orderStatus"));
+			unscheduledOrders.get(index).setApptTime(result.getString("appointment"));
+			
+			Patient patientTransfer = ReturnPatient(unscheduledOrders.get(index).getPatientID());
+			unscheduledOrders.get(index).setPatient(patientTransfer);
+			
+			index++ ;
+		}
+		
+		System.out.println(" Unscheduled appointments found successfully");
+		return unscheduledOrders ;
+	}
+	
+	public static Patient ReturnPatient(int ID) throws SQLException {
+		
+		 ArrayList<Patient> Patients = new ArrayList<>() ;
+		 Patient currPatient[] = new Patient[1] ;
+		 int index = 0 ;
+		 
+		 Connection conn = getConnection() ;
+		 PreparedStatement statement = conn.prepareStatement("Select * from patient Where patientID  = ?  ;") ;
+		 
+		statement.setInt(1, ID );
+		
+		ResultSet result = statement.executeQuery() ;
+		
+		while(result.next()) {
+			 currPatient[0] = new Patient(result.getString("firstName"), result.getString("lastName")) ;
+			 currPatient[0].setPatientId(result.getInt("patientID"));
+			 currPatient[0].setEmail(result.getString("email"));
+			 currPatient[0].setDateOfBirth(result.getString("dateOfBirth"));
+			
+	}
+		 
+		
+		result.close();
+		
+		return currPatient[0] ;
+	}
+	
+	public static Patient ReturnPatient(String fname, String lname) throws SQLException {
+		//Finds and returns patient based on name*************************
+		
+		 ArrayList<Patient> Patients = new ArrayList<>() ;
+		 Patient currPatient[] = new Patient[1] ;
+		 int index = 0 ;
+		 
+		 Connection conn = getConnection() ;
+		 PreparedStatement statement = conn.prepareStatement("Select * from patient Where firstName  = ? AND lastName = ?  ;") ;
+		 
+		statement.setString(1, fname );
+		statement.setString(2,  lname);
+		
+		ResultSet result = statement.executeQuery() ;
+		
+		while(result.next()) {
+			 currPatient[0] = new Patient(result.getString("firstName"), result.getString("lastName")) ;
+			 currPatient[0].setPatientId(result.getInt("patientID"));
+			 currPatient[0].setEmail(result.getString("email"));
+			 currPatient[0].setPhoneNumber(result.getString("phoneNumber"));
+			 currPatient[0].setAllergyLatex(result.getInt("allergyLatex"));
+			 currPatient[0].setAllergyMridye(result.getInt("allergyMridye"));
+			 currPatient[0].setAllergyXraydye(result.getInt("allergyXrayDye"));
+			 currPatient[0].setNotes(result.getString("notes"));
+			 currPatient[0].setDateOfBirth(result.getString("dateOfBirth"));
+			
+	}
+		 
+		
+		result.close();
+		
+		return currPatient[0] ;
+	}
+	
+	public static void CheckInOrder(Order order) throws SQLException {
+		
+		//Updates selected order with checked in status, modality, and appt team *******
+		
+		String mod = order.getModality().getModalityName();
+		String modID = order.getModality().getModalityID();
+		int team = order.getTeamID();
+		String teamName = order.getApptTeam();
+		String status = order.getOrderStatus();
+		int ID = order.getOrderID();
+		
+		Connection conn = getConnection() ;
+
+		PreparedStatement statement = conn.prepareStatement("Update imagingorder Set modalityID = ?, teamID = ?, orderStatus = ?   Where orderID  = ?  ;") ;
+		 
+		statement.setString(1, mod );
+		statement.setInt(2, team);
+		statement.setString(3, status);
+		statement.setInt(4, ID);
+		
+		ResultSet result = statement.executeQuery() ;
+		 
+		
+		result.close();
+
+	}
+	
+public static void ScheduleOrder(Order order) throws SQLException {
+		
+		//Updates selected order with appt date and time and status******************
+		
+		String appt = order.getApptDay() + " " + order.getApptTime();
+		String status = order.getOrderStatus();
+		int ID = order.getOrderID();
+		
+		 Connection conn = getConnection() ;
+		 PreparedStatement statement = conn.prepareStatement("Update imagingorder Set appointment = ?, orderStatus = ?   Where orderID  = ?  ;") ;
+		 
+		statement.setString(1, appt );
+		statement.setString(2, status);
+		statement.setInt(3, ID);
+		
+		ResultSet result = statement.executeQuery() ;
+		 
+		
+		result.close();
+
+	}
+	
+	public static Order ReturnOrder(int ID) throws SQLException {
+		
+		Order currOrder = new Order(ID);
+		 Connection conn = getConnection() ;
+		 PreparedStatement statement = conn.prepareStatement("Select * from imagingorder Where orderID  = ?  ;") ;
+		 
+		statement.setInt(1, ID );
+		
+		ResultSet result = statement.executeQuery() ;
+		
+		while(result.next()) {
+		
+		currOrder.setPatientID(result.getInt("patientID"));
+		currOrder.setOrderStatus(result.getString("orderStatus"));
+		currOrder.setApptDay(result.getString("appointment"));
+		currOrder.setVisitReason(result.getString("visitReason"));
+		currOrder.setImagingOrder(result.getString("imagingNeeded"));
+		
+		Patient patientTransfer = ReturnPatient(currOrder.getPatientID());
+		
+		currOrder.setPatient(patientTransfer);
+		}//end while
+		
+		result.close();
+		
+		return currOrder;
+	}
+	
+	public static ArrayList<Team> ReturnTeam() throws SQLException {
+		
+		 ArrayList<Team> currTeam = new ArrayList<>();
+		 int index = 0 ;
+		 
+		 Connection conn = getConnection() ;
+		 PreparedStatement statement = conn.prepareStatement("Select * from team ;") ;
+		
+		ResultSet result = statement.executeQuery() ;
+		
+		while(result.next()) {
+			currTeam.add(index, new Team(result.getInt("teamID"), result.getString( "teamName"))) ;
+			index++;
+			
+	}
+		 
+		result.close();
+		
+		return currTeam ;
+	}
+	
+	public static ArrayList<Modality> ReturnMod() throws SQLException {
+		
+		 ArrayList<Modality> currMod = new ArrayList<>();
+		 int index = 0 ;
+		 
+		 Connection conn = getConnection() ;
+		 PreparedStatement statement = conn.prepareStatement("Select * from modality ;") ;
+		
+		ResultSet result = statement.executeQuery() ;
+		
+		while(result.next()) {
+			currMod.add(index, new Modality(result.getString("modalityID")));
+			currMod.get(index).setModalityName(result.getString("modalityName"));
+			index++;		
+	}
+		 
+		result.close();
+		
+		return currMod ;
+	}
 
 }
