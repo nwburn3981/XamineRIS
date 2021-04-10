@@ -43,7 +43,12 @@ public class Doctor extends User {
 		 int index = 0 ;
 		 
 		 Connection conn = getConnection() ;
-		 PreparedStatement statement = conn.prepareStatement("Select * from patient Where patientID in ( Select PatientId from imagingorder Where appointment = ? ) ;" ) ;
+		 PreparedStatement statement = conn.prepareStatement("Select *"
+		 							+ "From patient " + 
+				 					  "Where firstName = ? " + 
+				 					  "And lastName = ? " +
+				 					  "AND email = ? " +
+				 					  "AND dateOfBirth = ? ") ;
 		 
 		statement.setString(1, firstName);
 		statement.setString(2, lastName);
