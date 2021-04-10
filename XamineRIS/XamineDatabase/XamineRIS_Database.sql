@@ -86,7 +86,8 @@ CREATE TABLE imagingOrder (
 orderID int ,
 patientID int ,
 orderStatus VARCHAR(255) ,
-appointment datetime ,
+appointment date ,
+apptTime 	time ,
 visitReason VARCHAR(255) ,
 imagingNeeded VARCHAR(255) ,
 teamID int ,
@@ -110,3 +111,8 @@ imageDate datetime ,
 imageFile BLOB,
 PRIMARY KEY(imageID, orderID),
 FOREIGN KEY(orderID) REFERENCES imagingOrder(orderID)) ;
+
+
+
+
+
