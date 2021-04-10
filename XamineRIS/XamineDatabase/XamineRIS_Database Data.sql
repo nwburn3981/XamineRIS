@@ -39,18 +39,18 @@ INSERT INTO Modality VALUES ( 702 , "X-Ray" , false , "rm702" ) ;
 Select * from Modality  ;
 
 -- date time formatting YYYY-MM-DD hh:mm:ss xm 
-INSERT INTO imagingorder VALUES ( 0070823 , 1 , "Unscheduled" , null , "X-ray needed!" , "X-Ray" , null , null, null, null) ;
-INSERT INTO imagingorder VALUES ( 0123000 , 6 , "scheduled" , "2021-04-02 10:45:00 " , "Due to some serious issues with patient arm we think it may be broken" , "X-Ray" , null , null, null, null) ;
-INSERT INTO imagingorder VALUES (1234567, 5 , "Checked-in" , "2021-04-02 10:30:00" , "I beleive patient needs an MRI" , "MRI" , null , null, null, null) ;
-INSERT INTO imagingorder VALUES ( 8765412 , 3 , "Scheduled" , "2021-10-21 10:45:00" , "I think the patient needs a Cat scan " , "CAT scan " , null , null, null, null) ;
+INSERT INTO imagingorder VALUES ( 1 , 1 , "Unscheduled" , null , null, "X-ray needed!" , "X-Ray" , null , null, null, null) ;
+INSERT INTO imagingorder VALUES ( 2 , 6 , "scheduled" , "2021-04-02", "10:45:00" , "Due to some serious issues with patient arm we think it may be broken" , "X-Ray" , null , null, null, null) ;
+INSERT INTO imagingorder VALUES ( 3,  5 , "Checked-in" , "2021-04-02", "10:30:00" , "I beleive patient needs an MRI" , "MRI" , null , null, null, null) ;
+INSERT INTO imagingorder VALUES ( 4 , 3 , "Scheduled" , "2021-10-21", "10:45:00" , "I think the patient needs a Cat scan " , "CAT scan " , null , null, null, null) ;
 
 Select * From imagingorder ;
 
 -- not sure how to uplodad blobs into database, but they will store the actual image 
-INSERT INTO image VALUES (001 ,1234567, "Initial Image" , "2021-04-02 10:48:23" , null) ;
-INSERT INTO image VALUES (002 ,1234567, "Second  Image" , "2021-04-02 10:52:33" , null) ;
-INSERT INTO image VALUES (003 ,1234567, "Third Image" , "2021-04-02 11:05:28" , null) ;
-INSERT INTO image VALUES (004 ,1234567, "Fourth  Image" , "2021-04-02 11:10:44" , null) ;
-INSERT INTO image VALUES (005 ,1234567, "Final  Image" , "2021-04-02 11:12:25" , null) ;
+INSERT INTO image VALUES (001 ,4, "Initial Image" , "2021-04-02 10:48:23" , null) ;
+INSERT INTO image VALUES (002 ,4, "Second  Image" , "2021-04-02 10:52:33" , null) ;
+INSERT INTO image VALUES (003 ,4, "Third Image" , "2021-04-02 11:05:28" , null) ;
+INSERT INTO image VALUES (004 ,4, "Fourth  Image" , "2021-04-02 11:10:44" , null) ;
+INSERT INTO image VALUES (005 ,4, "Final  Image" , "2021-04-02 11:12:25" , null) ;
 
 Select * From image ;
