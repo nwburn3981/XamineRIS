@@ -1,9 +1,11 @@
+package XamineRIS;
 
 import java.sql.*;
 
 public class Doctor extends User {
 	
-	private String userId, firstName, lastName , email , userName, password; 
+	private int userID ;
+	private String firstName, lastName , email , userName, password; 
 	private boolean isActive, isStaff, isSuperUser ;
 	private Permission userPermission ;
 	
@@ -22,7 +24,7 @@ public class Doctor extends User {
 			   String driver = "com.mysql.cj.jdbc.Driver";
 			   String url = "jdbc:mysql://localhost:3306/xaminedatabase";
 			   String username = "root";
-			   String password = "";
+			   String password = "Et70670!";
 			   Class.forName(driver);
 			   
 			   Connection conn = DriverManager.getConnection(url,username,password);
@@ -168,11 +170,11 @@ public class Doctor extends User {
 	    
 	    PreparedStatement statement = conn.prepareStatement("Insert into imagingorder(orderID, patientID, orderStatus, appointment, "
 	    		+ "visitReason, imagingNeeded, teamID, modalityID, imagefolderID, technicalReport, apptTime) "
-	    		+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ;") ;
+	    		+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ? ) ;") ;
 	    
 	    statement.setInt(1 , OrderIDNum );
 	    statement.setInt(2, patient.getPatientId());
-	    statement.setString(3 , "Open");
+	    statement.setString(3 , "Unscheduled");
 	    statement.setString(4, null);
 	    statement.setString(5,  notes);
 	    statement.setString(6,  imagesNeeded);
@@ -181,18 +183,19 @@ public class Doctor extends User {
 	    statement.setString(9,  null);
 	    statement.setString(10, null);
 	    statement.setString(11, null);
+	   
 	    
 	    statement.execute() ;
 	    
 	    System.out.println("Data Successfully Uploaded");
 	} 
 
-	public String getUserId() {
-		return userId;
+	public int getUserId() {
+		return userID;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setUserId(int userId) {
+		this.userID = userId;
 	}
 
 	public String getFirstName() {
