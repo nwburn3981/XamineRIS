@@ -1,3 +1,4 @@
+package XamineRIS;
 
 public class Modality {
 
@@ -30,6 +31,11 @@ public class Modality {
 
 	public String getModalityName() {
 		return modalityName;
+	}
+
+	public void setModalityName(String string) {
+		// TODO Auto-generated method stub
+		this.modalityName = string ;
 	}
 	
 	
