@@ -1147,7 +1147,7 @@ public static void ScheduleOrder(Order order) throws SQLException {
 		 
 		statement.setString(1, appt );
 		statement.setString(2, time );
-		statement.setString(3, status);
+		statement.setString(3, "Scheduled");
 		statement.setInt(4, ID);
 		
 		 statement.executeUpdate() ;
