@@ -9,7 +9,7 @@ public class Order
     private String imagingOrder;
     private String imagingOrderStatus = "open";
     private String apptRoom;
-    private Team apptTeam;
+    private String apptTeam;
 	private String lastModified;
     private String radioAnalysis;
     private String visitReason ;
@@ -24,6 +24,9 @@ public class Order
     private Patient patient;
     
     private ArrayList<ImageFile> images = new ArrayList<>();
+	private String scheduled;
+	private int teamID;
+	private String teamName ;
     
     // TO-DO 
     //AllergyCheck implement
@@ -31,13 +34,18 @@ public class Order
 
 
     
-    public Order( String orderID, Patient patient){
+    public Order( int orderID, Patient patient){
      
     this.orderID = orderID;
     this.patient = patient;
 
     }
     
+	public Order(int int1) {
+		// TODO Auto-generated constructor stub
+		this.orderID = int1 ;
+	}
+
 	public String getOrderStatus() {
 		return orderStatus;
 	}
@@ -101,8 +109,8 @@ public class Order
 		this.apptTime = apptTime;
 	}
 
-	public LocalDate getApptDay() {
-		return apptDay;
+	public String getApptDay() {
+		return this.scheduled;
 	}
 
 	public void setApptDay(LocalDate apptDay) {
@@ -165,11 +173,11 @@ public class Order
 		this.patient = patient;
 	}
 
-	public String getOrderID() {
+	public int getOrderID() {
 		return orderID;
 	}
 
-	public void setOrderID(String orderID) {
+	public void setOrderID(int orderID) {
 		this.orderID = orderID;
 	}
 
@@ -181,12 +189,12 @@ public class Order
 		this.visitReason = visitReason;
 	}
 	
-	public String getApptTeam() {
-		return apptTeam.getTeamName();
-	}
+	//public String getApptTeam() {
+		//return apptTeam.getTeamName();
+	//}
 
-	public void setApptTeam(Team apptTeam) {
-		this.apptTeam = apptTeam;
+	public void setApptTeam(String string) {
+		this.apptTeam = string;
 	}
 	
 	public void AllergyConflictCheck() {
@@ -208,6 +216,49 @@ public class Order
 				 "Imagaing Required: " + imagingOrder ;
 		
 		return result ;
+		
 	}
+	
+
+	public void setApptDay(String scheduled) {
+		// TODO Auto-generated method stub
+		this.scheduled = scheduled ;
+		
+	}
+
+	public void setTeamID(int iD) {
+		// TODO Auto-generated method stub
+		this.teamID =  iD ;
+	}
+
+	public void setModality(XamineRIS.Modality modality2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public int getTeamID() {
+		// TODO Auto-generated method stub
+		return this.teamID ;
+	}
+
+	public String getApptTeam() {
+		// TODO Auto-generated method stub
+		return this.teamName ;
+	}
+
+	public void setPatientID(int int1) {
+		// TODO Auto-generated method stub
+		this.patient.setPatientId(int1);
+		
+	}
+
+	public int getPatientID() {
+		// TODO Auto-generated method stub
+		return this.patient.getPatientId() ;
+	}
+
+	
+
+	
     
 }
