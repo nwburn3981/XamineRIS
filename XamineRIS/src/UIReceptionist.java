@@ -1,4 +1,3 @@
-package XamineRIS;
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.EventQueue;
@@ -101,7 +100,7 @@ public class UIReceptionist extends JFrame {
 			   String driver = "com.mysql.cj.jdbc.Driver";
 			   String url = "jdbc:mysql://localhost:3306/xaminedatabase";
 			   String username = "root";
-			   String password = "Restoration2021!";
+			   String password = "";
 			   Class.forName(driver);
 			   
 			   Connection conn = DriverManager.getConnection(url,username,password);
@@ -1060,9 +1059,9 @@ public class UIReceptionist extends JFrame {
 			 currPatient.setPatientId(result.getInt("patientID"));
 			 currPatient.setEmail(result.getString("email"));
 			 currPatient.setPhoneNumber(result.getString("phoneNumber"));
-			 currPatient.setAllergyLatex(result.getInt("allergyLatex"));
-			 currPatient.setAllergyMridye(result.getInt("allergyMridye"));
-			 currPatient.setAllergyXraydye(result.getInt("allergyXrayDye"));
+			 currPatient.setAllergyLatex(result.getBoolean("allergyLatex"));
+			 currPatient.setAllergyMridye(result.getBoolean("allergyMridye"));
+			 currPatient.setAllergyXraydye(result.getBoolean("allergyXrayDye"));
 			 currPatient.setNotes(result.getString("notes"));
 			 currPatient.setDateOfBirth(result.getString("dateOfBirth"));
 	}
@@ -1093,9 +1092,9 @@ public class UIReceptionist extends JFrame {
 			 currPatient[0].setPatientId(result.getInt("patientID"));
 			 currPatient[0].setEmail(result.getString("email"));
 			 currPatient[0].setPhoneNumber(result.getString("phoneNumber"));
-			 currPatient[0].setAllergyLatex(result.getInt("allergyLatex"));
-			 currPatient[0].setAllergyMridye(result.getInt("allergyMridye"));
-			 currPatient[0].setAllergyXraydye(result.getInt("allergyXrayDye"));
+			 currPatient[0].setAllergyLatex(result.getBoolean("allergyLatex"));
+			 currPatient[0].setAllergyMridye(result.getBoolean("allergyMridye"));
+			 currPatient[0].setAllergyXraydye(result.getBoolean("allergyXrayDye"));
 			 currPatient[0].setNotes(result.getString("notes"));
 			 currPatient[0].setDateOfBirth(result.getString("dateOfBirth"));
 			
@@ -1138,21 +1137,23 @@ public static void ScheduleOrder(Order order) throws SQLException {
 		
 		//Updates selected order with appt date and time and status******************
 		
-		String appt = order.getApptDay() + " " + order.getApptTime();
+		String appt = order.getApptDay() + "";
+		String time = order.getApptTime();
 		String status = order.getOrderStatus();
 		int ID = order.getOrderID();
 		
 		 Connection conn = getConnection() ;
-		 PreparedStatement statement = conn.prepareStatement("Update imagingorder Set appointment = ?, orderStatus = ?   Where orderID  = ?  ;") ;
+		 PreparedStatement statement = conn.prepareStatement("Update imagingorder Set appointment = ?,  apptTime = ? , orderStatus = ?   Where orderID  = ?  ;") ;
 		 
 		statement.setString(1, appt );
-		statement.setString(2, status);
-		statement.setInt(3, ID);
+		statement.setString(2, time );
+		statement.setString(3, status);
+		statement.setInt(4, ID);
 		
-		ResultSet result = statement.executeQuery() ;
+		 statement.executeUpdate() ;
 		 
 		
-		result.close();
+		
 
 	}
 	
@@ -1225,5 +1226,4 @@ public static void ScheduleOrder(Order order) throws SQLException {
 		
 		return currMod ;
 	}
-
 }
