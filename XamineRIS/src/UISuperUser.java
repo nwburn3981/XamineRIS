@@ -1,3 +1,5 @@
+package XamineRIS;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -19,6 +21,11 @@ import javax.swing.JButton;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.JTextField;
@@ -33,6 +40,10 @@ import java.awt.Font;
 //ToDO
 //Password stuff, gonna wait for SQL
 //Add a setTeam function
+//Add users through SQL,  permissions not transferring
+//UserID needs added to database
+//Can't delete drs due to being foreign key in patient table
+
 
 public class UISuperUser extends JFrame {
 
@@ -57,12 +68,6 @@ public class UISuperUser extends JFrame {
 	
 	ButtonGroup radioButtonGroup;
 	
-	private Permission doctor;
-	private Permission receptionist;
-	private Permission tech;
-	private Permission radio;
-	private Permission superUser;
-	
 	private User currentUser;
 	private User user1;
 	private User user2;
@@ -70,6 +75,12 @@ public class UISuperUser extends JFrame {
 	private User user4;
 	private User user5;
 	private User userTransfer;
+	
+	private Permission doctor;
+	private Permission receptionist;
+	private Permission tech;
+	private Permission radio;
+	private Permission superUser;
 	
 	private JTextField usernameTextField;
 	private JTextField passwordTextField;
@@ -102,6 +113,8 @@ public class UISuperUser extends JFrame {
 	private JTextField emailoutlbl;
 	private JTextField usernameoutlbl;
 	private JTextField passwordoutlbl;
+	
+	private static int tempID = 1; //Just to track userIDs until we get the database set up correctly
 	/**
 	 * Launch the application.
 	 */
@@ -117,47 +130,32 @@ public class UISuperUser extends JFrame {
 			}
 		});
 	}
+	
+	public static Connection getConnection(){
+		 try{
+			   String driver = "com.mysql.cj.jdbc.Driver";
+			   String url = "jdbc:mysql://localhost:3306/xaminedatabase";
+			   String username = "root";
+			   String password = "Restoration2021!";
+			   Class.forName(driver);
+			   
+			   Connection conn = DriverManager.getConnection(url,username,password);
+			   System.out.println("Connected");
+			   System.out.println("");
+			   return conn;
+			  } 
+		 catch(Exception e){
+			 System.out.println(e);
+		}	  
+		return null ;
+	}
 
 	/**
 	 * Create the application.
+	 * @throws SQLException 
 	 */
-	public UISuperUser(User user) {
+	public UISuperUser(User user) throws SQLException {
 		currentUser = user;
-		
-		//Test permissions
-		doctor = new Permission("ReferringDr");
-		receptionist = new Permission("Receptionist");
-		tech = new Permission("Technician");
-		radio = new Permission("Radiologist");
-		superUser = new Permission("SuperUser");
-		//Test users
-		user1 = new User("Jeff", "Doctorman", "jDoctorman@ung.edu", "jdoctor01");
-		user2 = new User("Polly", "Techson", "pTechson@ung.edu", "ptechson01");
-		user3 = new User("Ted", "Recep", "tRecep@ung.edu", "trecep01");
-		user4 = new User("Innis", "Raddon", "iRaddon@ung.edu", "iraddon01");
-		user5 = new User("Pa", "Super", "pSuper@ung.edu", "psuper01");
-		
-		user1.setPassword("password");
-		user1.setUserPermission(doctor);
-		user1.setUserId("001");
-		user2.setPassword("password");
-		user2.setUserPermission(tech);
-		user2.setUserId("002");
-		user3.setPassword("password");
-		user3.setUserPermission(receptionist);
-		user3.setUserId("003");
-		user4.setPassword("password");
-		user4.setUserPermission(radio);
-		user4.setUserId("004");
-		user5.setPassword("password");
-		user5.setUserPermission(superUser);
-		user5.setUserId("005");
-		
-		userList.add(user1);
-		userList.add(user2);
-		userList.add(user3);
-		userList.add(user4);
-		userList.add(user5);
 		
 		initialize();
 		InitializeListeners();
@@ -166,8 +164,9 @@ public class UISuperUser extends JFrame {
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @throws SQLException 
 	 */
-	private void initialize() {
+	private void initialize() throws SQLException {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1204, 512);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -269,7 +268,12 @@ public class UISuperUser extends JFrame {
 			public void actionPerformed(ActionEvent click) {
 				
 				if(click.getSource() == homeButton) {
-					GenerateUsers();
+					try {
+						GenerateUsers();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}//end if
 				
 				if(click.getSource() == addUserButton) {
@@ -291,7 +295,12 @@ public class UISuperUser extends JFrame {
 				}//end if
 				
 				if (click.getSource() == removeUserButton) {
-					DeleteUser(userTransfer);
+					try {
+						DeleteUser(userTransfer);
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}//end if
 				
 			}//end Action
@@ -300,7 +309,7 @@ public class UISuperUser extends JFrame {
 		
 	}//end InitializeListeners
 	
-	private void GenerateUsers() {
+	private void GenerateUsers() throws SQLException {
 	//Setup Users radio list on portal generation and Home Button click
 					
 					subActionPanel.removeAll();
@@ -308,6 +317,9 @@ public class UISuperUser extends JFrame {
 					
 					buttonTracker.clear();					
 					userTracker.clear();
+					
+					//CALL SQL HERE, SIMLILAR TO TEAMS MODALITIES ETC.
+					userList = ViewUsers();
 					
 					int yValue = 10;
 					int xValue = 20;					
@@ -323,6 +335,8 @@ public class UISuperUser extends JFrame {
 						
 						buttonTracker.add(userRdButton);
 						userTracker.add(userList.get(i));
+						
+						yValue += 25;
 						
 					}//end for
 					
@@ -345,7 +359,8 @@ public class UISuperUser extends JFrame {
 		userIDLabel.setBounds(315, 50, 100, 24);
 		viewPanel.add(userIDLabel);
 		
-		JLabel userIDCurrentLabel = new JLabel(user.getUserId());
+		JLabel userIDCurrentLabel = new JLabel();
+		userIDCurrentLabel.setText(String.valueOf(user.getUserId()));
 		userIDCurrentLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		userIDCurrentLabel.setBounds(485, 50, 100, 24);
 		viewPanel.add(userIDCurrentLabel);
@@ -429,7 +444,7 @@ public class UISuperUser extends JFrame {
 		JLabel userIDLabel = new JLabel("User ID:");
 		userIDLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		userIDLabel.setBounds(80, 50, 100, 23);
-		viewPanel.add(userIDlbl);
+		viewPanel.add(userIDLabel);
 		
 		userIDTextField = new JTextField();
 		userIDTextField.setBounds(173, 53, 201, 20);
@@ -526,7 +541,43 @@ public class UISuperUser extends JFrame {
 				
 				User newUser = new User(firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), usernameTextField.getText());
 				newUser.setPassword(passwordTextField.getText());
-				newUser.setUserId(userIDTextField.getText());
+				newUser.setUserId(Integer.valueOf(userIDTextField.getText()));
+				
+				ArrayList<Permission> permissions;
+				try {
+					permissions = ReturnPermission();
+				
+				
+				for(int i = 0; i < permissions.size(); i++) {
+					switch(permissions.get(i).getAccessLvl()) {
+					case 1:{
+						doctor = permissions.get(i);
+						break;
+					}
+					case 2:{
+						receptionist = permissions.get(i);
+						break;
+					}
+					case 3:{
+						tech = permissions.get(i);
+						break;
+					}
+					case 4:{
+						radio = permissions.get(i);
+						break;
+					}
+					case 5:{
+						superUser = permissions.get(i);
+						break;
+					}
+					}
+					
+				}//end for loop
+				
+				} catch (SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 				
 				if(radioButtonGroup.getSelection() == refDrRdButton)
 					newUser.setUserPermission(doctor);
@@ -539,8 +590,20 @@ public class UISuperUser extends JFrame {
 				else if(radioButtonGroup.getSelection() == supRdButton)
 					newUser.setUserPermission(superUser);
 				
-				userList.add(newUser);
-				GenerateUsers();
+				//SQL Update method here
+				try {
+					InsertUser(newUser);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+				try {
+					GenerateUsers();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 			}//end Action
 			
@@ -560,6 +623,7 @@ public class UISuperUser extends JFrame {
 	private void EditUser(User user) {
 		
 		String permission = user.getUserPermission().getProgramName();
+		String userFormer = user.getUserName();
 		
 		subActionPanel.removeAll();
 		viewPanel.removeAll();
@@ -567,7 +631,7 @@ public class UISuperUser extends JFrame {
 		JLabel userIDLabel = new JLabel("User ID:");
 		userIDLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		userIDLabel.setBounds(80, 50, 100, 23);
-		viewPanel.add(userIDlbl);
+		viewPanel.add(userIDLabel);
 		
 		userIDTextField = new JTextField();
 		userIDTextField.setBounds(173, 53, 201, 20);
@@ -693,7 +757,43 @@ public class UISuperUser extends JFrame {
 				user.setEmail(emailTextField.getText());
 				user.setUserName(usernameTextField.getText());
 				user.setPassword(passwordTextField.getText());
-				user.setUserId(userIDTextField.getText());
+				user.setUserId(Integer.valueOf(userIDTextField.getText()));
+				
+				ArrayList<Permission> permissions;
+				try {
+					permissions = ReturnPermission();
+				
+				
+				for(int i = 0; i < permissions.size(); i++) {
+					switch(permissions.get(i).getAccessLvl()) {
+					case 1:{
+						doctor = permissions.get(i);
+						break;
+					}
+					case 2:{
+						receptionist = permissions.get(i);
+						break;
+					}
+					case 3:{
+						tech = permissions.get(i);
+						break;
+					}
+					case 4:{
+						radio = permissions.get(i);
+						break;
+					}
+					case 5:{
+						superUser = permissions.get(i);
+						break;
+					}
+					}
+					
+				}//end for loop
+				
+				} catch (SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 				
 				if(radioButtonGroup.getSelection() == refDrRdButton)
 					user.setUserPermission(doctor);
@@ -706,7 +806,18 @@ public class UISuperUser extends JFrame {
 				else if(radioButtonGroup.getSelection() == supRdButton)
 					user.setUserPermission(superUser);
 				
-				GenerateUsers();
+				try {
+					UpdateUser(user, userFormer);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					GenerateUsers();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 			}//end Action
 			
@@ -721,11 +832,146 @@ public class UISuperUser extends JFrame {
 		
 	}//end EditUser
 	
-	private void DeleteUser(User user) {
+	private void DeleteUser(User user) throws SQLException {
 		
 		//Removes user after asking for confirmation
 		int index = userList.indexOf(user);
-		userList.remove(index);
+		RemoveUser(userList.get(index));
 		GenerateUsers();
 	}//end DeleteUser
+	
+	//START SQL HERE
+	
+	public static ArrayList<User> ViewUsers() throws SQLException {
+		/*Searches through orders for current day's appointments
+		 * Puts Orders for selected date in arraylist for UIManager to access and display
+		 * UIManager displays orderID, appt time, room number, and imaging ordered
+		 * User can select appt and press select button to display patient information
+		 */		
+		
+		//Adding parameters for testing
+		ArrayList<User> allUsers = new ArrayList<>();
+		int index = 0;
+		ArrayList<Permission> permissions = ReturnPermission();
+		Connection conn = getConnection();
+		
+		PreparedStatement statement = conn.prepareStatement("Select * from user ; " ) ;
+		
+		ResultSet result = statement.executeQuery() ;
+		
+		while(result.next()) {
+			allUsers.add(index, new User(result.getString("firstName"), result.getString("lastName"), 
+					result.getString("email"), result.getString("userName")));
+			allUsers.get(index).setActive(result.getBoolean("isActive"));
+			allUsers.get(index).setStaff(result.getBoolean("isStaff"));
+			allUsers.get(index).setSuperUser(result.getBoolean("isSuperUser"));
+			allUsers.get(index).setPassword(result.getString("password"));
+			allUsers.get(index).setUserId(tempID);
+			tempID++;
+			
+			//Find permission matching this user
+			for(int i = 0; i < permissions.size(); i++) {
+				if(permissions.get(i).getAccessLvl() == result.getInt("accesslvl")) {
+					allUsers.get(index).setUserPermission(permissions.get(i));
+					break;
+				}//end if
+			}//end for
+			
+			
+			index++ ;
+		}
+		
+		System.out.println(" Users found successfully");
+		return allUsers ;
+	}
+	
+	public static ArrayList<Permission> ReturnPermission() throws SQLException {
+		
+		 ArrayList<Permission> currPermission = new ArrayList<>();
+		 int index = 0 ;
+		 
+		 Connection conn = getConnection() ;
+		 PreparedStatement statement = conn.prepareStatement("Select * from permission ;") ;
+		
+		ResultSet result = statement.executeQuery() ;
+		
+		while(result.next()) {
+			currPermission.add(index, new Permission(result.getString("programName")));
+			currPermission.get(index).setAccessLvl(result.getInt("accesslvl"));
+			currPermission.get(index).setCodeName(result.getString("codeName"));
+			index++;		
+	}
+		 
+		result.close();
+		
+		return currPermission ;
+	}
+	
+	public void InsertUser(User user) throws SQLException {
+		
+		String userName = user.getUserName();
+		int accesslvl = user.getUserPermission().getAccessLvl();
+		String fname = user.getFirstName();
+		String lname = user.getLastName();
+		String email = user.getEmail();
+		char[] password = user.getPassword();
+		
+		//converts char array to string
+		String passwordString = new String(password);
+		
+		 Connection conn = getConnection() ;
+		 PreparedStatement statement = conn.prepareStatement("INSERT INTO user (userName, accesslvl, firstName, lastName, password, email)\r\n"
+		 		+ "VALUES (?, ?, ?, ?, ?, ?);") ;
+		 
+		statement.setString(1, userName );
+		statement.setInt(2, accesslvl);
+		statement.setString(3, fname);
+		statement.setString(4, lname);
+		statement.setString(5,  email);
+		statement.setString(6,  passwordString);
+		
+		statement.executeUpdate();
+		
+	}
+	
+	public void UpdateUser(User user, String formerUser) throws SQLException {
+		
+		String userName = user.getUserName();
+		int accesslvl = user.getUserPermission().getAccessLvl();
+		String fname = user.getFirstName();
+		String lname = user.getLastName();
+		String email = user.getEmail();
+		char[] password = user.getPassword();
+		
+		//converts char array to string
+		String passwordString = new String(password);
+		
+		 Connection conn = getConnection() ;
+		 PreparedStatement statement = conn.prepareStatement("Update user "
+		 		+ "SET userName = ?, accesslvl = ?, firstName = ?, lastName = ?, password = ?, email = ?"
+		 		+ "WHERE userName = ?;") ;
+		 
+		statement.setString(1, userName );
+		statement.setInt(2, accesslvl);
+		statement.setString(3, fname);
+		statement.setString(4, lname);
+		statement.setString(5,  email);
+		statement.setString(6,  passwordString);
+		statement.setString(7, formerUser );
+		
+		statement.executeUpdate();
+		
+	}
+	
+	public void RemoveUser(User user) throws SQLException {
+	
+		String userName = user.getUserName();
+	
+		Connection conn = getConnection() ;
+		PreparedStatement statement = conn.prepareStatement("DELETE FROM user WHERE userName = ?;") ;
+
+		statement.setString(1, userName );
+		statement.executeUpdate();
+	
+	}
 }
