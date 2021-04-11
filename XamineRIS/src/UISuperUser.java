@@ -323,7 +323,7 @@ public class UISuperUser extends JFrame {
 					//fills out view panel with radio buttons for each order that has not been completed.
 					for(int i = 0; i < userList.size(); i++) {
 						
-						JRadioButton userRdButton = new JRadioButton("UserID: " + userList.get(i).getUserId() + " - " + userList.get(i).getFirstName() + " " + userList.get(i).getLastName());
+						JRadioButton userRdButton = new JRadioButton( userList.get(i).getUserPermission().getProgramName() + ": " + userList.get(i).getFirstName() + " " + userList.get(i).getLastName());
 						userRdButton.setBounds(xValue, yValue, 250, 15);
 						viewPanel.add(userRdButton);
 						userRdButton.addActionListener(radioListener);
@@ -348,18 +348,6 @@ public class UISuperUser extends JFrame {
 		
 		subActionPanel.removeAll();
 		viewPanel.removeAll();
-		
-		JLabel userIDLabel = new JLabel("User ID: ");
-		userIDLabel.setHorizontalAlignment(SwingConstants.TRAILING);
-		userIDLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		userIDLabel.setBounds(315, 50, 100, 24);
-		viewPanel.add(userIDLabel);
-		
-		JLabel userIDCurrentLabel = new JLabel();
-		userIDCurrentLabel.setText(String.valueOf(user.getUserId()));
-		userIDCurrentLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		userIDCurrentLabel.setBounds(485, 50, 100, 24);
-		viewPanel.add(userIDCurrentLabel);
 		
 		JLabel firstNameLabel = new JLabel("First Name: ");
 		firstNameLabel.setHorizontalAlignment(SwingConstants.TRAILING);
@@ -436,16 +424,6 @@ public class UISuperUser extends JFrame {
 		
 		subActionPanel.removeAll();
 		viewPanel.removeAll();
-		
-		JLabel userIDLabel = new JLabel("User ID:");
-		userIDLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		userIDLabel.setBounds(80, 50, 100, 23);
-		viewPanel.add(userIDLabel);
-		
-		userIDTextField = new JTextField();
-		userIDTextField.setBounds(173, 53, 201, 20);
-		viewPanel.add(userIDTextField);
-		userIDTextField.setColumns(10);
 		
 		JLabel permissionLabel = new JLabel("Permission:");
 		permissionLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -537,7 +515,7 @@ public class UISuperUser extends JFrame {
 				
 				User newUser = new User(firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), usernameTextField.getText());
 				newUser.setPassword(passwordTextField.getText());
-				newUser.setUserId(Integer.valueOf(userIDTextField.getText()));
+				//newUser.setUserId(Integer.valueOf(userIDTextField.getText()));
 				
 				ArrayList<Permission> permissions;
 				try {
@@ -577,15 +555,15 @@ public class UISuperUser extends JFrame {
 				}
 				
 				
-				if(radioButtonGroup.getSelection() == refDrRdButton.getAction()) 
+				if (refDrRdButton.isSelected()) 
 					newUser.setUserPermission(doctor); 
-				else if(radioButtonGroup.getSelection() == recepRdButton)
+				else if(recepRdButton.isSelected())
 					newUser.setUserPermission(receptionist);
-				else if(radioButtonGroup.getSelection() == techRdButton)
+				else if(techRdButton.isSelected())
 					newUser.setUserPermission(tech);
-				else if(radioButtonGroup.getSelection() == radRdButton)
+				else if(radRdButton.isSelected())
 					newUser.setUserPermission(radio);
-				else if(radioButtonGroup.getSelection() == supRdButton)
+				else if(supRdButton.isSelected())
 					newUser.setUserPermission(superUser);
 				
 				
@@ -626,16 +604,6 @@ public class UISuperUser extends JFrame {
 		
 		subActionPanel.removeAll();
 		viewPanel.removeAll();
-		
-		JLabel userIDLabel = new JLabel("User ID:");
-		userIDLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		userIDLabel.setBounds(80, 50, 100, 23);
-		viewPanel.add(userIDLabel);
-		
-		userIDTextField = new JTextField();
-		userIDTextField.setBounds(173, 53, 201, 20);
-		viewPanel.add(userIDTextField);
-		userIDTextField.setColumns(10);
 		
 		JLabel permissionLabel = new JLabel("Permission:");
 		permissionLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -756,7 +724,7 @@ public class UISuperUser extends JFrame {
 				user.setEmail(emailTextField.getText());
 				user.setUserName(usernameTextField.getText());
 				user.setPassword(passwordTextField.getText());
-				user.setUserId(Integer.valueOf(userIDTextField.getText()));
+				//user.setUserId(Integer.valueOf(userIDTextField.getText()));
 				
 				ArrayList<Permission> permissions;
 				try {
@@ -795,15 +763,15 @@ public class UISuperUser extends JFrame {
 					e2.printStackTrace();
 				}
 				
-				if(radioButtonGroup.getSelection() == refDrRdButton)
-					user.setUserPermission(doctor);
-				else if(radioButtonGroup.getSelection() == recepRdButton)
+				if (refDrRdButton.isSelected()) 
+					user.setUserPermission(doctor); 
+				else if(recepRdButton.isSelected())
 					user.setUserPermission(receptionist);
-				else if(radioButtonGroup.getSelection() == techRdButton)
+				else if(techRdButton.isSelected())
 					user.setUserPermission(tech);
-				else if(radioButtonGroup.getSelection() == radRdButton)
+				else if(radRdButton.isSelected())
 					user.setUserPermission(radio);
-				else if(radioButtonGroup.getSelection() == supRdButton)
+				else if(supRdButton.isSelected())
 					user.setUserPermission(superUser);
 				
 				try {
@@ -855,7 +823,7 @@ public class UISuperUser extends JFrame {
 		ArrayList<Permission> permissions = ReturnPermission();
 		Connection conn = getConnection();
 		
-		PreparedStatement statement = conn.prepareStatement("Select * from user ; " ) ;
+		PreparedStatement statement = conn.prepareStatement("Select * FROM user order by accesslvl asc;" ) ;
 		
 		ResultSet result = statement.executeQuery() ;
 		
@@ -928,8 +896,8 @@ public class UISuperUser extends JFrame {
 		statement.setInt(2, accesslvl);
 		statement.setString(3, fname);
 		statement.setString(4, lname);
-		statement.setString(5,  email);
-		statement.setString(6,  passwordString);
+		statement.setString(5,  passwordString);
+		statement.setString(6,  email);
 		
 		statement.execute();
 		
@@ -956,8 +924,8 @@ public class UISuperUser extends JFrame {
 		statement.setInt(2, accesslvl);
 		statement.setString(3, fname);
 		statement.setString(4, lname);
-		statement.setString(5,  email);
-		statement.setString(6,  passwordString);
+		statement.setString(5,  passwordString);
+		statement.setString(6,  email);
 		statement.setString(7, formerUser );
 		
 		statement.executeUpdate();
