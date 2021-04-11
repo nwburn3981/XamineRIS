@@ -8,10 +8,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 
 import javax.swing.SwingConstants;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.layout.FormSpecs;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -136,7 +132,7 @@ public class UISuperUser extends JFrame {
 			   String driver = "com.mysql.cj.jdbc.Driver";
 			   String url = "jdbc:mysql://localhost:3306/xaminedatabase";
 			   String username = "root";
-			   String password = "Restoration2021!";
+			   String password = "";
 			   Class.forName(driver);
 			   
 			   Connection conn = DriverManager.getConnection(url,username,password);
@@ -552,6 +548,7 @@ public class UISuperUser extends JFrame {
 					switch(permissions.get(i).getAccessLvl()) {
 					case 1:{
 						doctor = permissions.get(i);
+						System.out.println(doctor.getAccessLvl() + " " + doctor.getCodeName()) ;
 						break;
 					}
 					case 2:{
@@ -579,8 +576,9 @@ public class UISuperUser extends JFrame {
 					e2.printStackTrace();
 				}
 				
-				if(radioButtonGroup.getSelection() == refDrRdButton)
-					newUser.setUserPermission(doctor);
+				
+				if(radioButtonGroup.getSelection() == refDrRdButton.getAction()) 
+					newUser.setUserPermission(doctor); 
 				else if(radioButtonGroup.getSelection() == recepRdButton)
 					newUser.setUserPermission(receptionist);
 				else if(radioButtonGroup.getSelection() == techRdButton)
@@ -589,6 +587,7 @@ public class UISuperUser extends JFrame {
 					newUser.setUserPermission(radio);
 				else if(radioButtonGroup.getSelection() == supRdButton)
 					newUser.setUserPermission(superUser);
+				
 				
 				//SQL Update method here
 				try {
@@ -768,6 +767,7 @@ public class UISuperUser extends JFrame {
 					switch(permissions.get(i).getAccessLvl()) {
 					case 1:{
 						doctor = permissions.get(i);
+						System.out.println(doctor.getAccessLvl() + " " + doctor.getCodeName()) ;
 						break;
 					}
 					case 2:{
@@ -911,6 +911,7 @@ public class UISuperUser extends JFrame {
 		
 		String userName = user.getUserName();
 		int accesslvl = user.getUserPermission().getAccessLvl();
+		System.out.println(accesslvl) ;
 		String fname = user.getFirstName();
 		String lname = user.getLastName();
 		String email = user.getEmail();
@@ -930,7 +931,7 @@ public class UISuperUser extends JFrame {
 		statement.setString(5,  email);
 		statement.setString(6,  passwordString);
 		
-		statement.executeUpdate();
+		statement.execute();
 		
 	}
 	
