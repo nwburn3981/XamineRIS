@@ -43,22 +43,6 @@ public class Radiologist extends User {
 			
 		}
 		
-		public void saveReport() {
-			
-			
-			
-			
-			
-		}
-		
-		
-		
-		public String retrieveReport() {
-			
-			
-			
-		}
-		
 		
 		public void SubmitOrder() {
 
