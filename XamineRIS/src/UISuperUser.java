@@ -132,7 +132,7 @@ public class UISuperUser extends JFrame {
 			   String driver = "com.mysql.cj.jdbc.Driver";
 			   String url = "jdbc:mysql://localhost:3306/xaminedatabase";
 			   String username = "root";
-			   String password = "";
+			   String password = "Et70670!";
 			   Class.forName(driver);
 			   
 			   Connection conn = DriverManager.getConnection(url,username,password);
@@ -514,7 +514,8 @@ public class UISuperUser extends JFrame {
 			public void actionPerformed (ActionEvent click) {
 				
 				User newUser = new User(firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), usernameTextField.getText());
-				newUser.setPassword(passwordTextField.getText());
+				 int passwordlength = passwordTextField.getText().length() ;
+				newUser.setPassword(passwordTextField.getText(), passwordlength);
 				//newUser.setUserId(Integer.valueOf(userIDTextField.getText()));
 				
 				ArrayList<Permission> permissions;
@@ -723,7 +724,8 @@ public class UISuperUser extends JFrame {
 				user.setLastName(lastNameTextField.getText());
 				user.setEmail(emailTextField.getText());
 				user.setUserName(usernameTextField.getText());
-				user.setPassword(passwordTextField.getText());
+				int passwordLength = passwordTextField.getText().length() ;
+				user.setPassword(passwordTextField.getText(), passwordLength);
 				//user.setUserId(Integer.valueOf(userIDTextField.getText()));
 				
 				ArrayList<Permission> permissions;
@@ -833,7 +835,7 @@ public class UISuperUser extends JFrame {
 			allUsers.get(index).setActive(result.getBoolean("isActive"));
 			allUsers.get(index).setStaff(result.getBoolean("isStaff"));
 			allUsers.get(index).setSuperUser(result.getBoolean("isSuperUser"));
-			allUsers.get(index).setPassword(result.getString("password"));
+			allUsers.get(index).setPassword(result.getString("password"), result.getString("password").length());
 			allUsers.get(index).setUserId(tempID);
 			tempID++;
 			
@@ -943,4 +945,6 @@ public class UISuperUser extends JFrame {
 		statement.executeUpdate();
 	
 	}
+	
+	
 }
