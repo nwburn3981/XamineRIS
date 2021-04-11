@@ -1,7 +1,9 @@
+package XamineRIS;
+
 
 public class User {
 
-	private String userId;
+	private int userId;
 	private String firstName;
 	private String lastName;
 	private char[] password;
@@ -13,7 +15,7 @@ public class User {
 	
 	// TO-DO 
 	// Fix password char Array 
-	// set Radiology Team
+	// 
 	// set password 
 	
 	
@@ -28,11 +30,15 @@ public class User {
 	
 	}
 	
-	public String getUserId() {
+	public User() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public int getUserId() {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 
@@ -56,8 +62,8 @@ public class User {
 		return password;
 	}
 
-	public void setPassword(String password) {
-		char[] securePassword = new char[8];
+	public void setPassword(String password , int count) {
+		char[] securePassword = new char[count];
 		
 		for(int i = 0; i < password.length(); i++) {
 			securePassword[i] = password.charAt(i);
