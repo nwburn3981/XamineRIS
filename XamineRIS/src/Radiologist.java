@@ -1,23 +1,25 @@
-import java.security.Permission;
+package XamineRIS;
+
 import java.util.ArrayList;
 
 public class Radiologist extends User {
 
 
 	
-	 private String userID, userPassword, firstName, lastName, email, userName ;
-	 
+	 private String firstName, lastName, email, userName ;
+	 private int userID;
+	 private char[] userPassword;
 	 private boolean isActive, isStaff, isSuperUser ;
-	 private Permission userPermission ;
+	 private Permission userPermission;
 	 
 	 	 
 		
-		public Radiologist(String userID, String userPassword,String firstName, String lastName) {
+		public Radiologist(String fName, String lName, String email, String uName) {
 			
 			
 			
-			super(firstName, lastName);
-			
+			super(fName, lName, email, uName);
+			userPermission = new Permission("Radiologist");
 			userPermission.setAccessLvl(4) ;
 			userPermission.setCodeName("Super User");
 			userPermission.setProgramName("Super User");
@@ -27,11 +29,11 @@ public class Radiologist extends User {
 		
 		
 		
-		public Order SelectOrder(Order order) {
+		//public Order SelectOrder(Order order) {
 			
 			
 			
-		}
+		//}
 		
 		
 
@@ -52,11 +54,11 @@ public class Radiologist extends User {
 		
 		//-----Setters/Getters----
 		
-		public String getUserId() {
+		public int getUserId() {
 			return userID;
 		}
 
-		public void setUserId(String userId) {
+		public void setUserId(int userId) {
 			this.userID = userId;
 		}
 
@@ -76,11 +78,11 @@ public class Radiologist extends User {
 			this.lastName = lastName;
 		}
 
-		public String getPassword() {
+		public char[] getPassword() {
 			return userPassword;
 		}
 
-		public void setPassword(String password) {
+		public void setPassword(char[] password) {
 			this.userPassword = password;
 		}
 
