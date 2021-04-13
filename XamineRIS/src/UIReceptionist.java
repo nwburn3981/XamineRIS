@@ -979,9 +979,10 @@ public class UIReceptionist extends JFrame {
 		Patient currPatient ;
 		int index = 0;
 		Connection conn = getConnection();
-		
-		PreparedStatement statement = conn.prepareStatement("Select * from imagingorder Where orderStatus = ? ; " ) ;
+		System.out.println(LocalDate.now()) ;
+		PreparedStatement statement = conn.prepareStatement("Select * from imagingorder Where orderStatus = ? AND appointment = ? ; " ) ;
 		statement.setString(1, "Scheduled");
+		statement.setString(2, LocalDate.now().toString());
 		
 		ResultSet result = statement.executeQuery() ;
 		
