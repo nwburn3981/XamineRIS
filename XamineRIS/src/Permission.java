@@ -1,146 +1,88 @@
 
-
 package XamineRIS;
 
-import java.util.ArrayList;
-
-public class Radiologist extends User {
-
-
+public class Permission {
 	
-	 private String firstName, lastName, email, userName ;
-	 private int userID;
-	 private char[] userPassword;
-	 private boolean isActive, isStaff, isSuperUser ;
-	 private Permission userPermission;
-	 
-	 	 
-		
-		public Radiologist(String fName, String lName, String email, String uName) {
-			
-			
-			
-			super(fName, lName, email, uName);
-			userPermission = new Permission("Radiologist");
-			userPermission.setAccessLvl(4) ;
-			userPermission.setCodeName("Super User");
-			userPermission.setProgramName("Super User");
-			userPermission.setName(userName, firstName, lastName) ;
-			
-		}
-		
-		
-		
-		//public Order SelectOrder(Order order) {
-			
-			
-			
-		//}
-		
-		
-
-		
-		public void AddReport() {
-			
-			
-		
-			
-		}
-		
-		
-		public void SubmitOrder() {
-
-		
-		}
-
-		
-		//-----Setters/Getters----
-		
-		public int getUserId() {
-			return userID;
-		}
-
-		public void setUserId(int userId) {
-			this.userID = userId;
-		}
-
-		public String getFirstName() {
-			return firstName;
-		}
-
-		public void setFirstName(String firstName) {
-			this.firstName = firstName;
-		}
-
-		public String getLastName() {
-			return lastName;
-		}
-
-		public void setLastName(String lastName) {
-			this.lastName = lastName;
-		}
-
-		public char[] getPassword() {
-			return userPassword;
-		}
-
-		public void setPassword(char[] password) {
-			this.userPassword = password;
-		}
-
-		public String getEmail() {
-			return email;
-		}
-
-		public void setEmail(String email) {
-			this.email = email;
-		}
-
-		public String getUserName() {
-			return userName;
-		}
-
-		public void setUserName(String userName) {
-			this.userName = userName;
-		}
-
-		public boolean isActive() {
-			return isActive;
-		}
-
-		public void setActive(boolean isActive) {
-			this.isActive = isActive;
-		}
-
-		public boolean isStaff() {
-			return isStaff;
-		}
-
-		public void setStaff(boolean isStaff) {
-			this.isStaff = isStaff;
-		}
-
-		public boolean isSuperUser() {
-			return isSuperUser;
-		}
-
-		public void setSuperUser(boolean isSuperUser) {
-			this.isSuperUser = isSuperUser;
-		}
-
-		public Permission getUserPermission() {
-			return userPermission;
-		}
-
-		public void setUserPermission(Permission userPermission) {
-			this.userPermission = userPermission;
-		}
-		
-
-		
-		
-		
+	// This object will serve as our way of ensuring that each job performed within the system corresponds
+	// with the appropriate user IE Access Control. 
+	// it uses an integer value that determines which GUI is called by the system so, 0 = no privileges, 1 = Referring Dr, 2 = Reception 
+	// 3 = Technician , 4 = Radiologist 5 = SuperUser 
+	// the Permission object also keeps track of the Users name, program name ex(receptionist), and codename ex(Referring Doctor = RefDr)
+	// Contact me for any questions or concerns! - Ethan 
 	
+	private int accessLvl ;
+	private String name, programName , codeName ;
+	
+	public Permission(String userType) {
+		this.programName = userType;
 		
+		switch(programName) {
+		case "ReferringDr":{
+			this.accessLvl = 1;
+			this.codeName = "RefDr";
+			break;
+		}
+		case "Receptionist":{
+			this.accessLvl = 2;
+			this.codeName = "Recep";
+			break;
+		}
+		case "Technician":{
+			this.accessLvl = 3;
+			this.codeName = "Tech";
+			break;
+		}
+		case "Radiologist":{
+			this.accessLvl = 4;
+			this.codeName = "Radio";
+			break;
+		}
+		case "SuperUser":{
+			this.accessLvl = 0;
+			this.codeName = "Sup";
+			break;
+		}
+
 		
+		}
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getAccessLvl() {
+		return accessLvl;
+	}
+
+	public String getProgramName() {
+		return programName;
+	}
+
+	public String getCodeName() {
+		return codeName;
+	}
+
+	void setAccessLvl(int level) {
+		accessLvl = level ;
+	}
+	
+	void setName(String firstName, String lastName, String userName) {
+		
+		name = userName + ": " + firstName + " " + lastName ;
+	}
+	
+	void setCodeName(String codeName) {
+		codeName = this.codeName ;
+	}
+	
+	void setProgramName(String program) {
+		programName = program ;
+	}
+
+
 }
