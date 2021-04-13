@@ -1,3 +1,5 @@
+package XamineRIS;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
