@@ -1121,6 +1121,12 @@ public class UIReferringDoctor extends JFrame {
 					Object selected = selection.getSource();
 					int selectedIndex = buttonTracker.indexOf(selected);
 					orderTransfer = orderTracker.get(selectedIndex);
+					try {
+						orderTransfer.setImages(jdoctor.getOrderImages(orderTransfer.getOrderID()));
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					
 					JButton detailsButton = new JButton("Details");
 					detailsButton.setBounds(300, 310, 219, 37);
