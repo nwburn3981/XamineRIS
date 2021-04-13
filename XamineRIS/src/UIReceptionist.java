@@ -1,3 +1,4 @@
+package XamineRIS;
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.EventQueue;
@@ -39,8 +40,7 @@ import java.awt.Choice;
 import java.awt.Color;
 
 //toDo
-//CheckIn - cant get data to pass into database - CheckInOrder method line 1110
-//Schedule orders - cant get data into database - ScheduleOrder method line 1137
+//Fix date and time display once databasse is updated
 
 public class UIReceptionist extends JFrame {
 
@@ -52,9 +52,6 @@ public class UIReceptionist extends JFrame {
 	private JTextField txtsearchPatientDoB;
 	private JTextField txtsearchPatientEmail;
 	private JTextField txtviewOrderOrderId;
-	private JTextField txtviewOrderFirstName;
-	private JTextField txtviewOrderDateOfBirth;
-	private JTextField txtviewOrderEmail;
 	
 	private static UIReceptionist frame;
 	
@@ -927,6 +924,7 @@ public class UIReceptionist extends JFrame {
 							if(foundTeams.get(i).getTeamName().equals(choiceAvailableTeam.getSelectedItem())) {
 								ID = foundTeams.get(i).getTeamID();
 								orderTransfer.setTeamID(ID);
+								orderTransfer.setTeam(foundTeams.get(i));
 								break;
 							}//end if
 						}//end for
@@ -1111,11 +1109,8 @@ public class UIReceptionist extends JFrame {
 		
 		//Updates selected order with checked in status, modality, and appt team *******
 		
-		String mod = order.getModality();
-		String modID = order.getModality();
+		String mod = order.getModality().getModalityID();
 		int team = order.getTeamID();
-		String teamName = order.getApptTeam();
-		String status = order.getOrderStatus();
 		int ID = order.getOrderID();
 		
 		Connection conn = getConnection() ;
@@ -1124,37 +1119,32 @@ public class UIReceptionist extends JFrame {
 		 
 		statement.setString(1, mod );
 		statement.setInt(2, team);
-		statement.setString(3, status);
+		statement.setString(3, "Checked-In");
 		statement.setInt(4, ID);
-		
-		ResultSet result = statement.executeQuery() ;
+
+		statement.executeUpdate() ;
 		 
-		
-		result.close();
 
 	}
 	
 public static void ScheduleOrder(Order order) throws SQLException {
 		
-		//Updates selected order with appt date and time and status******************
-		
-		String appt = order.getApptDay() + "";
-		String time = order.getApptTime();
-		String status = order.getOrderStatus();
-		int ID = order.getOrderID();
-		
-		 Connection conn = getConnection() ;
-		 PreparedStatement statement = conn.prepareStatement("Update imagingorder Set appointment = ?,  apptTime = ? , orderStatus = ?   Where orderID  = ?  ;") ;
-		 
-		statement.setString(1, appt );
-		statement.setString(2, time );
-		statement.setString(3, "Scheduled");
-		statement.setInt(4, ID);
-		
-		 statement.executeUpdate() ;
-		 
-		
-		
+	//Updates selected order with appt date and time and status**
+
+    String appt = order.getApptDay() + "";
+    String time = order.getApptTime();
+    int ID = order.getOrderID();
+
+     Connection conn = getConnection() ;
+     PreparedStatement statement = conn.prepareStatement("Update imagingorder Set appointment = ?,  apptTime = ? , orderStatus = ?   Where orderID  = ?  ;") ;
+
+    statement.setString(1, appt );
+    statement.setString(2, time );
+    statement.setString(3, "Scheduled");
+    statement.setInt(4, ID);
+
+     statement.executeUpdate() ;
+
 
 	}
 	
@@ -1227,4 +1217,5 @@ public static void ScheduleOrder(Order order) throws SQLException {
 		
 		return currMod ;
 	}
+
 }
