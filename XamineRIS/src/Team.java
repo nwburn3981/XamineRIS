@@ -1,17 +1,18 @@
+package XamineRIS;
 
 public class Team {
 	private int teamID;
 	private String teamName;
 	
-	public Team(String id, String name) {
+	public Team(int id, String name) {
 		this.teamID = id;
 		this.teamName = name;
 		
 	}
-	public String getTeamID() {
+	public int getTeamID() {
 		return teamID;
 	}
-	public void setTeamID(String teamID) {
+	public void setTeamID(int teamID) {
 		this.teamID = teamID;
 	}
 	public String getTeamName() {
