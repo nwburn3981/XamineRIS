@@ -1,3 +1,4 @@
+package XamineRIS;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -15,8 +16,8 @@ import java.util.ArrayList;
  * 
  */
 public class Technician extends User {
-	
-	private String userId, firstName, lastName , password , email , userName; 
+	private int  userId;
+	private String firstName, lastName , password , email , userName; 
 	private boolean isActive, isStaff, isSuperUser ;
 	private Permission userPermission ;
 	
@@ -266,11 +267,11 @@ public ImageFile ViewPreviousImage(Order selectedOrder, ImageFile img) {
 	
 	//------------------------------Setters/Getters------------------------------------------------
 
-	public String getUserId() {
+	public int getUserId() {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 
