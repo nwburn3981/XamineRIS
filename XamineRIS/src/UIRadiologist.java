@@ -567,7 +567,7 @@ imageListener = new ActionListener() {
 			};//end imageListener
 		
 		submitAnalysis = new JButton("Submit Analysis");
-		submitAnalysis.setBounds(525, 375, 150, 25);
+		submitAnalysis.setBounds(600, 375, 150, 25);
 		viewPanel.add(submitAnalysis);	
 		
 		ActionListener analysisListener = new ActionListener() {
@@ -576,18 +576,38 @@ imageListener = new ActionListener() {
 				order.setRadioAnalysis(analysisTextArea.getText());
 				
 				//SQL to update database
-				try {
-					UpdateAnalysis(order.getOrderID(), order.getRadioAnalysis());
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+						try {
+						UpdateAnalysis(order.getOrderID(), order.getRadioAnalysis());
+						} catch (SQLException e) {
+						// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+				
+					
+				subActionPanel.remove(viewPanel);
 				
 			}//end Action
 
 		};//end analysisListener
 		
 		submitAnalysis.addActionListener(analysisListener);
+		
+		JButton saveAnalysis = new JButton("Save Analysis");
+		saveAnalysis.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				order.setRadioAnalysis(analysisTextArea.getText());
+				
+					try {
+				saveAnalysis(order.getOrderID(), order.getRadioAnalysis());
+					} catch (SQLException error) {
+						error.printStackTrace();
+					}
+				
+					subActionPanel.remove(viewPanel) ;
+			}
+		});
+		saveAnalysis.setBounds(425, 375, 150, 25);
+		viewPanel.add(saveAnalysis);
 		
 		subActionPanel.repaint();
 		subActionPanel.revalidate();
@@ -600,7 +620,7 @@ imageListener = new ActionListener() {
 			   String driver = "com.mysql.cj.jdbc.Driver";
 			   String url = "jdbc:mysql://localhost:3306/xaminedatabase";
 			   String username = "root";
-			   String password = "";
+			   String password = "Et70670!";
 			   Class.forName(driver);
 			   
 			   Connection conn = DriverManager.getConnection(url,username,password);
@@ -772,4 +792,20 @@ imageListener = new ActionListener() {
 		statement.executeUpdate();
 		
 	}
+	
+	private void saveAnalysis(int orderID, String report) throws SQLException {
+		 Connection conn = getConnection() ;
+		 PreparedStatement statement = conn.prepareStatement("Update imagingorder "
+		 		+ "SET technicalReport = ?"
+		 		+ "WHERE orderID = ?;") ;
+		 
+		
+		statement.setString(1, report);
+		statement.setInt(2, orderID );
+		
+		statement.executeUpdate();
+		
+		System.out.println("Analysis Saved Correctly");
+	}
+	
 }
