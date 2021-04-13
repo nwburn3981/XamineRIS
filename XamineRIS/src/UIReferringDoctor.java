@@ -12,6 +12,7 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.Panel;
 import javax.swing.JTextField;
@@ -374,6 +375,7 @@ public class UIReferringDoctor extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				currPatient = Patients[4] ;
 				lblCurrentPatient.setText(currPatient.getFirstName() + currPatient.getLastName() + currPatient.getDateOfBirth() ) ;
+			
 			}
 		});
 		
@@ -386,11 +388,17 @@ public class UIReferringDoctor extends JFrame {
 				String PatientLastName = txtsearchPatientLastName.getText() ;
 				String PatientDoB = txtsearchPatientDoB.getText() ;
 				String PatientEmail = txtsearchPatientEmail.getText() ;
+				String IdNum = "" ;
 				
-				Patients = jdoctor.returnPatient(PatientFirstName, PatientLastName , PatientDoB ,PatientEmail ) ;
+				try {
+					Patients = jdoctor.returnPatient(PatientFirstName, PatientLastName , PatientDoB ,PatientEmail ) ;
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 				if (Patients[0] != null) {
-					PatientIDLabel01.setText(Patients[0].getPatientId());
+					PatientIDLabel01.setText(IdNum + Patients[0].getPatientId());
 					PatientFirstNameLabel01.setText(Patients[0].getFirstName());
 					PatientLastNameLabel01.setText(Patients[0].getLastName());
 					PatientDateOfBirth01.setText(Patients[0].getDateOfBirth()) ;
@@ -400,7 +408,7 @@ public class UIReferringDoctor extends JFrame {
 					SearchPatientPanel.add(btnPatientId01);
 				}
 				if (Patients[1] != null) {
-					PatientIDLabel02.setText(Patients[1].getPatientId());
+					PatientIDLabel02.setText(IdNum + Patients[1].getPatientId());
 					PatientFirstNameLabel02.setText(Patients[1].getFirstName());
 					PatientLastNameLabel02.setText(Patients[1].getLastName());
 					PatientDateOfBirth02.setText(Patients[1].getDateOfBirth()) ;
@@ -410,7 +418,7 @@ public class UIReferringDoctor extends JFrame {
 					SearchPatientPanel.add(btnPatientId02);
 				}
 				if (Patients[2] != null) {
-					PatientIDLabel03.setText(Patients[2].getPatientId());
+					PatientIDLabel03.setText(IdNum + Patients[2].getPatientId());
 					PatientFirstNameLabel03.setText(Patients[2].getFirstName());
 					PatientLastNameLabel03.setText(Patients[2].getLastName());
 					PatientDateOfBirth03.setText(Patients[2].getDateOfBirth()) ;
@@ -420,7 +428,7 @@ public class UIReferringDoctor extends JFrame {
 					SearchPatientPanel.add(btnPatientId03);
 				}
 				if (Patients[3] != null) {
-					PatientIDLabel04.setText(Patients[3].getPatientId());
+					PatientIDLabel04.setText(IdNum + Patients[3].getPatientId());
 					PatientFirstNameLabel04.setText(Patients[3].getFirstName());
 					PatientLastNameLabel04.setText(Patients[3].getLastName());
 					PatientDateOfBirth04.setText(Patients[3].getDateOfBirth()) ;
@@ -430,7 +438,7 @@ public class UIReferringDoctor extends JFrame {
 					SearchPatientPanel.add(btnPatientId04);
 				}
 				if (Patients[4] != null) {
-					PatientIDLabel05.setText(Patients[4].getPatientId());
+					PatientIDLabel05.setText(IdNum + Patients[4].getPatientId());
 					PatientFirstNameLabel05.setText(Patients[4].getFirstName());
 					PatientLastNameLabel05.setText(Patients[4].getLastName());
 					PatientDateOfBirth05.setText(Patients[4].getDateOfBirth()) ;
@@ -519,77 +527,77 @@ public class UIReferringDoctor extends JFrame {
 		lblOrderPatientId.setBounds(277, 30, 70, 14);
 		viewOpenOrdersPanel.add(lblOrderPatientId);
 		
-		JLabel OrderPatientIDLabel01 = new JLabel("1 ");
+		JLabel OrderPatientIDLabel01 = new JLabel("");
 		OrderPatientIDLabel01.setHorizontalAlignment(SwingConstants.CENTER);
 		OrderPatientIDLabel01.setBounds(289, 75, 48, 14);
 		viewOpenOrdersPanel.add(OrderPatientIDLabel01);
 		
-		JLabel OrderPatientIDLabel02 = new JLabel("1 ");
+		JLabel OrderPatientIDLabel02 = new JLabel("");
 		OrderPatientIDLabel02.setHorizontalAlignment(SwingConstants.CENTER);
-		OrderPatientIDLabel02.setBounds(289, 155, 48, 14);
+		OrderPatientIDLabel02.setBounds(289, 115, 48, 14);
 		viewOpenOrdersPanel.add(OrderPatientIDLabel02);
 		
-		JLabel OrderPatientIDLabel03 = new JLabel("1 ");
+		JLabel OrderPatientIDLabel03 = new JLabel("");
 		OrderPatientIDLabel03.setHorizontalAlignment(SwingConstants.CENTER);
 		OrderPatientIDLabel03.setBounds(289, 115, 48, 14);
 		viewOpenOrdersPanel.add(OrderPatientIDLabel03);
 		
-		JLabel OrderPatientIDLabel04 = new JLabel("1 ");
+		JLabel OrderPatientIDLabel04 = new JLabel("");
 		OrderPatientIDLabel04.setHorizontalAlignment(SwingConstants.CENTER);
 		OrderPatientIDLabel04.setBounds(289, 195, 48, 14);
 		viewOpenOrdersPanel.add(OrderPatientIDLabel04);
 		
-		JLabel OrderPatientIDLabel05 = new JLabel("1 ");
+		JLabel OrderPatientIDLabel05 = new JLabel("");
 		OrderPatientIDLabel05.setHorizontalAlignment(SwingConstants.CENTER);
 		OrderPatientIDLabel05.setBounds(289, 235, 48, 14);
 		viewOpenOrdersPanel.add(OrderPatientIDLabel05);
 		
-		JLabel OrderPatientFirstNameLabel01 = new JLabel("Patient First Name");
+		JLabel OrderPatientFirstNameLabel01 = new JLabel("");
 		OrderPatientFirstNameLabel01.setHorizontalAlignment(SwingConstants.CENTER);
 		OrderPatientFirstNameLabel01.setBounds(347, 75, 108, 14);
 		viewOpenOrdersPanel.add(OrderPatientFirstNameLabel01);
 		
-		JLabel OrderPatientFirstNameLabel02 = new JLabel("Patient First Name");
+		JLabel OrderPatientFirstNameLabel02 = new JLabel("");
 		OrderPatientFirstNameLabel02.setHorizontalAlignment(SwingConstants.CENTER);
 		OrderPatientFirstNameLabel02.setBounds(347, 115, 108, 14);
 		viewOpenOrdersPanel.add(OrderPatientFirstNameLabel02);
 		
-		JLabel OrderPatientFirstNameLabel03 = new JLabel("Patient First Name");
+		JLabel OrderPatientFirstNameLabel03 = new JLabel("");
 		OrderPatientFirstNameLabel03.setHorizontalAlignment(SwingConstants.CENTER);
 		OrderPatientFirstNameLabel03.setBounds(347, 155, 108, 14);
 		viewOpenOrdersPanel.add(OrderPatientFirstNameLabel03);
 		
-		JLabel OrderPatientFirstNameLabel04 = new JLabel("Patient First Name");
+		JLabel OrderPatientFirstNameLabel04 = new JLabel("");
 		OrderPatientFirstNameLabel04.setHorizontalAlignment(SwingConstants.CENTER);
 		OrderPatientFirstNameLabel04.setBounds(347, 195, 108, 14);
 		viewOpenOrdersPanel.add(OrderPatientFirstNameLabel04);
 		
-		JLabel OrderPatientFirstNameLabel05 = new JLabel("Patient First Name");
+		JLabel OrderPatientFirstNameLabel05 = new JLabel("");
 		OrderPatientFirstNameLabel05.setHorizontalAlignment(SwingConstants.CENTER);
 		OrderPatientFirstNameLabel05.setBounds(347, 235, 108, 14);
 		viewOpenOrdersPanel.add(OrderPatientFirstNameLabel05);
 		
-		JLabel OrderPatientLastNameLabel01 = new JLabel("Patient Last Name");
+		JLabel OrderPatientLastNameLabel01 = new JLabel("");
 		OrderPatientLastNameLabel01.setHorizontalAlignment(SwingConstants.CENTER);
 		OrderPatientLastNameLabel01.setBounds(465, 75, 108, 14);
 		viewOpenOrdersPanel.add(OrderPatientLastNameLabel01);
 		
-		JLabel OrderPatientLastNameLabel02 = new JLabel("Patient Last Name");
+		JLabel OrderPatientLastNameLabel02 = new JLabel("");
 		OrderPatientLastNameLabel02.setHorizontalAlignment(SwingConstants.CENTER);
 		OrderPatientLastNameLabel02.setBounds(465, 115, 108, 14);
 		viewOpenOrdersPanel.add(OrderPatientLastNameLabel02);
 		
-		JLabel OrderPatientLastNameLabel03 = new JLabel("Patient Last Name");
+		JLabel OrderPatientLastNameLabel03 = new JLabel("");
 		OrderPatientLastNameLabel03.setHorizontalAlignment(SwingConstants.CENTER);
 		OrderPatientLastNameLabel03.setBounds(465, 155, 108, 14);
 		viewOpenOrdersPanel.add(OrderPatientLastNameLabel03);
 		
-		JLabel OrderPatientLastNameLabel04 = new JLabel("Patient Last Name");
+		JLabel OrderPatientLastNameLabel04 = new JLabel("");
 		OrderPatientLastNameLabel04.setHorizontalAlignment(SwingConstants.CENTER);
 		OrderPatientLastNameLabel04.setBounds(465, 195, 108, 14);
 		viewOpenOrdersPanel.add(OrderPatientLastNameLabel04);
 		
-		JLabel OrderPatientLastNameLabel05 = new JLabel("Patient Last Name");
+		JLabel OrderPatientLastNameLabel05 = new JLabel("");
 		OrderPatientLastNameLabel05.setHorizontalAlignment(SwingConstants.CENTER);
 		OrderPatientLastNameLabel05.setBounds(465, 235, 108, 14);
 		viewOpenOrdersPanel.add(OrderPatientLastNameLabel05);
@@ -609,27 +617,27 @@ public class UIReferringDoctor extends JFrame {
 		OrderlblDateOfBirth.setBounds(573, 30, 108, 14);
 		viewOpenOrdersPanel.add(OrderlblDateOfBirth);
 		
-		JLabel OrderPatientDateOfBirth01 = new JLabel("Date of Birth");
+		JLabel OrderPatientDateOfBirth01 = new JLabel("");
 		OrderPatientDateOfBirth01.setHorizontalAlignment(SwingConstants.CENTER);
 		OrderPatientDateOfBirth01.setBounds(573, 75, 108, 14);
 		viewOpenOrdersPanel.add(OrderPatientDateOfBirth01);
 		
-		JLabel OrderPatientDateOfBirth02 = new JLabel("Date of Birth");
+		JLabel OrderPatientDateOfBirth02 = new JLabel("");
 		OrderPatientDateOfBirth02.setHorizontalAlignment(SwingConstants.CENTER);
 		OrderPatientDateOfBirth02.setBounds(573, 115, 108, 14);
 		viewOpenOrdersPanel.add(OrderPatientDateOfBirth02);
 		
-		JLabel OrderPatientDateOfBirth03 = new JLabel("Date of Birth");
+		JLabel OrderPatientDateOfBirth03 = new JLabel("");
 		OrderPatientDateOfBirth03.setHorizontalAlignment(SwingConstants.CENTER);
 		OrderPatientDateOfBirth03.setBounds(573, 155, 108, 14);
 		viewOpenOrdersPanel.add(OrderPatientDateOfBirth03);
 		
-		JLabel OrderPatientDateOfBirth04 = new JLabel("Date of Birth");
+		JLabel OrderPatientDateOfBirth04 = new JLabel("");
 		OrderPatientDateOfBirth04.setHorizontalAlignment(SwingConstants.CENTER);
 		OrderPatientDateOfBirth04.setBounds(573, 195, 108, 14);
 		viewOpenOrdersPanel.add(OrderPatientDateOfBirth04);
 		
-		JLabel OrderPatientDateOfBirth05 = new JLabel("Date of Birth");
+		JLabel OrderPatientDateOfBirth05 = new JLabel("");
 		OrderPatientDateOfBirth05.setHorizontalAlignment(SwingConstants.CENTER);
 		OrderPatientDateOfBirth05.setBounds(573, 235, 108, 14);
 		viewOpenOrdersPanel.add(OrderPatientDateOfBirth05);
@@ -639,58 +647,149 @@ public class UIReferringDoctor extends JFrame {
 		OrderlblOrderStatus.setBounds(680, 30, 108, 14);
 		viewOpenOrdersPanel.add(OrderlblOrderStatus);
 		
-		JLabel OrderPatientOrderStatus01 = new JLabel("Order Status");
+		JLabel OrderPatientOrderStatus01 = new JLabel("");
 		OrderPatientOrderStatus01.setHorizontalAlignment(SwingConstants.CENTER);
 		OrderPatientOrderStatus01.setBounds(680, 75, 108, 14);
 		viewOpenOrdersPanel.add(OrderPatientOrderStatus01);
 		
-		JLabel OrderPatientOrderStatus02 = new JLabel("Order Status");
+		JLabel OrderPatientOrderStatus02 = new JLabel("");
 		OrderPatientOrderStatus02.setHorizontalAlignment(SwingConstants.CENTER);
 		OrderPatientOrderStatus02.setBounds(680, 115, 108, 14);
 		viewOpenOrdersPanel.add(OrderPatientOrderStatus02);
 		
-		JLabel OrderPatientOrderStatus03 = new JLabel("Order Status");
+		JLabel OrderPatientOrderStatus03 = new JLabel("");
 		OrderPatientOrderStatus03.setHorizontalAlignment(SwingConstants.CENTER);
 		OrderPatientOrderStatus03.setBounds(680, 155, 108, 14);
 		viewOpenOrdersPanel.add(OrderPatientOrderStatus03);
 		
-		JLabel OrderPatientOrderStatus04 = new JLabel("Order Status");
+		JLabel OrderPatientOrderStatus04 = new JLabel("");
 		OrderPatientOrderStatus04.setHorizontalAlignment(SwingConstants.CENTER);
 		OrderPatientOrderStatus04.setBounds(680, 195, 108, 14);
 		viewOpenOrdersPanel.add(OrderPatientOrderStatus04);
 		
-		JLabel OrderPatientOrderStatus05 = new JLabel("Order Status");
+		JLabel OrderPatientOrderStatus05 = new JLabel("");
 		OrderPatientOrderStatus05.setHorizontalAlignment(SwingConstants.CENTER);
 		OrderPatientOrderStatus05.setBounds(680, 235, 108, 14);
 		viewOpenOrdersPanel.add(OrderPatientOrderStatus05);
 		
-		JButton OrderbtnOrderId01 = new JButton("Order ID");
+		JButton OrderbtnOrderId01 = new JButton("");
 		OrderbtnOrderId01.setBounds(798, 75, 89, 20);
-		viewOpenOrdersPanel.add(OrderbtnOrderId01);
 		
-		JButton OrderbtnOrderId02 = new JButton("Order ID");
+		
+		JButton OrderbtnOrderId02 = new JButton("");
 		OrderbtnOrderId02.setBounds(798, 111, 89, 20);
-		viewOpenOrdersPanel.add(OrderbtnOrderId02);
 		
-		JButton OrderbtnOrderId03 = new JButton("Order ID");
+		
+		JButton OrderbtnOrderId03 = new JButton("");
 		OrderbtnOrderId03.setBounds(798, 151, 89, 20);
-		viewOpenOrdersPanel.add(OrderbtnOrderId03);
 		
-		JButton OrderbtnOrderId04 = new JButton("Order ID");
+		
+		JButton OrderbtnOrderId04 = new JButton("");
 		OrderbtnOrderId04.setBounds(798, 191, 89, 20);
-		viewOpenOrdersPanel.add(OrderbtnOrderId04);
 		
-		JButton OrderbtnOrderId05 = new JButton("Order ID");
+		
+		JButton OrderbtnOrderId05 = new JButton("");
 		OrderbtnOrderId05.setBounds(798, 231, 89, 20);
-		viewOpenOrdersPanel.add(OrderbtnOrderId05);
 		
-		JButton OrderbtnNextPage = new JButton("Next Page");
-		OrderbtnNextPage.setBounds(633, 301, 120, 23);
-		viewOpenOrdersPanel.add(OrderbtnNextPage);
 		
-		JButton OrderbtnPreviousPage = new JButton("Previous Page");
-		OrderbtnPreviousPage.setBounds(465, 301, 120, 23);
-		viewOpenOrdersPanel.add(OrderbtnPreviousPage);
+		JButton btnSearchButton = new JButton("Search");
+		btnSearchButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String PatientFirstName = txtviewOrderFirstName.getText();
+				String PatientLastName = txtviewOrderLastName.getText() ;
+				String PatientDoB = txtviewOrderDateOfBirth.getText() ;
+				String PatientEmail = txtviewOrderEmail.getText() ;
+				String IdNum = "" ;
+				String OrderId = "Order:" ;
+				Order Orders[] = new Order[25] ;
+				
+				try {
+					Orders = jdoctor.returnOrders(PatientFirstName, PatientLastName , PatientDoB ,PatientEmail ) ;
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+				
+				if (Orders[0] != null) {
+					OrderPatientFirstNameLabel01.setText(Orders[0].getPatient().getFirstName());
+					OrderPatientLastNameLabel01.setText(Orders[0].getPatient().getLastName());
+					OrderPatientDateOfBirth01.setText(Orders[0].getPatient().getDateOfBirth());
+					OrderPatientOrderStatus01.setText(Orders[0].getOrderStatus());
+					IdNum += Orders[0].getOrderID() ;
+					OrderPatientIDLabel01.setText(IdNum);
+					OrderId += Orders[0].getOrderID() ;
+					OrderbtnOrderId01.setText(OrderId);
+					viewOpenOrdersPanel.add(OrderbtnOrderId01);
+				}
+				IdNum = "" ;
+				OrderId = "Order:" ;
+				if (Orders[1] != null) {
+					OrderPatientFirstNameLabel02.setText(Orders[1].getPatient().getFirstName());
+					OrderPatientLastNameLabel02.setText(Orders[1].getPatient().getLastName());
+					OrderPatientDateOfBirth02.setText(Orders[1].getPatient().getDateOfBirth());
+					OrderPatientOrderStatus02.setText(Orders[1].getOrderStatus());
+					IdNum += Orders[1].getOrderID() ;
+					OrderPatientIDLabel02.setText(IdNum);
+					OrderId += Orders[1].getOrderID() ;
+					OrderbtnOrderId02.setText(OrderId);
+					viewOpenOrdersPanel.add(OrderbtnOrderId02);
+					}
+				IdNum = "" ;
+				OrderId = "Order:" ;
+				if (Orders[2] != null) {
+					OrderPatientFirstNameLabel03.setText(Orders[2].getPatient().getFirstName());
+					OrderPatientLastNameLabel03.setText(Orders[2].getPatient().getLastName());
+					OrderPatientDateOfBirth03.setText(Orders[2].getPatient().getDateOfBirth());
+					OrderPatientOrderStatus03.setText(Orders[2].getOrderStatus());
+					IdNum += Orders[2].getOrderID() ;
+					OrderPatientIDLabel03.setText(IdNum);
+					OrderId += Orders[2].getOrderID() ;
+					OrderbtnOrderId03.setText(OrderId);
+					viewOpenOrdersPanel.add(OrderbtnOrderId03);
+					}
+				IdNum = "" ;
+				OrderId = "Order:" ;
+				if (Orders[3] != null) {
+					OrderPatientFirstNameLabel04.setText(Orders[3].getPatient().getFirstName());
+					OrderPatientLastNameLabel04.setText(Orders[3].getPatient().getLastName());
+					OrderPatientDateOfBirth04.setText(Orders[3].getPatient().getDateOfBirth());
+					OrderPatientOrderStatus04.setText(Orders[3].getOrderStatus());
+					IdNum += Orders[3].getOrderID() ;
+					OrderPatientIDLabel04.setText(IdNum);
+					OrderId += Orders[3].getOrderID() ;
+					OrderbtnOrderId04.setText(OrderId);
+					viewOpenOrdersPanel.add(OrderbtnOrderId04);
+					}
+				IdNum = "" ;
+				OrderId = "Order:" ;
+				if (Orders[4] != null) {
+					OrderPatientFirstNameLabel05.setText(Orders[4].getPatient().getFirstName());
+					OrderPatientLastNameLabel05.setText(Orders[4].getPatient().getLastName());
+					OrderPatientDateOfBirth05.setText(Orders[4].getPatient().getDateOfBirth());
+					OrderPatientOrderStatus05.setText(Orders[4].getOrderStatus());
+					IdNum += Orders[4].getOrderID() ;
+					OrderPatientIDLabel05.setText(IdNum);
+					OrderId += Orders[4].getOrderID() ;
+					OrderbtnOrderId05.setText(OrderId);
+					viewOpenOrdersPanel.add(OrderbtnOrderId05);
+					}
+				
+				
+				
+				
+			}});
+		btnSearchButton.setBounds(138, 352, 129, 23);
+		viewOpenOrdersPanel.add(btnSearchButton);
+		
+//		JButton OrderbtnNextPage = new JButton("Next Page");
+//		OrderbtnNextPage.setBounds(633, 301, 120, 23);
+//		viewOpenOrdersPanel.add(OrderbtnNextPage);
+//		
+//		JButton OrderbtnPreviousPage = new JButton("Previous Page");
+//		OrderbtnPreviousPage.setBounds(465, 301, 120, 23);
+//		viewOpenOrdersPanel.add(OrderbtnPreviousPage);
 		
 		
 		// Panel to create a new Patient 
@@ -807,8 +906,23 @@ public class UIReferringDoctor extends JFrame {
 				
 				String Notes = textArea.getText() ;
 				
-				jdoctor.newPatient(FirstName, LastName, DoB, Email, gender, Phone, latex, xraydye, mridye, Notes);
+				try {
+					jdoctor.newPatient(FirstName, LastName, DoB, Email, gender, Phone, latex, xraydye, mridye, Notes);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
+				try {
+					Patients = jdoctor.returnPatient(FirstName, LastName, DoB, Email) ;
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				currPatient = Patients[0] ;
+				lblCurrentPatient.setText(currPatient.getFirstName() + currPatient.getLastName() + currPatient.getDateOfBirth() ) ;
+			
 			}
 		});
 		btnCreateNewPatient.setBounds(380, 347, 179, 23);
@@ -901,7 +1015,12 @@ public class UIReferringDoctor extends JFrame {
 				String NeededImages = txtimagesneeded.getText() ;
 				String Notes = newOrderReasonForVisit.getText() ;
 				
-				jdoctor.newOrder(currPatient, NeededImages, Notes);
+				try {
+					jdoctor.newOrder(currPatient, NeededImages, Notes);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		buttoncreateorder.setBounds(560, 388, 80, 22);
