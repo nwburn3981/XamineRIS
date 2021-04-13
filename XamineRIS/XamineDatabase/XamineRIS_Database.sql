@@ -109,9 +109,11 @@ orderID int ,
 imagelabel VARCHAR(255) ,
 imageDate datetime ,
 imageFile BLOB,
+pathName VARCHAR(255) ,
 PRIMARY KEY(imageID, orderID),
 FOREIGN KEY(orderID) REFERENCES imagingOrder(orderID)) ;
 
+                                             
 
 
 
