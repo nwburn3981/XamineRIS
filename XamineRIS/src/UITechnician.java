@@ -510,6 +510,10 @@ public class UITechnician extends JFrame {
 											orderTransfer.setOrderStatus("Complete");
 											orderStatusOut.setText(orderTransfer.getOrderStatus());
 											
+											// add the technician submitorder method here 
+											// close the imageviewer panel and return to main menu 
+											
+											
 										}//end nested if
 										
 										else if(orderTransfer.getImages().size() == 0) {
