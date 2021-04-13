@@ -1,13 +1,11 @@
 package XamineRIS;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 /*
@@ -20,23 +18,7 @@ public class Technician extends User {
 	private String firstName, lastName , password , email , userName; 
 	private boolean isActive, isStaff, isSuperUser ;
 	private Permission userPermission ;
-	
-	//Patients for test use in system
-	//public static Patient patient1 = new Patient("John", "Kramer", "jkramer@ung.edu", "5557777878");
-	//public static Patient patient2 = new Patient("Isa", "Balmer", "ibalmer@ung.edu", "7865551234");
-	//public static Patient patient3 = new Patient("Pop", "Johnson", "pjohnson@ung.edu", "8885551111");
-	
-	//ArrayList to simulate database
-	//static ArrayList<Order> testOrders = new ArrayList<>();
-	
-	//Orders for test use
-	//static Order order1 = new Order("001", patient1);
-	//static Order order2 = new Order("002", patient2);
-	//static Order order3 = new Order("003", patient3);
-	
-	
-	
-	
+		
 	
 	public Technician(String firstName, String lastName, String email, String userName) {
 		
@@ -46,10 +28,6 @@ public class Technician extends User {
 		userPermission.setCodeName("Tech");
 		userPermission.setProgramName("Technician");
 		userPermission.setName(userName, firstName, lastName);
-		
-		
-		
-
 				
 	}//end Technician
 	
@@ -58,7 +36,7 @@ public class Technician extends User {
 			   String driver = "com.mysql.cj.jdbc.Driver";
 			   String url = "jdbc:mysql://localhost:3306/xaminedatabase";
 			   String username = "root";
-			   String password = "";
+			   String password = "Restoration2021!";
 			   Class.forName(driver);
 			   
 			   Connection conn = DriverManager.getConnection(url,username,password);
@@ -74,9 +52,7 @@ public class Technician extends User {
 	
 	public static Patient returnPatient(int ID) throws SQLException {
 		
-		 ArrayList<Patient> Patients = new ArrayList<>() ;
 		 Patient currPatient[] = new Patient[1] ;
-		 int index = 0 ;
 		 
 		 Connection conn = getConnection() ;
 		 PreparedStatement statement = conn.prepareStatement("Select * from patient Where patientID  = ?  ;") ;
@@ -100,14 +76,12 @@ public class Technician extends User {
 	}
 	
 	
-	public static ArrayList<Order> ViewAppointments(LocalDate Newdate) throws SQLException {
+	public static ArrayList<Order> ViewAppointments() throws SQLException {
 		/*Searches through orders for current day's appointments
 		 * Puts Orders for selected date in arraylist for UIManager to access and display
 		 * UIManager displays orderID, appt time, room number, and imaging ordered
 		 * User can select appt and press select button to display patient information
 		 */		
-		
-		String date = Newdate.toString();
 		
 		//Adding parameters for testing
 		ArrayList<Order> todaysOrders = new ArrayList<>();
@@ -115,8 +89,8 @@ public class Technician extends User {
 		int index = 0;
 		Connection conn = getConnection() ;
 		
-		PreparedStatement statement = conn.prepareStatement("Select * from imagingorder Where appointment = ? ; " ) ;
-		statement.setString(1, date);
+		PreparedStatement statement = conn.prepareStatement("Select * from imagingorder Where orderStatus = ? ; " ) ;
+		statement.setString(1, "Checked-In");
 		
 		ResultSet result = statement.executeQuery() ;
 		
@@ -146,7 +120,7 @@ public class Technician extends User {
 		
 		//Adding parameters for testing
 
-		ArrayList<Order> testOrders = ViewAppointments(LocalDate.now()) ;		
+		ArrayList<Order> testOrders = ViewAppointments() ;		
 		
 		//List for UIManager 
 		ArrayList<Order> openOrders = new ArrayList<>();
@@ -165,6 +139,31 @@ public class Technician extends User {
 		return openOrders;
 		
 	}
+	
+	public static void UpdateImages(Order order, int index) throws SQLException {
+		//Updates selected order with checked in status, modality, and appt team *******
+		
+		//ADD SOME KIND OG FUNCTION TO DETERMINE imageID
+				int orderID = order.getOrderID();
+				String lbl = order.getImages().get(index).getLabel();
+				int imageID = order.getImages().get(index).getID();
+				String pathName = order.getImages().get(index).getPath();
+				
+				Connection conn = getConnection();
+
+				PreparedStatement statement = conn.prepareStatement("Insert into image(orderID, imageID, imageLabel, imageDate, imageFile, pathName) Values(?, ?, ?, null, null, ?) ;") ;
+				 
+				statement.setInt(1, orderID );
+				statement.setInt(2, imageID);
+				statement.setString(3, lbl);
+				statement.setString(4, pathName);
+
+				statement.executeUpdate() ;
+		
+	}
+	
+	
+	//---------------------------------------------End SQL Calls-----------------------------------------------------------
 	
 	//pretty sure this should be in UIManager handled by button, may move once more of the UI is developed
 	public String SelectOrder(Order selectedOrder) {
@@ -346,6 +345,7 @@ public ImageFile ViewPreviousImage(Order selectedOrder, ImageFile img) {
 	public void setUserPermission(Permission userPermission) {
 		this.userPermission = userPermission;
 	}
-	
+
+
 
 }

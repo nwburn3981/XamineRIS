@@ -67,6 +67,7 @@ public class UITechnician extends JFrame {
 	private static UITechnician window;
 	private User currentUser;
 	private int currentIndex = 0;
+	private int imageID = 0;
 
 	/**
 	 * Launch the application.
@@ -154,7 +155,7 @@ public class UITechnician extends JFrame {
 		viewOrdersButton.setBounds(10, 109, 203, 23);
 		actionPanel.add(viewOrdersButton);
 		
-		JLabel testLabel = new JLabel("Test");
+		JLabel testLabel = new JLabel();
 		testLabel.setBounds(10, 164, 203, 14);
 		actionPanel.add(testLabel);
 		
@@ -223,9 +224,10 @@ public class UITechnician extends JFrame {
 						patientNameLabel.setBounds(95, 100, 100, 24);
 						viewPanel.add(patientNameLabel);
 						
-						JLabel patientNameOut = new JLabel(" FirstName + LastName");
+						JLabel patientNameOut = new JLabel(orderTransfer.getPatient().getFirstName() + orderTransfer.getPatient().getLastName());
 						patientNameOut.setFont(new Font("Tahoma", Font.PLAIN, 14));
 						patientNameOut.setBounds(205, 100, 140, 24);
+						
 						viewPanel.add(patientNameOut);
 						
 						JLabel ageLabel = new JLabel("Age:");
@@ -347,10 +349,21 @@ public class UITechnician extends JFrame {
 										e.printStackTrace();
 									}//end catch
 									
-									ImageFile newImage = new ImageFile(LocalDate.now(), chosenImage, chosenFile.getName(), "placeholder");
-									
+									ImageFile newImage = new ImageFile(imageID, chosenImage,chosenFile.getPath(), chosenFile.getName(), currentUser.getUserName() );
+									imageID++;
 									orderTransfer.getImages().add(newImage);
+									
+									
+									
 									int index = orderTransfer.getImages().indexOf(newImage);
+									
+									//SQL HERE UPDATEIMAGES
+									try {
+										Technician.UpdateImages(orderTransfer, index);
+									} catch (SQLException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
 									
 									filesOut.setText(filesOut.getText() + "   " + orderTransfer.getImages().get(index).getLabel());
 									
@@ -450,7 +463,7 @@ public class UITechnician extends JFrame {
 												else if (click.getSource() == deleteButton) {
 													
 													if (orderTransfer.getImages().size() <= 1) {
-														
+														//SQL HERE TO REMOVE IMAGE
 														orderTransfer.getImages().clear();
 														imageLabel.setIcon(null);
 														imageLabel.setText("No images");
@@ -459,6 +472,7 @@ public class UITechnician extends JFrame {
 													}//end nested if
 													
 													else {
+														//SQL HERE TO REMOVE IMAGE
 														orderTransfer.getImages().remove(currentIndex);
 														currentImage = (BufferedImage) orderTransfer.getImages().get(currentIndex).getImage();
 														currentIcon.setImage(currentImage); 
@@ -491,10 +505,11 @@ public class UITechnician extends JFrame {
 									if (click.getSource() == submitOrderButton) {
 										
 										if(orderTransfer.getImages().size() > 0) {
+											//SQL HERE TO UPDATE STATUS
 											
 											orderTransfer.setOrderStatus("Complete");
 											orderStatusOut.setText(orderTransfer.getOrderStatus());
-											testLabel.setText(orderTransfer.getOrderStatus());
+											
 										}//end nested if
 										
 										else if(orderTransfer.getImages().size() == 0) {
@@ -552,7 +567,7 @@ public class UITechnician extends JFrame {
 					appts.clear();
 					
 					try {
-						appts.addAll(Technician.ViewAppointments(LocalDate.now()));
+						appts.addAll(Technician.ViewAppointments());
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

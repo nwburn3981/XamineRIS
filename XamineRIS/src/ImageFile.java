@@ -7,19 +7,17 @@ import java.time.LocalDate;
 //Need to fix verify
 public class ImageFile {
 	
-	LocalDate addedOn;
+	int ID;
 	Image image;
 	String label;
 	String user;
+	String path;
 	
-	public ImageFile(LocalDate uploadOn, Image img, String lbl, String uploadUser) {
+	public ImageFile(int id, Image img, String path, String lbl, String uploadUser) {
 		
-		this.addedOn = uploadOn;
-		/*if (VerifyImage(lbl) == true)
-			this.image = img;
-		else
-			System.out.println("File type not accepted, .jpg or .png only");*/
+		this.ID = id;
 		this.image = img;
+		this.path = path;
 		this.label = lbl;
 		this.user = uploadUser;
 		
@@ -41,15 +39,7 @@ public class ImageFile {
 
 	@Override
 	public String toString() {
-		return "Image [addedOn=" + addedOn + ", image=" + image + ", label=" + label + ", user=" + user + "]";
-	}
-
-	public LocalDate getAddedOn() {
-		return addedOn;
-	}
-
-	public void setAddedOn(LocalDate addedOn) {
-		this.addedOn = addedOn;
+		return "Image [image=" + image + ", label=" + label + ", user=" + user + "]";
 	}
 
 	public Image getImage() {
@@ -74,6 +64,22 @@ public class ImageFile {
 
 	public void setUser(String user) {
 		this.user = user;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public int getID() {
+		return ID;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
 	}
 	
 
