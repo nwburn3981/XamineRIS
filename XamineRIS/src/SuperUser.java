@@ -1,8 +1,12 @@
+package XamineRIS;
+
 import java.util.ArrayList;
 
 public class SuperUser extends User {
 	
-	private String userId, firstName, lastName , password , email , userName; 
+	int userId;
+	private String firstName, lastName , email , userName;
+	char[] password; 
 	private boolean isActive, isStaff, isSuperUser ;
 	private Permission userPermission ;
 	//array list to simulate user table
@@ -78,11 +82,11 @@ public class SuperUser extends User {
 		
 	}//end EditUser
 	
-	public String getUserId() {
+	public int getUserId() {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 
@@ -102,11 +106,11 @@ public class SuperUser extends User {
 		this.lastName = lastName;
 	}
 
-	public String getPassword() {
+	public char[] getPassword() {
 		return password;
 	}
 
-	public void setPassword(String password) {
+	public void setPassword(char[] password) {
 		this.password = password;
 	}
 
