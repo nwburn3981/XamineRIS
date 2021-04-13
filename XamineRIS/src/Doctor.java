@@ -1,6 +1,8 @@
 package XamineRIS;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Doctor extends User {
 	
@@ -24,7 +26,7 @@ public class Doctor extends User {
 			   String driver = "com.mysql.cj.jdbc.Driver";
 			   String url = "jdbc:mysql://localhost:3306/xaminedatabase";
 			   String username = "root";
-			   String password = "";
+			   String password = "Restoration2021!";
 			   Class.forName(driver);
 			   
 			   Connection conn = DriverManager.getConnection(url,username,password);
@@ -189,6 +191,70 @@ public class Doctor extends User {
 	    
 	    System.out.println("Data Successfully Uploaded");
 	} 
+	
+	public static ArrayList<Order> ViewResults() throws SQLException {
+		/*Searches through orders for current day's appointments
+		 * Puts Orders for selected date in arraylist for UIManager to access and display
+		 * UIManager displays orderID, appt time, room number, and imaging ordered
+		 * User can select appt and press select button to display patient information
+		 */		
+		
+		//Adding parameters for testing
+		ArrayList<Order> completeOrders = new ArrayList<>();
+		Patient currPatient ;
+		int index = 0;
+		Connection conn = getConnection();
+		System.out.println(LocalDate.now()) ;
+		PreparedStatement statement = conn.prepareStatement("Select * from imagingorder Where orderStatus = ? ; " ) ;
+		statement.setString(1, "Complete");
+		
+		ResultSet result = statement.executeQuery() ;
+		
+		while(result.next()) {
+			currPatient = ReturnPatient(result.getInt("patientID") ) ;
+			completeOrders.add(index, new Order(result.getInt("orderID")));
+			completeOrders.get(index).setImagingOrder(result.getString("imagingNeeded"));
+			completeOrders.get(index).setVisitReason(result.getString("visitReason"));
+			completeOrders.get(index).setOrderStatus(result.getString("orderStatus"));
+			completeOrders.get(index).setRadioAnalysis(result.getString("technicalReport"));
+			
+			completeOrders.get(index).setPatient(currPatient);
+			
+			index++ ;
+		}
+		
+		System.out.println(" Results found successfully");
+		return completeOrders ;
+	}
+	
+	public static Patient ReturnPatient(int ID) throws SQLException {
+		
+		 Patient currPatient = new Patient("", "");
+		 
+		 Connection conn = getConnection() ;
+		 PreparedStatement statement = conn.prepareStatement("Select * from patient Where patientID  = ?  ;") ;
+		 
+		statement.setInt(1, ID );
+		
+		ResultSet result = statement.executeQuery() ;
+		
+		while(result.next()) {
+			 currPatient = new Patient(result.getString("firstName"), result.getString("lastName")) ;
+			 currPatient.setPatientId(result.getInt("patientID"));
+			 currPatient.setEmail(result.getString("email"));
+			 currPatient.setPhoneNumber(result.getString("phoneNumber"));
+			 currPatient.setAllergyLatex(result.getBoolean("allergyLatex"));
+			 currPatient.setAllergyMridye(result.getBoolean("allergyMridye"));
+			 currPatient.setAllergyXraydye(result.getBoolean("allergyXrayDye"));
+			 currPatient.setNotes(result.getString("notes"));
+			 currPatient.setDateOfBirth(result.getString("dateOfBirth"));
+	}
+		 
+		
+		result.close();
+		
+		return currPatient;
+	}
 
 	public int getUserId() {
 		return userID;

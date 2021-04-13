@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.EventQueue;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,6 +14,7 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.Panel;
 import javax.swing.JTextField;
@@ -50,6 +52,15 @@ public class UIReferringDoctor extends JFrame {
 	private User currentUser;
 	private Patient currPatient ;
 	private Patient[] Patients = new Patient[5] ;
+	
+	protected ArrayList<JRadioButton> buttonTracker = new ArrayList<>();
+	protected ArrayList<Order> orderTracker = new ArrayList<>();
+	protected ArrayList<Order> orderList = new ArrayList<>();
+	
+	private Order orderTransfer;
+	
+	private ButtonGroup radioButtonGroup = new ButtonGroup();
+	private ActionListener radioListener;
 
 	/**
 	 * Launch the application.
@@ -334,6 +345,17 @@ public class UIReferringDoctor extends JFrame {
 		JLabel lblCurrentPatient = new JLabel("");
 		lblCurrentPatient.setBounds(10, 351, 181, 14);
 		actionPanel.add(lblCurrentPatient);
+		
+		//ViewResultsPanel
+		Panel ViewResultsPanel = new Panel();
+		ViewResultsPanel.setBounds(255, 33, 913, 420);
+		ViewResultsPanel.setLayout(null);
+		
+		//ViewResultsPanel
+		Panel detailsPanel = new Panel();
+		detailsPanel.setBounds(255, 33, 913, 420);
+		detailsPanel.setLayout(null);
+		
 	
 		// These buttons select a patient from the results category and make them the current patient to start new orders with
 		JButton btnPatientId01 = new JButton("Select ");
@@ -1033,6 +1055,8 @@ public class UIReferringDoctor extends JFrame {
 				subActionPanel.remove(SearchPatientPanel);
 				subActionPanel.remove(viewOpenOrdersPanel);
 				subActionPanel.remove(newOrderPanel);
+				subActionPanel.remove(detailsPanel);
+				subActionPanel.remove(ViewResultsPanel);
 				subActionPanel.add(newPatientPanel);
 			}
 		});
@@ -1045,6 +1069,8 @@ public class UIReferringDoctor extends JFrame {
 				subActionPanel.remove(SearchPatientPanel);
 				subActionPanel.remove(newPatientPanel);
 				subActionPanel.remove(newOrderPanel);
+				subActionPanel.remove(detailsPanel);
+				subActionPanel.remove(ViewResultsPanel);
 				subActionPanel.add(viewOpenOrdersPanel);
 				
 			}
@@ -1058,6 +1084,8 @@ public class UIReferringDoctor extends JFrame {
 				subActionPanel.remove(viewOpenOrdersPanel);
 				subActionPanel.remove(newPatientPanel);
 				subActionPanel.remove(newOrderPanel);
+				subActionPanel.remove(detailsPanel);
+				subActionPanel.remove(ViewResultsPanel);
 				subActionPanel.add(SearchPatientPanel);
 				
 			}
@@ -1071,6 +1099,8 @@ public class UIReferringDoctor extends JFrame {
 				subActionPanel.remove(viewOpenOrdersPanel);
 				subActionPanel.remove(newPatientPanel);
 				subActionPanel.remove(SearchPatientPanel);
+				subActionPanel.remove(detailsPanel);
+				subActionPanel.remove(ViewResultsPanel);
 				subActionPanel.add(newOrderPanel);
 				
 				lblNewOrderPatietFirstName.setText(currPatient.getFirstName());
@@ -1082,6 +1112,161 @@ public class UIReferringDoctor extends JFrame {
 		});
 		newOrder.setBounds(10, 130, 203, 23);
 		actionPanel.add(newOrder);
+		
+		//Listener for buttons in resutls portal
+		 radioListener = new ActionListener() {
+				
+				public void actionPerformed(ActionEvent selection) {
+					
+					Object selected = selection.getSource();
+					int selectedIndex = buttonTracker.indexOf(selected);
+					orderTransfer = orderTracker.get(selectedIndex);
+					
+					JButton detailsButton = new JButton("Details");
+					detailsButton.setBounds(300, 310, 219, 37);
+					ViewResultsPanel.add(detailsButton);
+					ViewResultsPanel.repaint();
+					ViewResultsPanel.revalidate();
+					
+					ActionListener detailListener = new ActionListener() {
+						
+						public void actionPerformed(ActionEvent click) {
+							
+							subActionPanel.remove(viewOpenOrdersPanel);
+							subActionPanel.remove(newPatientPanel);
+							subActionPanel.remove(SearchPatientPanel);
+							subActionPanel.remove(newOrderPanel);
+							subActionPanel.add(detailsPanel);
+							subActionPanel.remove(ViewResultsPanel);
+							
+							//add resultsDetail view here
+							JLabel orderIDLabel = new JLabel("Order ID:");
+							orderIDLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+							orderIDLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+							orderIDLabel.setBounds(359, 25, 100, 14);
+							detailsPanel.add(orderIDLabel);
+							
+							JLabel orderIDOut = new JLabel(String.valueOf(orderTransfer.getOrderID()));
+							orderIDOut.setFont(new Font("Tahoma", Font.PLAIN, 18));
+							orderIDOut.setBounds(469, 25, 100, 14);
+							detailsPanel.add(orderIDOut);
+							
+							JLabel patientNameLabel = new JLabel("Patient:");
+							patientNameLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+							patientNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+							patientNameLabel.setBounds(95, 100, 100, 24);
+							detailsPanel.add(patientNameLabel);
+							
+							JLabel patientNameOut = new JLabel(orderTransfer.getPatient().getFirstName() + " " + orderTransfer.getPatient().getLastName());
+							patientNameOut.setFont(new Font("Tahoma", Font.PLAIN, 14));
+							patientNameOut.setBounds(205, 100, 140, 24);
+							
+							detailsPanel.add(patientNameOut);
+							
+							JLabel orderStatusLabel = new JLabel("Order Status:");
+							orderStatusLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+							orderStatusLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+							orderStatusLabel.setBounds(95, 160, 100, 24);
+							detailsPanel.add(orderStatusLabel);
+							
+							JLabel orderStatusOut = new JLabel(orderTransfer.getOrderStatus());
+							orderStatusOut.setFont(new Font("Tahoma", Font.PLAIN, 14));
+							orderStatusOut.setBounds(205, 160, 140, 24);
+							detailsPanel.add(orderStatusOut);
+							
+							JLabel imagingLabel = new JLabel("Imaging:");
+							imagingLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+							imagingLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+							imagingLabel.setBounds(95, 224, 100, 24);
+							detailsPanel.add(imagingLabel);
+							
+							JLabel imagingOut = new JLabel(orderTransfer.getImagingOrder());
+							imagingOut.setFont(new Font("Tahoma", Font.PLAIN, 14));
+							imagingOut.setBounds(205, 224, 140, 24);
+							detailsPanel.add(imagingOut);
+							
+							JTextArea analysisTextArea = new JTextArea();
+							analysisTextArea.setText(orderTransfer.getRadioAnalysis());
+							analysisTextArea.setBounds(446, 62, 292, 290);
+							detailsPanel.add(analysisTextArea);
+							analysisTextArea.setColumns(10);
+							
+							JLabel analysis = new JLabel("Analysis");
+							analysis.setBounds(502, 23, 174, 31);
+							detailsPanel.add(analysis);
+							analysis.setHorizontalAlignment(SwingConstants.CENTER);
+							analysis.setFont(new Font("Lucida Grande", Font.BOLD, 17));
+							
+							JLabel filesLabel = new JLabel("Files on Order:");
+							filesLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+							filesLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+							filesLabel.setBounds(40, 288, 100, 24);
+							detailsPanel.add(filesLabel);
+							
+							JLabel filesOut = new JLabel();
+							filesOut.setFont(new Font("Tahoma", Font.PLAIN, 14));
+							filesOut.setBounds(150, 288, 508, 24);
+							detailsPanel.add(filesOut);
+							
+							if (orderTransfer.getImages().isEmpty() != true) {
+								
+								for(int i = 0; i < orderTransfer.getImages().size(); i++) {
+									filesOut.setText(filesOut.getText() + orderTransfer.getImages().get(i).getLabel() + "   ");
+								}//end for
+							}//end if
+						}//end Action
+					};//end detailListener
+					
+					detailsButton.addActionListener(detailListener);
+				}//end Action
+			};//end radioListener
+		
+		JButton viewResults = new JButton("View Results");
+		viewResults.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				subActionPanel.remove(viewOpenOrdersPanel);
+				subActionPanel.remove(newPatientPanel);
+				subActionPanel.remove(SearchPatientPanel);
+				subActionPanel.remove(newOrderPanel);
+				subActionPanel.remove(detailsPanel);
+				subActionPanel.add(ViewResultsPanel);
+				
+				buttonTracker.clear();					
+				orderTracker.clear();
+				
+				//CALL SQL HERE, SIMLILAR TO TEAMS MODALITIES ETC.
+				try {
+					orderList = Doctor.ViewResults();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				int yValue = 10;
+				int xValue = 20;					
+				
+				//fills out view panel with radio buttons for each order that has not been completed.
+				for(int i = 0; i < orderList.size(); i++) {
+					
+					JRadioButton orderRdButton = new JRadioButton( orderList.get(i).getOrderID() + ": " + orderList.get(i).getPatient().getFirstName() + " " + orderList.get(i).getPatient().getLastName());
+					orderRdButton.setBounds(xValue, yValue, 250, 15);
+					ViewResultsPanel.add(orderRdButton);
+					orderRdButton.addActionListener(radioListener);
+					radioButtonGroup.add(orderRdButton);
+					
+					buttonTracker.add(orderRdButton);
+					orderTracker.add(orderList.get(i));
+					
+					yValue += 25;
+					
+				}//end for
+				
+			}
+		});
+		
+		
+		viewResults.setBounds(10, 166, 203, 23);
+		actionPanel.add(viewResults);
 		
 		
 		JButton newpatientbutton = new JButton("New Patient");
@@ -1113,4 +1298,8 @@ public class UIReferringDoctor extends JFrame {
 		//subActionPanel.add(newOrderPanel);
 		//subActionPanel.add(viewOpenOrdersPanel);
 	}
+	
+	
+	
+
 }
