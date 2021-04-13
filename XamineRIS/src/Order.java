@@ -1,3 +1,4 @@
+package XamineRIS;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -28,6 +29,8 @@ public class Order
 	private int teamID;
 	private String teamName ;
     
+	private Team team ;
+	
     // TO-DO 
     //AllergyCheck implement
     // Implement a text box for analysis by the radiologist 
@@ -54,26 +57,12 @@ public class Order
 		this.orderStatus = orderStatus;
 	}
 
-	public String getModality() {
-		return Modality.getModalityName();
+	public Modality getModality() {
+		return this.Modality ;
 	}
 
-	public void setModality(String modality) {
-		switch(modality) {
-		case "Xray":{
-			this.Modality = new Modality("01");
-			break;
-		}
-		case "MRI":{
-			this.Modality = new Modality("02");
-			break;
-		}
-		case "Ultrasound":{
-			this.Modality = new Modality("03");
-			break;
-		}
-	
-		}//end switch
+	public void setModality(Modality mod) {
+		this.Modality = mod ;
 	}
 
 	public String getImagingOrder() {
@@ -231,10 +220,7 @@ public class Order
 		this.teamID =  iD ;
 	}
 
-	public void setModality(XamineRIS.Modality modality2) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	public int getTeamID() {
 		// TODO Auto-generated method stub
@@ -257,6 +243,14 @@ public class Order
 		return this.patient.getPatientId() ;
 	}
 
+	public void setTeam(Team team) {
+		// TODO Auto-generated method stub
+		this.team = team ;
+	}
+
+	public Team getTeam() {
+		return this.team ;
+	}
 	
 
 	
