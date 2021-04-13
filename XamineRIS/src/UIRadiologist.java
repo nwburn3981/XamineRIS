@@ -444,7 +444,7 @@ public class UIRadiologist extends JFrame {
 		filesLabel.setBounds(40, 200, 100, 24);
 		viewPanel.add(filesLabel);
 		
-		JLabel filesOut = new JLabel("test.png, longertest.png, longesttest.png");
+		JLabel filesOut = new JLabel("");
 		filesOut.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		filesOut.setBounds(150, 200, 508, 24);
 		viewPanel.add(filesOut);
@@ -640,6 +640,7 @@ imageListener = new ActionListener() {
 			orders.get(index).setOrderStatus(result.getString("orderStatus"));
 			orders.get(index).setApptTime(result.getString("appointment"));
 			orders.get(index).setPatient(currPatient);
+			orders.get(index).setImages(getOrderImages(orders.get(index).getOrderID()));
 			
 			index++ ;
 		}
@@ -680,10 +681,31 @@ imageListener = new ActionListener() {
 			
 	}
 		 
-		
 		result.close();
 		
+		foundOrder.setImages(getOrderImages(foundOrder.getOrderID()));
+		
 		return foundOrder;
+	}
+	
+	public static ArrayList<ImageFile> getOrderImages(int OrderID) throws SQLException {
+		
+		ArrayList<ImageFile> images = new ArrayList<ImageFile>() ;
+		
+		Connection conn = getConnection() ;
+		PreparedStatement statement = conn.prepareStatement("Select * from image Where orderID  = ?  ;") ;
+		 
+		statement.setInt(1, OrderID );
+		
+		ResultSet result = statement.executeQuery() ;
+		
+		while(result.next()) {
+			ImageFile image = new ImageFile(result.getInt("imageID"), null , result.getString("pathName"), result.getString("imagelabel"), null);
+			images.add(image) ;
+			System.out.println(image.getLabel());
+		}
+		
+		return images ;
 	}
 	
 	public static ArrayList<Modality> ReturnMod() throws SQLException {
@@ -750,3 +772,4 @@ imageListener = new ActionListener() {
 		statement.executeUpdate();
 		
 	}
+}
