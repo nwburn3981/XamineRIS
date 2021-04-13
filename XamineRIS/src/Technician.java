@@ -253,14 +253,17 @@ public ImageFile ViewPreviousImage(Order selectedOrder, ImageFile img) {
 	}//end CheckIfEmpty
 	
 	
-	public void SubmitOrder(Order selectedOrder) {
+	public void SubmitOrder(Order selectedOrder) throws SQLException {
 		
-		/*Sends notification to radiologist that order is ready for analysis
-		 *Best way to do this may be to have a check at the loading of every UI element - 1 notification for each order status set to complete,
-		 *viewing notifications will display orders with completed imaging
-		 * 
-		 */
-		selectedOrder.setImagingOrderStatus("Complete");
+		// Upload all the images currently held in the order 
+		// Change order status to "Imaging Complete"
+		Connection conn = getConnection() ;
+
+		PreparedStatement statement = conn.prepareStatement("Update imagingorder orderStatus = ?   Where orderID  = ?  ;") ;
+		 
+		statement.setString(1, "Imaging Complete");
+		statement.setInt(2, selectedOrder.getOrderID());
+		
 		
 	}//end SubmitOrder
 	
