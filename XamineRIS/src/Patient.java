@@ -1,9 +1,12 @@
+package XamineRIS;
+
 public class Patient {
 
-	private String  email, firstName, lastName, gender, middleName, notes = "No notes", phoneNumber, dateOfBirth;
-	private int age , patientId;
+	int patientId;
+	private String email, firstName, lastName, gender, middleName, notes, phoneNumber , DateOfBirth;
+	private int age;
 	private boolean allergyLatex, allergyAsthma, allergyMridye, allergyXraydye;
-	private String allergy = "No known allergies";
+	private String allergy = "None";
 	// private Doctor patientDr
 	// implement date
 	
@@ -12,13 +15,14 @@ public class Patient {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
+		this.phoneNumber = phoneNumber;
 	}
 
-	public String getPatientId() {
+	public int getPatientId() {
 		return patientId;
 	}
 
-	public void setPatientId(String patientId) {
+	public void setPatientId(int patientId) {
 		this.patientId = patientId;
 	}
 
@@ -125,14 +129,15 @@ public class Patient {
 	public void setAllergy(String allergy) {
 		this.allergy = allergy;
 	}
-	
+
 	public String getDateOfBirth() {
-		return dateOfBirth ;
+		return DateOfBirth;
 	}
-	
-	public void setDateOfBirth(Seting dateOfBirth) {
-		this.dateOfBirth = dateOfBirth ;
+
+	public void setDateOfBirth(String dateOfBirth) {
+		DateOfBirth = dateOfBirth;
 	}
+
 
 	
 	
