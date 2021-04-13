@@ -1,7 +1,8 @@
-
+package XamineRIS;
 public class Receptionist extends User {
 	
-	private String userId, firstName, lastName , password , email , userName; 
+	private int userId ;
+	private String  firstName, lastName , password , email , userName; 
 	private boolean isActive, isStaff, isSuperUser ;
 	private Permission userPermission ;
 	
