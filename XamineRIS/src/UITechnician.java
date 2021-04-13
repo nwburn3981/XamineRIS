@@ -1,3 +1,4 @@
+package XamineRIS ;
 
 import java.awt.EventQueue;
 
