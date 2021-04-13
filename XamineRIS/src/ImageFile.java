@@ -1,3 +1,5 @@
+package XamineRIS;
+
 import java.awt.Image;
 import java.time.LocalDate;
 
