@@ -1,13 +1,11 @@
+package XamineRIS;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.BorderLayout;
 import javax.swing.SwingConstants;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.layout.FormSpecs;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -15,6 +13,11 @@ import javax.swing.JButton;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -61,30 +64,9 @@ public class UILogin extends JFrame {
 	 */
 	public UILogin() {
 		
-		//Test permissions
-		Permission doctor = new Permission("ReferringDr");
-		Permission receptionist = new Permission("Receptionist");
-		Permission tech = new Permission("Technician");
-		Permission radio = new Permission("Radiologist");
-		Permission superUser = new Permission("SuperUser");
-		//Test users
-		user1 = new User("Jeff", "Doctorman", "jDoctorman@ung.edu", "jdoctor01");
-		user2 = new User("Polly", "Techson", "pTechson@ung.edu", "ptechson01");
-		user3 = new User("Ted", "Recep", "tRecep@ung.edu", "trecep01");
-		user4 = new User("Innis", "Raddon", "iRaddon@ung.edu", "iraddon01");
-		user5 = new User("Pa", "Super", "pSuper@ung.edu", "psuper01");
-		
-		user1.setPassword("password");
-		user1.setUserPermission(doctor);
-		user2.setPassword("password");
-		user2.setUserPermission(tech);
-		user3.setPassword("password");
-		user3.setUserPermission(receptionist);
-		user4.setPassword("password");
-		user4.setUserPermission(radio);
-		user5.setPassword("password");
-		user5.setUserPermission(superUser);
+
 		initialize();
+		
 	}
 
 	/**
@@ -142,66 +124,49 @@ public class UILogin extends JFrame {
 				String usernameValue = usernameIn.getText();
 				char[] passwordValue = new char[8];
 				passwordValue = passwordIn.getPassword();
-				int permissionLvl = 6;//Set to 6 since this permission does not exist
+				int permissionLvl = -1;//Set to -1 since this permission does not exist
 				
-				if(usernameValue.equals(user1.getUserName()) && Arrays.equals(passwordValue, user1.getPassword())) {
-					
-					permissionLvl = user1.getUserPermission().getAccessLvl();
-				}
-				
-				else if(usernameValue.equals(user2.getUserName()) && Arrays.equals(passwordValue, user2.getPassword())) {
-					
-					permissionLvl = user2.getUserPermission().getAccessLvl();
+				User user = new User() ;
+				try {
+					user = getAccess(usernameValue, passwordValue);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 				
-				else if(usernameValue.equals(user3.getUserName()) && Arrays.equals(passwordValue, user3.getPassword())) {
-					
-					permissionLvl = user3.getUserPermission().getAccessLvl();
-				}
-
-				else if(usernameValue.equals(user4.getUserName()) && Arrays.equals(passwordValue, user4.getPassword())) {
-	
-					permissionLvl = user4.getUserPermission().getAccessLvl();
-				}
-				
-				else if(usernameValue.equals(user5.getUserName()) && Arrays.equals(passwordValue, user5.getPassword())) {
-	
-					permissionLvl = user5.getUserPermission().getAccessLvl();
-				}
-				
-				else {
-						testLabel.setText("Invalid Login");
-				}
+				if (user != null) permissionLvl = user.getUserPermission().getAccessLvl();
+				else testLabel.setText("Invalid Login");
 				
 				
 				switch(permissionLvl) {
 				case 0:{
-					UISuperUser.main(user5);
+					UISuperUser.main(user);
 					testLabel.setText(String.valueOf(permissionLvl));
 					frame.dispose();
 					break;
 				}
 				case 1:{
-					UIReferringDoctor.main(user1);
+					UIReferringDoctor.main(user);
 					frame.dispose();
 					break;
 				}
 				case 2:{
-					UIReceptionist.main(user3);
+					UIReceptionist.main(user);
 					frame.dispose();
 					break;
 				}
 				case 3:{
-					UITechnician.main(user2);
+					UITechnician.main(user);
 					frame.dispose();
 					break;
 				}
 				case 4:{
-					UIRadiologist.main(user3);
+					UIRadiologist.main(user);
 					frame.dispose();
 					break;
 					
 				}
+			
 				
 				}
 			}
@@ -222,7 +187,7 @@ public class UILogin extends JFrame {
 			   String driver = "com.mysql.cj.jdbc.Driver";
 			   String url = "jdbc:mysql://localhost:3306/xaminedatabase";
 			   String username = "root";
-			   String password = "password";
+			   String password = "";
 			   Class.forName(driver);
 			   
 			   Connection conn = DriverManager.getConnection(url,username,password);
@@ -235,4 +200,86 @@ public class UILogin extends JFrame {
 		}	  
 		return null ;
 	}
+	
+	public String getPassword (String username) throws SQLException {
+		
+		String password = "" ;
+		Connection conn = getConnection() ;
+		
+		PreparedStatement statement = conn.prepareStatement("Select password from user where username = ? ") ;
+		
+		statement.setString(1, username ) ;
+		
+		ResultSet result = statement.executeQuery() ;
+		
+		while(result.next()) {
+			password = result.getString("password") ;
+		}
+		
+		System.out.println("password retrieval");
+	return password ;	
+		
+	} 
+	
+	public Permission getUserPermission(User user) throws SQLException {
+		
+		Permission permission = null ;
+		Connection conn = getConnection() ;
+		
+		PreparedStatement statement = conn.prepareStatement("select programName from permission where accesslvl in ( Select accesslvl from user where userName = ? ) ;") ;
+		
+		statement.setString(1, user.getUserName() ) ;
+		
+		ResultSet result = statement.executeQuery() ;
+		
+		while(result.next()) {
+			permission = new Permission(result.getString("programName"));
+		}
+		
+		System.out.println("permission in the clear ");
+		return permission ;
+	}
+	
+	public User getAccess(String username, char[] password ) throws SQLException {
+		
+		User user = new User() ;
+		String Password = String(password) ;
+		
+		System.out.println(Password);
+		if (!(Password.equals(getPassword(username)))) {System.out.println("password failure");System.out.println(getPassword(username)) ; return null ;  }
+		
+		Connection conn = getConnection() ;
+		
+		PreparedStatement statement = conn.prepareStatement("Select * from user where username = ? ") ;
+		
+		statement.setString(1, username ) ;
+		
+		ResultSet result = statement.executeQuery() ;
+		
+		while(result.next()) {
+			user = new User(result.getString("firstName"),result.getString("lastName"), result.getString("email"), result.getString("userName")) ;		
+		}
+		
+		result.close();
+		
+		user.setUserPermission(getUserPermission(user));
+		
+		System.out.println("Everything worked In the back");
+		
+		return user ;
+		
+	}
+	
+	private String String(char[] password) {
+		
+		String result = "" ;
+		
+		for (int x = 0 ; x < password.length ; x++) {
+			result += password[x] ;
+		}
+		
+		
+		return result ;
+	}
+	
 }
