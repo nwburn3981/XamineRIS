@@ -600,7 +600,7 @@ imageListener = new ActionListener() {
 			   String driver = "com.mysql.cj.jdbc.Driver";
 			   String url = "jdbc:mysql://localhost:3306/xaminedatabase";
 			   String username = "root";
-			   String password = "Restoration2021!";
+			   String password = "";
 			   Class.forName(driver);
 			   
 			   Connection conn = DriverManager.getConnection(url,username,password);
@@ -750,4 +750,3 @@ imageListener = new ActionListener() {
 		statement.executeUpdate();
 		
 	}
-}
