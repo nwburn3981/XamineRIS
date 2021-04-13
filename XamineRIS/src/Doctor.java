@@ -26,7 +26,7 @@ public class Doctor extends User {
 			   String driver = "com.mysql.cj.jdbc.Driver";
 			   String url = "jdbc:mysql://localhost:3306/xaminedatabase";
 			   String username = "root";
-			   String password = "Restoration2021!";
+			   String password = "";
 			   Class.forName(driver);
 			   
 			   Connection conn = DriverManager.getConnection(url,username,password);
@@ -254,6 +254,26 @@ public class Doctor extends User {
 		result.close();
 		
 		return currPatient;
+	}
+	
+public static ArrayList<ImageFile> getOrderImages(int OrderID) throws SQLException {
+		
+		ArrayList<ImageFile> images = new ArrayList<ImageFile>() ;
+		
+		Connection conn = getConnection() ;
+		PreparedStatement statement = conn.prepareStatement("Select * from image Where orderID  = ?  ;") ;
+		 
+		statement.setInt(1, OrderID );
+		
+		ResultSet result = statement.executeQuery() ;
+		
+		while(result.next()) {
+			ImageFile image = new ImageFile(result.getInt("imageID"), null , result.getString("pathName"), result.getString("imagelabel"), null);
+			images.add(image) ;
+			System.out.println(image.getLabel());
+		}
+		
+		return images ;
 	}
 
 	public int getUserId() {
