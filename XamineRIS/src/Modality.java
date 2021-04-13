@@ -37,6 +37,11 @@ public class Modality {
 		// TODO Auto-generated method stub
 		this.modalityName = string ;
 	}
+
+	public void setModalityID(String string) {
+		// TODO Auto-generated method stub
+		this.modalityID = string ;
+	}
 	
 	
 }
