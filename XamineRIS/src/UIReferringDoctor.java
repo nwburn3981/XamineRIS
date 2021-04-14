@@ -889,6 +889,7 @@ public class UIReferringDoctor extends JFrame {
 		newPatientPanel.add(lblPatientNotes);
 		
 		JTextArea textArea = new JTextArea();
+		textArea.setLineWrap(true);
 		textArea.setBounds(602, 45, 283, 276);
 		newPatientPanel.add(textArea);
 		
@@ -1192,6 +1193,7 @@ public class UIReferringDoctor extends JFrame {
 							detailsPanel.add(imagingOut);
 							
 							JTextArea analysisTextArea = new JTextArea();
+							analysisTextArea.setLineWrap(true);
 							analysisTextArea.setText(orderTransfer.getRadioAnalysis());
 							analysisTextArea.setBounds(446, 62, 292, 290);
 							detailsPanel.add(analysisTextArea);
