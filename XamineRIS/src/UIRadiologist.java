@@ -462,7 +462,7 @@ public class UIRadiologist extends JFrame {
 		viewImageButton = new JButton("View Image");
 		viewImageButton.setBounds(125, 250, 150, 25);
 		viewPanel.add(viewImageButton);	
-		viewImageButton.addActionListener(imageListener);
+		
 		
 		 imageListener = new ActionListener() {
 			
@@ -498,7 +498,7 @@ public class UIRadiologist extends JFrame {
 						
 							public void actionPerformed(ActionEvent click) {
 								
-								
+								System.out.println("View image pressed");
 								ImageIcon currentIcon = new ImageIcon();
 								
 								if (click.getSource() == nextButton) {
@@ -567,6 +567,8 @@ public class UIRadiologist extends JFrame {
 			}//end Action
 				
 			};//end imageListener
+			
+		viewImageButton.addActionListener(imageListener);
 		
 		submitAnalysis = new JButton("Submit Analysis");
 		submitAnalysis.setBounds(650, 375, 150, 25);
@@ -632,12 +634,12 @@ public class UIRadiologist extends JFrame {
 			   String driver = "com.mysql.cj.jdbc.Driver";
 			   String url = "jdbc:mysql://localhost:3306/xaminedatabase";
 			   String username = "root";
-			   String password = " ";
+			   String password = "Restoration2021!";
 			   Class.forName(driver);
 			   
 			   Connection conn = DriverManager.getConnection(url,username,password);
 			   System.out.println("Connected");
-			   System.out.println("");
+			   System.out.println("Restoration2021!");
 			   return conn;
 			  } 
 		 catch(Exception e){
