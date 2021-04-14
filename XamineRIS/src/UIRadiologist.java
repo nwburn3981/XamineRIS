@@ -429,6 +429,9 @@ public class UIRadiologist extends JFrame {
 		
 		JTextArea analysisTextArea = new JTextArea();
 		analysisTextArea.setBounds(446, 62, 292, 290);
+		
+		if (order.getRadioAnalysis() != null) analysisTextArea.setText(order.getRadioAnalysis());
+		
 		viewPanel.add(analysisTextArea);
 		analysisTextArea.setColumns(10);
 		
@@ -566,7 +569,7 @@ public class UIRadiologist extends JFrame {
 			};//end imageListener
 		
 		submitAnalysis = new JButton("Submit Analysis");
-		submitAnalysis.setBounds(525, 375, 150, 25);
+		submitAnalysis.setBounds(650, 375, 150, 25);
 		viewPanel.add(submitAnalysis);	
 		
 		ActionListener analysisListener = new ActionListener() {
@@ -614,7 +617,7 @@ public class UIRadiologist extends JFrame {
 					};
 			}
 		});
-		saveAnalysis.setBounds(425, 375, 150, 25);
+		saveAnalysis.setBounds(400, 375, 150, 25);
 		viewPanel.add(saveAnalysis);
 		
 		
@@ -629,7 +632,7 @@ public class UIRadiologist extends JFrame {
 			   String driver = "com.mysql.cj.jdbc.Driver";
 			   String url = "jdbc:mysql://localhost:3306/xaminedatabase";
 			   String username = "root";
-			   String password = "Restoration2021!";
+			   String password = " ";
 			   Class.forName(driver);
 			   
 			   Connection conn = DriverManager.getConnection(url,username,password);
@@ -670,6 +673,7 @@ public class UIRadiologist extends JFrame {
 			orders.get(index).setApptTime(result.getString("appointment"));
 			orders.get(index).setPatient(currPatient);
 			orders.get(index).setImages(getOrderImages(orders.get(index).getOrderID()));
+			orders.get(index).setRadioAnalysis(result.getString("technicalReport"));
 			
 			index++ ;
 		}
