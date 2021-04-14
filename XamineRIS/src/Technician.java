@@ -295,12 +295,12 @@ public ImageFile ViewPreviousImage(Order selectedOrder, ImageFile img) {
 		// Change order status to "Imaging Complete"
 		Connection conn = getConnection() ;
 
-		PreparedStatement statement = conn.prepareStatement("Update imagingorder orderStatus = ?   Where orderID  = ?  ;") ;
+		PreparedStatement statement = conn.prepareStatement("Update imagingorder Set orderStatus = ?   Where orderID  = ?  ;") ;
 		 
 		statement.setString(1, "Imaging Complete");
 		statement.setInt(2, selectedOrder.getOrderID());
 		
-		
+		statement.executeUpdate();
 	}//end SubmitOrder
 	
 	//------------------------------Setters/Getters------------------------------------------------
