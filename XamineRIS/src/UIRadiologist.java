@@ -429,8 +429,12 @@ public class UIRadiologist extends JFrame {
 		
 		JTextArea analysisTextArea = new JTextArea();
 		analysisTextArea.setBounds(446, 62, 292, 290);
+		analysisTextArea.setLineWrap(true);
+		if (order.getRadioAnalysis() != null ) analysisTextArea.setText(order.getRadioAnalysis());
 		viewPanel.add(analysisTextArea);
 		analysisTextArea.setColumns(10);
+		
+		
 		
 		JLabel analysis = new JLabel("Analysis");
 		analysis.setBounds(502, 23, 174, 31);
@@ -620,7 +624,7 @@ imageListener = new ActionListener() {
 			   String driver = "com.mysql.cj.jdbc.Driver";
 			   String url = "jdbc:mysql://localhost:3306/xaminedatabase";
 			   String username = "root";
-			   String password = "Et70670!";
+			   String password = "   ";
 			   Class.forName(driver);
 			   
 			   Connection conn = DriverManager.getConnection(url,username,password);
@@ -661,6 +665,7 @@ imageListener = new ActionListener() {
 			orders.get(index).setApptTime(result.getString("appointment"));
 			orders.get(index).setPatient(currPatient);
 			orders.get(index).setImages(getOrderImages(orders.get(index).getOrderID()));
+			orders.get(index).setRadioAnalysis(result.getString("technicalReport"));
 			
 			index++ ;
 		}
