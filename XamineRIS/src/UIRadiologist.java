@@ -588,7 +588,12 @@ imageListener = new ActionListener() {
 						}
 				
 					
-				subActionPanel.remove(viewPanel);
+					try {
+						GenerateOrders() ;
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				
 			}//end Action
 
@@ -607,7 +612,12 @@ imageListener = new ActionListener() {
 						error.printStackTrace();
 					}
 				
-					subActionPanel.remove(viewPanel) ;
+					try {
+						GenerateOrders() ;
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					};
 			}
 		});
 		saveAnalysis.setBounds(425, 375, 150, 25);
