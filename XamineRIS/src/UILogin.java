@@ -36,11 +36,6 @@ public class UILogin extends JFrame {
 	private JFrame frame;
 	private JTextField usernameIn;
 	private JPasswordField passwordIn;
-	private User user1;
-	private User user2;
-	private User user3;
-	private User user4;
-	private User user5;
 	private UILogin window;
 
 	/**
@@ -187,7 +182,7 @@ public class UILogin extends JFrame {
 			   String driver = "com.mysql.cj.jdbc.Driver";
 			   String url = "jdbc:mysql://localhost:3306/xaminedatabase";
 			   String username = "root";
-			   String password = "";
+			   String password = "Restoration2021!";
 			   Class.forName(driver);
 			   
 			   Connection conn = DriverManager.getConnection(url,username,password);

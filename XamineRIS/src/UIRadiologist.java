@@ -429,12 +429,8 @@ public class UIRadiologist extends JFrame {
 		
 		JTextArea analysisTextArea = new JTextArea();
 		analysisTextArea.setBounds(446, 62, 292, 290);
-		analysisTextArea.setLineWrap(true);
-		if (order.getRadioAnalysis() != null ) analysisTextArea.setText(order.getRadioAnalysis());
 		viewPanel.add(analysisTextArea);
 		analysisTextArea.setColumns(10);
-		
-		
 		
 		JLabel analysis = new JLabel("Analysis");
 		analysis.setBounds(502, 23, 174, 31);
@@ -465,18 +461,20 @@ public class UIRadiologist extends JFrame {
 		viewPanel.add(viewImageButton);	
 		viewImageButton.addActionListener(imageListener);
 		
-imageListener = new ActionListener() {
+		 imageListener = new ActionListener() {
 			
 			public void actionPerformed(ActionEvent click) {
 				
-				if (click.getSource() == viewImageButton) {
-					if (order.getImages().isEmpty() != true) {
+				
+				 if (click.getSource() == viewImageButton ) {
+					
+					if (orderTransfer.getImages().isEmpty() != true) {
 						
-						BufferedImage displayImage = (BufferedImage) order.getImages().get(0).getImage();
-						ImageIcon icon = new ImageIcon(displayImage);
+		
+						ImageIcon icon = new ImageIcon(orderTransfer.getImages().get(0).getPath());
 						
 						JLabel imageLabel = new JLabel(icon);
-						imageLabel.setBounds(184, 5, 46, 14);
+						imageLabel.setBounds(0, 0, 410, 420);
 						
 						ImageViewer imageFrame = new ImageViewer();
 						imageFrame.setVisible(true);
@@ -497,7 +495,7 @@ imageListener = new ActionListener() {
 						
 							public void actionPerformed(ActionEvent click) {
 								
-								BufferedImage currentImage;
+								
 								ImageIcon currentIcon = new ImageIcon();
 								
 								if (click.getSource() == nextButton) {
@@ -505,8 +503,7 @@ imageListener = new ActionListener() {
 									if (currentIndex + 1 < orderTransfer.getImages().size()) {
 										
 										currentIndex = currentIndex+1;
-										currentImage = (BufferedImage) order.getImages().get(currentIndex).getImage();
-										currentIcon.setImage(currentImage); 
+										currentIcon = new ImageIcon(orderTransfer.getImages().get(currentIndex).getPath()); 
 										imageLabel.setIcon(currentIcon);
 										imageFrame.viewImagePanel.repaint();
 										imageFrame.viewImagePanel.revalidate();
@@ -517,14 +514,14 @@ imageListener = new ActionListener() {
 									else {
 										
 										currentIndex = 0;
-										currentImage = (BufferedImage) order.getImages().get(currentIndex).getImage();
-										currentIcon.setImage(currentImage); 
+										currentIcon = new ImageIcon(orderTransfer.getImages().get(currentIndex).getPath());  
 										imageLabel.setIcon(currentIcon);
 										imageFrame.viewImagePanel.repaint();
 										imageFrame.viewImagePanel.revalidate();
 										
 									}//end nested else
 									
+									System.out.println("Next pressed");
 								}//end if
 								
 								else if (click.getSource() == prevButton) {
@@ -532,8 +529,7 @@ imageListener = new ActionListener() {
 									if (currentIndex -1 >= 0) {
 										
 										currentIndex = currentIndex-1;
-										currentImage = (BufferedImage) order.getImages().get(currentIndex).getImage();
-										currentIcon.setImage(currentImage); 
+										currentIcon = new ImageIcon(orderTransfer.getImages().get(currentIndex).getPath()); 
 										imageLabel.setIcon(currentIcon);
 										imageFrame.viewImagePanel.repaint();
 										imageFrame.viewImagePanel.revalidate();
@@ -543,9 +539,8 @@ imageListener = new ActionListener() {
 									
 									else {
 										
-										currentIndex = orderTransfer.getImages().size()-1;
-										currentImage = (BufferedImage) order.getImages().get(currentIndex).getImage();
-										currentIcon.setImage(currentImage); 
+										currentIndex = orderTransfer.getImages().size()-1;										
+										currentIcon = new ImageIcon(orderTransfer.getImages().get(currentIndex).getPath()); 
 										imageLabel.setIcon(currentIcon);
 										imageFrame.viewImagePanel.repaint();
 										imageFrame.viewImagePanel.revalidate();
@@ -562,16 +557,16 @@ imageListener = new ActionListener() {
 						prevButton.addActionListener(imageFrameListener);
 						
 						
+						
 					}//end if
 						
 				}//end else if
-				System.out.println("It worked");
 			}//end Action
 				
 			};//end imageListener
 		
 		submitAnalysis = new JButton("Submit Analysis");
-		submitAnalysis.setBounds(600, 375, 150, 25);
+		submitAnalysis.setBounds(525, 375, 150, 25);
 		viewPanel.add(submitAnalysis);	
 		
 		ActionListener analysisListener = new ActionListener() {
@@ -580,20 +575,19 @@ imageListener = new ActionListener() {
 				order.setRadioAnalysis(analysisTextArea.getText());
 				
 				//SQL to update database
-						try {
-						UpdateAnalysis(order.getOrderID(), order.getRadioAnalysis());
-						} catch (SQLException e) {
-						// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+				try {
+					UpdateAnalysis(order.getOrderID(), order.getRadioAnalysis());
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
-					
-					try {
-						GenerateOrders() ;
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+				try {
+					GenerateOrders() ;
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 			}//end Action
 
@@ -607,7 +601,7 @@ imageListener = new ActionListener() {
 				order.setRadioAnalysis(analysisTextArea.getText());
 				
 					try {
-				saveAnalysis(order.getOrderID(), order.getRadioAnalysis());
+						saveAnalysis(order.getOrderID(), order.getRadioAnalysis());
 					} catch (SQLException error) {
 						error.printStackTrace();
 					}
@@ -623,6 +617,7 @@ imageListener = new ActionListener() {
 		saveAnalysis.setBounds(425, 375, 150, 25);
 		viewPanel.add(saveAnalysis);
 		
+		
 		subActionPanel.repaint();
 		subActionPanel.revalidate();
 		viewPanel.repaint();
@@ -634,7 +629,7 @@ imageListener = new ActionListener() {
 			   String driver = "com.mysql.cj.jdbc.Driver";
 			   String url = "jdbc:mysql://localhost:3306/xaminedatabase";
 			   String username = "root";
-			   String password = "   ";
+			   String password = "Restoration2021!";
 			   Class.forName(driver);
 			   
 			   Connection conn = DriverManager.getConnection(url,username,password);
@@ -675,7 +670,6 @@ imageListener = new ActionListener() {
 			orders.get(index).setApptTime(result.getString("appointment"));
 			orders.get(index).setPatient(currPatient);
 			orders.get(index).setImages(getOrderImages(orders.get(index).getOrderID()));
-			orders.get(index).setRadioAnalysis(result.getString("technicalReport"));
 			
 			index++ ;
 		}
@@ -822,5 +816,4 @@ imageListener = new ActionListener() {
 		
 		System.out.println("Analysis Saved Correctly");
 	}
-	
 }

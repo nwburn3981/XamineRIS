@@ -213,7 +213,7 @@ public class UITechnician extends JFrame {
 						orderIDLabel.setBounds(359, 25, 100, 14);
 						viewPanel.add(orderIDLabel);
 						
-						JLabel orderIDOut = new JLabel("001");
+						JLabel orderIDOut = new JLabel(String.valueOf(orderTransfer.getOrderID()));
 						orderIDOut.setFont(new Font("Tahoma", Font.PLAIN, 18));
 						orderIDOut.setBounds(469, 25, 100, 14);
 						viewPanel.add(orderIDOut);
@@ -224,7 +224,7 @@ public class UITechnician extends JFrame {
 						patientNameLabel.setBounds(95, 100, 100, 24);
 						viewPanel.add(patientNameLabel);
 						
-						JLabel patientNameOut = new JLabel(orderTransfer.getPatient().getFirstName() + orderTransfer.getPatient().getLastName());
+						JLabel patientNameOut = new JLabel(orderTransfer.getPatient().getFirstName() + " " + orderTransfer.getPatient().getLastName());
 						patientNameOut.setFont(new Font("Tahoma", Font.PLAIN, 14));
 						patientNameOut.setBounds(205, 100, 140, 24);
 						
@@ -236,7 +236,7 @@ public class UITechnician extends JFrame {
 						ageLabel.setBounds(95, 160, 100, 24);
 						viewPanel.add(ageLabel);
 						
-						JLabel ageOut = new JLabel("Age Here");
+						JLabel ageOut = new JLabel(String.valueOf(orderTransfer.getPatient().getAge()));
 						ageOut.setFont(new Font("Tahoma", Font.PLAIN, 14));
 						ageOut.setBounds(205, 160, 140, 24);
 						viewPanel.add(ageOut);
@@ -247,7 +247,7 @@ public class UITechnician extends JFrame {
 						allergiesLabel.setBounds(95, 224, 100, 24);
 						viewPanel.add(allergiesLabel);
 						
-						JLabel allergiesOut = new JLabel("Allergies Here");
+						JLabel allergiesOut = new JLabel(orderTransfer.getPatient().getAllergy());
 						allergiesOut.setFont(new Font("Tahoma", Font.PLAIN, 14));
 						allergiesOut.setBounds(205, 224, 140, 24);
 						viewPanel.add(allergiesOut);
@@ -258,7 +258,7 @@ public class UITechnician extends JFrame {
 						orderStatusLabel.setBounds(537, 100, 100, 24);
 						viewPanel.add(orderStatusLabel);
 						
-						JLabel orderStatusOut = new JLabel("New label");
+						JLabel orderStatusOut = new JLabel(orderTransfer.getOrderStatus());
 						orderStatusOut.setFont(new Font("Tahoma", Font.PLAIN, 14));
 						orderStatusOut.setBounds(645, 100, 140, 24);
 						viewPanel.add(orderStatusOut);
@@ -269,10 +269,10 @@ public class UITechnician extends JFrame {
 						modalityLabel.setBounds(537, 160, 100, 24);
 						viewPanel.add(modalityLabel);
 						
-						JLabel modalityOut = new JLabel("New label");
-						modalityOut.setFont(new Font("Tahoma", Font.PLAIN, 14));
-						modalityOut.setBounds(645, 160, 140, 24);
-						viewPanel.add(modalityOut);
+						//JLabel modalityOut = new JLabel(orderTransfer.getModality().getModalityName());
+						//modalityOut.setFont(new Font("Tahoma", Font.PLAIN, 14));
+						//modalityOut.setBounds(645, 160, 140, 24);
+						//viewPanel.add(modalityOut);
 						
 						JLabel imagingLabel = new JLabel("Imaging:");
 						imagingLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -280,7 +280,7 @@ public class UITechnician extends JFrame {
 						imagingLabel.setBounds(537, 224, 108, 24);
 						viewPanel.add(imagingLabel);
 						
-						JLabel imagingOut = new JLabel("New label");
+						JLabel imagingOut = new JLabel(orderTransfer.getImagingOrder());
 						imagingOut.setFont(new Font("Tahoma", Font.PLAIN, 14));
 						imagingOut.setBounds(655, 224, 140, 24);
 						viewPanel.add(imagingOut);
@@ -349,7 +349,7 @@ public class UITechnician extends JFrame {
 										e.printStackTrace();
 									}//end catch
 									
-									ImageFile newImage = new ImageFile(imageID, chosenImage,chosenFile.getPath(), chosenFile.getName(), currentUser.getUserName() );
+									ImageFile newImage = new ImageFile(imageID, chosenImage,chosenFile.getAbsolutePath(), chosenFile.getName(), currentUser.getUserName() );
 									imageID++;
 									orderTransfer.getImages().add(newImage);
 									
@@ -370,15 +370,15 @@ public class UITechnician extends JFrame {
 									//Create method for each event, easier to call on several which may be what is needed to function properly
 								}//end if
 								
-								else if (click.getSource() == viewImageButton || click.getSource() == deleteImageButton) {//THIS IS WHERE I AM CURRENTLY
+								else if (click.getSource() == viewImageButton || click.getSource() == deleteImageButton) {
 									
 									if (orderTransfer.getImages().isEmpty() != true) {
 										
-										BufferedImage displayImage = (BufferedImage) orderTransfer.getImages().get(0).getImage();
-										ImageIcon icon = new ImageIcon(displayImage);
+						
+										ImageIcon icon = new ImageIcon(orderTransfer.getImages().get(0).getPath());
 										
 										JLabel imageLabel = new JLabel(icon);
-										imageLabel.setBounds(184, 5, 46, 14);
+										imageLabel.setBounds(0, 0, 410, 420);
 										
 										ImageViewer imageFrame = new ImageViewer();
 										imageFrame.setVisible(true);
@@ -403,7 +403,7 @@ public class UITechnician extends JFrame {
 										
 											public void actionPerformed(ActionEvent click) {
 												
-												BufferedImage currentImage;
+												
 												ImageIcon currentIcon = new ImageIcon();
 												
 												if (click.getSource() == nextButton) {
@@ -411,8 +411,7 @@ public class UITechnician extends JFrame {
 													if (currentIndex + 1 < orderTransfer.getImages().size()) {
 														
 														currentIndex = currentIndex+1;
-														currentImage = (BufferedImage) orderTransfer.getImages().get(currentIndex).getImage();
-														currentIcon.setImage(currentImage); 
+														currentIcon = new ImageIcon(orderTransfer.getImages().get(currentIndex).getPath()); 
 														imageLabel.setIcon(currentIcon);
 														imageFrame.viewImagePanel.repaint();
 														imageFrame.viewImagePanel.revalidate();
@@ -423,14 +422,14 @@ public class UITechnician extends JFrame {
 													else {
 														
 														currentIndex = 0;
-														currentImage = (BufferedImage) orderTransfer.getImages().get(currentIndex).getImage();
-														currentIcon.setImage(currentImage); 
+														currentIcon = new ImageIcon(orderTransfer.getImages().get(currentIndex).getPath());  
 														imageLabel.setIcon(currentIcon);
 														imageFrame.viewImagePanel.repaint();
 														imageFrame.viewImagePanel.revalidate();
 														
 													}//end nested else
 													
+													System.out.println("Next pressed");
 												}//end if
 												
 												else if (click.getSource() == prevButton) {
@@ -438,8 +437,7 @@ public class UITechnician extends JFrame {
 													if (currentIndex -1 >= 0) {
 														
 														currentIndex = currentIndex-1;
-														currentImage = (BufferedImage) orderTransfer.getImages().get(currentIndex).getImage();
-														currentIcon.setImage(currentImage); 
+														currentIcon = new ImageIcon(orderTransfer.getImages().get(currentIndex).getPath()); 
 														imageLabel.setIcon(currentIcon);
 														imageFrame.viewImagePanel.repaint();
 														imageFrame.viewImagePanel.revalidate();
@@ -449,9 +447,8 @@ public class UITechnician extends JFrame {
 													
 													else {
 														
-														currentIndex = orderTransfer.getImages().size()-1;
-														currentImage = (BufferedImage) orderTransfer.getImages().get(currentIndex).getImage();
-														currentIcon.setImage(currentImage); 
+														currentIndex = orderTransfer.getImages().size()-1;										
+														currentIcon = new ImageIcon(orderTransfer.getImages().get(currentIndex).getPath()); 
 														imageLabel.setIcon(currentIcon);
 														imageFrame.viewImagePanel.repaint();
 														imageFrame.viewImagePanel.revalidate();
@@ -474,8 +471,7 @@ public class UITechnician extends JFrame {
 													else {
 														//SQL HERE TO REMOVE IMAGE
 														orderTransfer.getImages().remove(currentIndex);
-														currentImage = (BufferedImage) orderTransfer.getImages().get(currentIndex).getImage();
-														currentIcon.setImage(currentImage); 
+														currentIcon = new ImageIcon(orderTransfer.getImages().get(currentIndex).getPath()); 
 														imageLabel.setIcon(currentIcon);
 														imageFrame.viewImagePanel.repaint();
 														imageFrame.viewImagePanel.revalidate();
@@ -506,13 +502,14 @@ public class UITechnician extends JFrame {
 										
 										if(orderTransfer.getImages().size() > 0) {
 											//SQL HERE TO UPDATE STATUS
-											
-											orderTransfer.setOrderStatus("Complete");
+											try {
+												Technician.SubmitOrder(orderTransfer);
+											} catch (SQLException e) {
+												// TODO Auto-generated catch block
+												e.printStackTrace();
+											}
+											orderTransfer.setOrderStatus("Imaging Complete");
 											orderStatusOut.setText(orderTransfer.getOrderStatus());
-											
-											// add the technician submitorder method here 
-											// close the imageviewer panel and return to main menu 
-											
 											
 										}//end nested if
 										

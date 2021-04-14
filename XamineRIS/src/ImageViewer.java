@@ -37,32 +37,20 @@ public class ImageViewer extends JFrame {
 	 * Create the frame.
 	 */
 	public ImageViewer() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setDefaultCloseOperation(ImageViewer.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 1204, 512);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton prevButton = new JButton("Previous Image");
-		prevButton.setBounds(10, 227, 130, 23);
-		contentPane.add(prevButton);
-		
-		viewImagePanel.setBounds(10, 11, 414, 205);
+		viewImagePanel.setBounds(234, 0, 410, 420);
 		contentPane.add(viewImagePanel);
 		viewImagePanel.setLayout(null);
 		
-		JLabel imageLabel = new JLabel("New label");
-		imageLabel.setBounds(184, 5, 46, 14);
-		viewImagePanel.add(imageLabel);
+
 		
-		JButton nextButton = new JButton("Next Image");
-		nextButton.setBounds(294, 227, 130, 23);
-		contentPane.add(nextButton);
-		
-		JButton deleteButton = new JButton("Delete Image");
-		deleteButton.setBounds(150, 227, 130, 23);
-		contentPane.add(deleteButton);
+
 	}
 	
 	public void paintComponent(Graphics g) {}

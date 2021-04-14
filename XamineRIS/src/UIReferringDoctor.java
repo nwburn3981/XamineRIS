@@ -5,6 +5,7 @@ import java.awt.Button;
 import java.awt.EventQueue;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -61,6 +62,8 @@ public class UIReferringDoctor extends JFrame {
 	
 	private ButtonGroup radioButtonGroup = new ButtonGroup();
 	private ActionListener radioListener;
+	
+	private int currentIndex = 0;
 
 	/**
 	 * Launch the application.
@@ -351,7 +354,7 @@ public class UIReferringDoctor extends JFrame {
 		ViewResultsPanel.setBounds(255, 33, 913, 420);
 		ViewResultsPanel.setLayout(null);
 		
-		//ViewResultsPanel
+		//detailsPanel
 		Panel detailsPanel = new Panel();
 		detailsPanel.setBounds(255, 33, 913, 420);
 		detailsPanel.setLayout(null);
@@ -1193,7 +1196,6 @@ public class UIReferringDoctor extends JFrame {
 							detailsPanel.add(imagingOut);
 							
 							JTextArea analysisTextArea = new JTextArea();
-							analysisTextArea.setLineWrap(true);
 							analysisTextArea.setText(orderTransfer.getRadioAnalysis());
 							analysisTextArea.setBounds(446, 62, 292, 290);
 							detailsPanel.add(analysisTextArea);
@@ -1221,6 +1223,117 @@ public class UIReferringDoctor extends JFrame {
 								for(int i = 0; i < orderTransfer.getImages().size(); i++) {
 									filesOut.setText(filesOut.getText() + orderTransfer.getImages().get(i).getLabel() + "   ");
 								}//end for
+								
+								JButton viewImageButton = new JButton("View Image");
+								viewImageButton.setBounds(125, 352, 150, 25);
+								detailsPanel.add(viewImageButton);	
+								
+								
+								 ActionListener imageListener = new ActionListener() {
+									
+									public void actionPerformed(ActionEvent click) {
+										
+										
+										 if (click.getSource() == viewImageButton ) {
+											
+											if (orderTransfer.getImages().isEmpty() != true) {
+												
+								
+												ImageIcon icon = new ImageIcon(orderTransfer.getImages().get(0).getPath());
+												
+												JLabel imageLabel = new JLabel(icon);
+												imageLabel.setBounds(0, 0, 410, 420);
+												
+												ImageViewer imageFrame = new ImageViewer();
+												imageFrame.setVisible(true);
+												
+												JButton nextButton = new JButton("Next Image");
+												nextButton.setBounds(514, 431, 130, 23);
+												imageFrame.contentPane.add(nextButton);
+												
+												JButton prevButton = new JButton("Previous Image");
+												prevButton.setBounds(234, 431, 130, 23);
+												imageFrame.contentPane.add(prevButton);
+												
+												imageFrame.viewImagePanel.add(imageLabel, BorderLayout.CENTER);
+												imageFrame.viewImagePanel.repaint();
+												imageFrame.viewImagePanel.revalidate();
+												
+												ActionListener imageFrameListener = new ActionListener() {
+												
+													public void actionPerformed(ActionEvent click) {
+														
+														
+														ImageIcon currentIcon = new ImageIcon();
+														
+														if (click.getSource() == nextButton) {
+															
+															if (currentIndex + 1 < orderTransfer.getImages().size()) {
+																
+																currentIndex = currentIndex+1;
+																currentIcon = new ImageIcon(orderTransfer.getImages().get(currentIndex).getPath()); 
+																imageLabel.setIcon(currentIcon);
+																imageFrame.viewImagePanel.repaint();
+																imageFrame.viewImagePanel.revalidate();
+																
+															
+															}//end nested if
+															
+															else {
+																
+																currentIndex = 0;
+																currentIcon = new ImageIcon(orderTransfer.getImages().get(currentIndex).getPath());  
+																imageLabel.setIcon(currentIcon);
+																imageFrame.viewImagePanel.repaint();
+																imageFrame.viewImagePanel.revalidate();
+																
+															}//end nested else
+															
+															System.out.println("Next pressed");
+														}//end if
+														
+														else if (click.getSource() == prevButton) {
+															
+															if (currentIndex -1 >= 0) {
+																
+																currentIndex = currentIndex-1;
+																currentIcon = new ImageIcon(orderTransfer.getImages().get(currentIndex).getPath()); 
+																imageLabel.setIcon(currentIcon);
+																imageFrame.viewImagePanel.repaint();
+																imageFrame.viewImagePanel.revalidate();
+																
+															
+															}//end nested if
+															
+															else {
+																
+																currentIndex = orderTransfer.getImages().size()-1;										
+																currentIcon = new ImageIcon(orderTransfer.getImages().get(currentIndex).getPath()); 
+																imageLabel.setIcon(currentIcon);
+																imageFrame.viewImagePanel.repaint();
+																imageFrame.viewImagePanel.revalidate();
+																
+															}//end nested else
+															
+														}//end else if
+														
+													}//end Action
+												};//end imageFrameListener
+												
+												
+												nextButton.addActionListener(imageFrameListener);
+												prevButton.addActionListener(imageFrameListener);
+												
+												
+												
+											}//end if
+												
+										}//end else if
+									}//end Action
+										
+									};//end imageListener
+									
+									viewImageButton.addActionListener(imageListener);
 							}//end if
 						}//end Action
 					};//end detailListener

@@ -85,6 +85,7 @@ public class Technician extends User {
 		
 		//Adding parameters for testing
 		ArrayList<Order> todaysOrders = new ArrayList<>();
+		ArrayList<ImageFile> images = new ArrayList<>();
 		Patient currPatient ;
 		int index = 0;
 		Connection conn = getConnection() ;
@@ -95,13 +96,15 @@ public class Technician extends User {
 		ResultSet result = statement.executeQuery() ;
 		
 		while(result.next()) {
-			currPatient = returnPatient(result.getInt("OrderId")) ;
+			currPatient = returnPatient(result.getInt("patientId")) ;
+			images = getOrderImages(result.getInt("orderId"));
 			todaysOrders.add(index, new Order(result.getInt("OrderId"), currPatient ));
 			todaysOrders.get(index).setApptTime(result.getString("appointment"));
 			todaysOrders.get(index).setImagingOrder(result.getString("imagingNeeded"));
 			todaysOrders.get(index).setVisitReason(result.getString("visitReason"));
 			todaysOrders.get(index).setOrderStatus(result.getString("orderStatus"));
 			todaysOrders.get(index).setApptTime(result.getString("appointment"));
+			todaysOrders.get(index).setImages(images);
 			index++ ;
 		}
 		
@@ -128,7 +131,7 @@ public class Technician extends User {
 		
 		//Iterates through Arraylist looking for open Order, will iterate through database Order table in final version
 		for(int i = 0; i < testOrders.size(); i++) {
-			if(testOrders.get(i).getOrderStatus() == "Open") {
+			if(testOrders.get(i).getOrderStatus() == "Checked-In" || testOrders.get(i).getOrderStatus() == "Imaging Complete"  ) {
 				openOrders.add(testOrders.get(i));
 			}//end if
 			
@@ -144,22 +147,55 @@ public class Technician extends User {
 		//Updates selected order with checked in status, modality, and appt team *******
 		
 		//ADD SOME KIND OG FUNCTION TO DETERMINE imageID
+				
 				int orderID = order.getOrderID();
 				String lbl = order.getImages().get(index).getLabel();
-				int imageID = order.getImages().get(index).getID();
+				int imageID = 0;
 				String pathName = order.getImages().get(index).getPath();
 				
 				Connection conn = getConnection();
+				
+				//Will pull all images, check id, and set new id value to highest previous id plus 1
+				PreparedStatement firstStatement = conn.prepareStatement("Select * from image");
+				
+				ResultSet result = firstStatement.executeQuery() ;
+				
+				while(result.next()) {
+					imageID = result.getInt("imageID");
+				};
+				
+				imageID++;
+				order.getImages().get(index).setID(imageID);
 
-				PreparedStatement statement = conn.prepareStatement("Insert into image(orderID, imageID, imageLabel, imageDate, imageFile, pathName) Values(?, ?, ?, null, null, ?) ;") ;
+				PreparedStatement secondStatement = conn.prepareStatement("Insert into image(orderID, imageID, imageLabel, imageDate, imageFile, pathName) Values(?, ?, ?, null, null, ?) ;") ;
 				 
-				statement.setInt(1, orderID );
-				statement.setInt(2, imageID);
-				statement.setString(3, lbl);
-				statement.setString(4, pathName);
+				secondStatement.setInt(1, orderID );
+				secondStatement.setInt(2, imageID);
+				secondStatement.setString(3, lbl);
+				secondStatement.setString(4, pathName);
 
-				statement.executeUpdate() ;
+				secondStatement.executeUpdate() ;
+				
+	}
+	
+public static ArrayList<ImageFile> getOrderImages(int OrderID) throws SQLException {
 		
+		ArrayList<ImageFile> images = new ArrayList<ImageFile>() ;
+		
+		Connection conn = getConnection() ;
+		PreparedStatement statement = conn.prepareStatement("Select * from image Where orderID  = ?  ;") ;
+		 
+		statement.setInt(1, OrderID );
+		
+		ResultSet result = statement.executeQuery() ;
+		
+		while(result.next()) {
+			ImageFile image = new ImageFile(result.getInt("imageID"), null , result.getString("pathName"), result.getString("imagelabel"), null);
+			images.add(image) ;
+			System.out.println(image.getLabel());
+		}
+		
+		return images ;
 	}
 	
 	
@@ -253,7 +289,7 @@ public ImageFile ViewPreviousImage(Order selectedOrder, ImageFile img) {
 	}//end CheckIfEmpty
 	
 	
-	public void SubmitOrder(Order selectedOrder) throws SQLException {
+	public static void SubmitOrder(Order selectedOrder) throws SQLException {
 		
 		// Upload all the images currently held in the order 
 		// Change order status to "Imaging Complete"
